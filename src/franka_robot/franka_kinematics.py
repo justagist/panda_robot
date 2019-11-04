@@ -4,6 +4,7 @@ import numpy as np
 import PyKDL
 
 import rospy
+from copy import deepcopy
 
 from franka_interface.utils.kdl_parser import kdl_tree_from_urdf_model
 from urdf_parser_py.urdf import URDF
@@ -11,6 +12,8 @@ from urdf_parser_py.urdf import URDF
 class franka_kinematics(object):
     """
     Franka Kinematics with PyKDL
+
+    # ----- use kinematics provided by libfranka for more accuracy
 
     Note that this will not match with the kinematics provided by libfranka. This is because libfranka provides kinematics of EE frame wrt base frame, 
     while this method uses pykdl which loads from urdf (and chooses the frame that is connected to the urdf). For both kinematics to match, set the EE frame 
@@ -26,14 +29,15 @@ class franka_kinematics(object):
 
         self._kdl_tree = kdl_tree_from_urdf_model(self._franka)
         self._base_link = self._franka.get_root()
-        self._tip_link = limb.name + ('_hand' if limb.has_gripper else '_link8')
+        self._tip_link = limb.name + '_link8' # '_hand' if limb.has_gripper else '_link8' # ---- hand frame does not work
         self._tip_frame = PyKDL.Frame()
         self._arm_chain = self._kdl_tree.getChain(self._base_link,
                                                   self._tip_link)
 
-        # Sawyer Interface Limb Instances
         self._limb_interface = limb
-        self._joint_names = self._limb_interface.joint_names()
+        self._joint_names = deepcopy(self._limb_interface.joint_names())
+        # if self._limb_interface.has_gripper:
+        #     self._joint_names += self._limb_interface.get_gripper().joint_names()
         self._num_jnts = len(self._joint_names)
 
         # KDL Solvers
@@ -54,7 +58,7 @@ class franka_kinematics(object):
                 nf_joints += 1
         print "URDF non-fixed joints: %d;" % nf_joints
         print "URDF total joints: %d" % len(self._franka.joints)
-        print "URDF links: %d" % len(self._franka.links)
+        print "URDF links: %d" % len(self._franka.links), [link.name for link in self._franka.links]
         print "KDL joints: %d" % self._kdl_tree.getNrOfJoints()
         print "KDL segments: %d" % self._kdl_tree.getNrOfSegments()
 
@@ -64,21 +68,34 @@ class franka_kinematics(object):
 
     def joints_to_kdl(self, type, values=None):
         kdl_array = PyKDL.JntArray(self._num_jnts)
+        pos_array = PyKDL.JntArray(self._num_jnts)
 
         if values is None:
             if type == 'positions':
                 cur_type_values = self._limb_interface.joint_angles()
+                # if self._limb_interface.has_gripper:
+                #     cur_type_values.update(self._limb_interface.get_gripper().joint_positions())
             elif type == 'velocities':
                 cur_type_values = self._limb_interface.joint_velocities()
+                pos_list = self._limb_interface.joint_angles()
+                # if self._limb_interface.has_gripper:
+                #     cur_type_values.update(self._limb_interface.get_gripper().joint_velocities())
+                #     pos_list.update(self._limb_interface.get_gripper().joint_positions())
+
             elif type == 'torques':
                 cur_type_values = self._limb_interface.joint_efforts()
+                # if self._limb_interface.has_gripper:
+                #     cur_type_values.update(self._limb_interface.get_gripper().joint_efforts())
         else:
             cur_type_values = values
-        
         for idx, name in enumerate(self._joint_names):
             kdl_array[idx] = cur_type_values[name]
+            if type == 'velocities':
+                pos_array[idx] = pos_list[name]
+        # print pos_list
+        # print "THIS", cur_type_values
         if type == 'velocities':
-            kdl_array = PyKDL.JntArrayVel(kdl_array)
+            kdl_array = PyKDL.JntArrayVel(pos_array, kdl_array) # ----- using different constructor for getting velocity fk
         return kdl_array
 
     def kdl_to_mat(self, data):
@@ -102,6 +119,7 @@ class franka_kinematics(object):
         end_frame = PyKDL.FrameVel()
         self._fk_v_kdl.JntToCart(self.joints_to_kdl('velocities',joint_velocities),
                                  end_frame)
+        # print 
         return end_frame.GetTwist()
 
     def inverse_kinematics(self, position, orientation=None, seed=None):
