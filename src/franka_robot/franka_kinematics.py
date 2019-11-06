@@ -13,11 +13,7 @@ class franka_kinematics(object):
     """
     Franka Kinematics with PyKDL
 
-    # ----- use kinematics provided by libfranka for more accuracy
-
-    Note that this will not match with the kinematics provided by libfranka. This is because libfranka provides kinematics of EE frame wrt base frame, 
-    while this method uses pykdl which loads from urdf (and chooses the frame that is connected to the urdf). For both kinematics to match, set the EE frame 
-    for libfranka as the last link of the urdf being loaded. 
+    This will match with the RobotState if the tip frames are the same.
     
     """
     def __init__(self, limb, description = None):
