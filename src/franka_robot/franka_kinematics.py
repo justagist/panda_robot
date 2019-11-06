@@ -29,7 +29,7 @@ class franka_kinematics(object):
 
         self._kdl_tree = kdl_tree_from_urdf_model(self._franka)
         self._base_link = self._franka.get_root()
-        self._tip_link = limb.name + '_link8' # '_hand' if limb.has_gripper else '_link8' # ---- hand frame does not work
+        self._tip_link = limb.name + '_hand' if limb.has_gripper else '_link8' # ---- hand frame does not work
         self._tip_frame = PyKDL.Frame()
         self._arm_chain = self._kdl_tree.getChain(self._base_link,
                                                   self._tip_link)
