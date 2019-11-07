@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>franka_robot</name>
+  <name>panda_robot</name>
   <version>0.0.0</version>
-  <description>The franka_robot package</description>
+  <description>The panda_robot package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
