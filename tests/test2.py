@@ -24,7 +24,7 @@ if __name__ == '__main__':
             1.57,
             0.785]
 
-    vals2 = [2.1938958153278065e-05, -1.3450673457612599, -2.465007235841199e-05, -3.071840196444259, 0.00047313619350308755, 1.7241588331793718, 0.7851552560080668]
+    # vals2 = [2.1938958153278065e-05, -1.3450673457612599, -2.465007235841199e-05, -3.071840196444259, 0.00047313619350308755, 1.7241588331793718, 0.7851552560080668]
 
     def convert_to_dict(val):
         retval = {}
@@ -37,11 +37,13 @@ if __name__ == '__main__':
 
         print "err" , np.asarray(values) - np.asarray(r.joint_ordered_angles())
 
-    r.get_controller_manager().load_controller('position_joint_trajectory_controller')
+    # r.get_controller_manager().load_controller('position_joint_trajectory_controller')
 
     # r.move_to_joint_positions(convert_to_dict(vals))
+    cm = r.get_controller_manager()
 
-
+    cms = cm.stop_controller
+    cmstart = cm.start_controller
     # r.move_to_joint_positions(vals)
 
     # ee_setter = r.get_frames_interface()
