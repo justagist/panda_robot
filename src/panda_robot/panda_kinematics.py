@@ -9,7 +9,7 @@ from copy import deepcopy
 from franka_interface.utils.kdl_parser import kdl_tree_from_urdf_model
 from urdf_parser_py.urdf import URDF
 
-class panda_kinematics(object):
+class PandaKinematics(object):
     """
     Franka Kinematics with PyKDL
 
@@ -175,7 +175,7 @@ if __name__ == '__main__':
     rospy.init_node('test')
     r = PandaArm()
     # print r.has_gripper
-    kin = panda_kinematics(r)
+    kin = PandaKinematics(r)
     # print kin._base_link
     # print r.joint_names()
     # print kin.print_robot_description()
