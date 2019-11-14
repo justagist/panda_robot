@@ -1,7 +1,10 @@
+#! /usr/bin/env python
+import argparse
 import copy
 import rospy
 import logging
 import numpy as np
+import quaternion
 import franka_interface
 from panda_kinematics import PandaKinematics
 
@@ -17,12 +20,15 @@ def compute_omg(q1, q2):
 # ft smoother subscriber and callback, also tip_state_callback
 # ft reading for external ft sensor (in state callback, _configure)
 # camera sensor (in state callback, _configure)
+# gripper state in robot update state
 
 class PandaArm(franka_interface.ArmInterface):
 
     def __init__(self, limb = None, on_state_callback = None, reset_frames = True):
 
         self._logger = logging.getLogger(__name__)
+
+        self._arm_configured = False # ----- don't update robot state value in this class until robot is fully configured
 
         # Parent constructor
         franka_interface.ArmInterface.__init__(self)
@@ -36,15 +42,13 @@ class PandaArm(franka_interface.ArmInterface):
         # number of control commands
         self._nu = len(self._jnt_limits)
 
-        self._ready = False
-
         self._configure(on_state_callback)
 
         self._untuck = self._tuck # _tuck defined in franka_interface.ArmInterface
 
         self._q_mean = np.array([0.5 * (limit['lower'] + limit['upper']) for limit in self._jnt_limits])
 
-        self._franka_robot_enable_interface = franka_interface.RobotEnable()
+        self._franka_robot_enable_interface = franka_interface.RobotEnable(self._params)
 
         if not self._franka_robot_enable_interface.is_enabled():
             self._franka_robot_enable_interface.enable()
@@ -63,6 +67,11 @@ class PandaArm(franka_interface.ArmInterface):
 
     def _configure(self, on_state_callback):
 
+        if on_state_callback:
+            self._on_state_callback = on_state_callback
+        else:
+            self._on_state_callback = lambda m: None
+
         self._configure_gripper(self.get_robot_params().get_gripper_joint_names())
 
         if self.get_robot_params()._in_sim:
@@ -75,9 +84,11 @@ class PandaArm(franka_interface.ArmInterface):
 
         self.set_command_timeout(0.2)
 
-        self._transform_ft_vals = True
+        self._transform_ft_vals = False
 
         self._tip_state = {}
+
+        self._arm_configured = True
 
         
     def _configure_gripper(self, gripper_joint_names):
@@ -128,7 +139,6 @@ class PandaArm(franka_interface.ArmInterface):
     def untuck(self):
         """
             Move to neutral pose (using trajectory controller)  
-
         """
         self.move_to_neutral()
 
@@ -153,7 +163,7 @@ class PandaArm(franka_interface.ArmInterface):
         tip_state['position'] = tipstate_msg.pose['position']
         ori = tipstate_msg.pose['orientation']
         force = tipstate_msg.effort['force'] 
-        torque = tipstate_msg.velocity['torque']
+        torque = tipstate_msg.effort['torque']
 
         tip_state['orientation'] = np.asarray([ori.w, ori.x, ori.y, ori.z])
         tip_state['linear_vel'] = tipstate_msg.velocity['linear']
@@ -164,11 +174,11 @@ class PandaArm(franka_interface.ArmInterface):
 
         if self._transform_ft_vals:
             rotation_mat = quaternion.as_rotation_matrix(np.quaternion(ori.w, ori.x, ori.y, ori.z))
-            tip_state['force'] = np.dot(rotation_mat,np.asarray([-force.x, -force.y, -force.z]))
-            tip_state['torque'] = np.dot(rotation_mat,np.asarray([-torque.x, -torque.y, -torque.z]))            
+            tip_state['force'] = np.dot(rotation_mat,np.asarray([-force[0], -force[1], -force[2]]))
+            tip_state['torque'] = np.dot(rotation_mat,np.asarray([-torque[0], -torque[1], -torque[2]]))            
         else:
-            tip_state['force'] = np.asarray([-force.x, -force.y, -force.z])
-            tip_state['torque'] = np.asarray([-torque.x, -torque.y, -torque.z])
+            tip_state['force'] = np.asarray([-force[0], -force[1], -force[2]])
+            tip_state['torque'] = np.asarray([-torque[0], -torque[1], -torque[2]])
         tip_state['valid'] = True
 
         self._tip_state = copy.deepcopy(tip_state)
@@ -221,7 +231,7 @@ class PandaArm(franka_interface.ArmInterface):
 
         state['ft_reading'] = None
 
-        state['gripper_state'] = self.gripper_state()
+        # state['gripper_state'] = self.gripper_state()
 
         return state
 
@@ -322,11 +332,10 @@ class PandaArm(franka_interface.ArmInterface):
         # envoke parent class function 
         franka_interface.ArmInterface._on_joint_states(self, msg)
 
-        self._update_tip_state(self.tip_state())
-
-        if self._ready:
+        if self._arm_configured:
             self._state = self._update_state()
             self._on_state_callback(self._state)
+            self._update_tip_state(self.tip_states())
 
     def end_effector_link_name(self):
         """
@@ -636,7 +645,7 @@ class PandaArm(franka_interface.ArmInterface):
 def main():
     rospy.init_node("panda_arm_untuck")
 
-    arm = PandaArm()
+    arm = PandaArm(reset_frames = False)
 
     parser = argparse.ArgumentParser()
     tuck_group = parser.add_mutually_exclusive_group(required=True)
