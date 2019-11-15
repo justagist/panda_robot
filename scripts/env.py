@@ -31,6 +31,8 @@ if __name__ == '__main__':
     neutral = r.move_to_neutral
     move_to = r.move_to_joint_position
 
+    g = r.get_gripper()
+
     # poses = 
 
 

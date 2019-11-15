@@ -20,7 +20,6 @@ def compute_omg(q1, q2):
 # ft smoother subscriber and callback, also tip_state_callback
 # ft reading for external ft sensor (in state callback, _configure)
 # camera sensor (in state callback, _configure)
-# gripper state in robot update state
 
 class PandaArm(franka_interface.ArmInterface):
 
@@ -97,23 +96,6 @@ class PandaArm(franka_interface.ArmInterface):
         if not self._gripper.exists:
             self._gripper = None
             return
-        # TODO: FINISH GRIPPER DEFINITION
-
-    # def _open_action(self, value):
-    #     if value and self._gripper.is_ready():
-    #         self._logger.debug("gripper open triggered")
-    #         self._gripper.open()
-    #         if self._lights:
-    #             self._set_lights('red', False)
-    #             self._set_lights('green', True)
-
-    # def _close_action(self, value):
-    #     if value and self._gripper.is_ready():
-    #         self._logger.debug("gripper close triggered")
-    #         self._gripper.close()
-    #         if self._lights:
-    #             self._set_lights('green', False)
-    #             self._set_lights('red', True)
 
 
     def get_gripper(self):
@@ -142,19 +124,19 @@ class PandaArm(franka_interface.ArmInterface):
         """
         self.move_to_neutral()
 
-    # def gripper_state(self):
-    #     gripper_state = {}
+    def gripper_state(self):
+        gripper_state = {}
 
-    #     if self._gripper is not None:
-    #         gripper_state['position'] = self._gripper.get_position()
-    #         gripper_state['force'] = self._gripper.get_force()
+        if self._gripper:
+            gripper_state['position'] = self._gripper.joint_ordered_positions()
+            gripper_state['force'] = self._gripper.joint_ordered_efforts()
 
-    #     return gripper_state
+        return gripper_state
 
-    # def set_gripper_speed(self, speed):
+    def set_gripper_speed(self, speed):
 
-    #     if self._gripper is not None:
-    #         self._gripper.set_velocity(speed)
+        if self._gripper:
+            self._gripper.set_velocity(speed)
 
     def _update_tip_state(self, tipstate_msg):
         tip_state = {}
@@ -231,7 +213,7 @@ class PandaArm(franka_interface.ArmInterface):
 
         state['ft_reading'] = None
 
-        # state['gripper_state'] = self.gripper_state()
+        state['gripper_state'] = self.gripper_state()
 
         return state
 
@@ -252,8 +234,9 @@ class PandaArm(franka_interface.ArmInterface):
 
         all_angles = to_list(joint_angles)
 
-        if include_gripper and self._gripper is not None:
-            all_angles.append(self._gripper.get_position())
+        if include_gripper and self._gripper:
+            all_angles += self._gripper.joint_ordered_positions()
+
         return np.array(all_angles)
 
     def joint_limits(self):
@@ -280,8 +263,9 @@ class PandaArm(franka_interface.ArmInterface):
 
         all_velocities = to_list(joint_velocities)
 
-        if include_gripper and self._gripper is not None:
-            all_velocities.append(0.0)
+        if include_gripper and self._gripper:
+            all_velocities += self._gripper.joint_ordered_velocities()
+
         return np.array(all_velocities)
 
     def q_mean(self):
@@ -353,42 +337,43 @@ class PandaArm(franka_interface.ArmInterface):
         """
         return self._kinematics._base_link
 
-    # def exec_gripper_cmd(self, pos, force=None):
+    def exec_gripper_cmd(self, pos, force=None):
+        """
+        Move gripper joints to the desired width (space between finger joints), while applying
+        the specified force (optional)
 
-    #     if self._gripper is None:
-    #         return
+        @param pos  : desired width [m]
+        @param force: desired force to be applied on object [N]
+        @type pos   : float
+        @type force : float
 
-    #     if force is not None:
-    #         holding_force = min(max(self._gripper.MIN_FORCE, force), self._gripper.MAX_FORCE)
+        @return True if command was successful, False otherwise.
+        @rtype bool
+        """
+        if self._gripper is None:
+            return
 
-    #         self._gripper.set_holding_force(holding_force)
+        width = min(self._gripper.MAX_WIDTH, max(self._gripper.MIN_WIDTH, pos))
 
-    #     position = min(self._gripper.MAX_POSITION, max(self._gripper.MIN_POSITION, pos))
+        if force:
+            holding_force = min(max(self._gripper.MIN_FORCE, force), self._gripper.MAX_FORCE)
 
-    #     self._gripper.set_position(pos)
+            return self._gripper.grasp(width = width, force = holding_force)
 
-   # def exec_gripper_cmd_delta(self, pos_delta, force_delta=None):
+        else:
+            return self._gripper.move_joints(width)
 
-   #      if self._gripper is None:
-   #          return
 
-   #      if force_delta is not None:
-   #          force = self._gripper.get_force()
-   #          holding_force = min(max(self._gripper.MIN_FORCE, force + force_delta), self._gripper.MAX_FORCE)
-
-   #          self._gripper.set_holding_force(holding_force)
-
-   #      pos = self._gripper.get_position()
-   #      position = min(self._gripper.MAX_POSITION, max(self._gripper.MIN_POSITION, pos + pos_delta))
-
-   #      self._gripper.set_position(position)
+    def exec_gripper_cmd_delta(self, pos_delta, force_delta=None):
+        raise NotImplementedError("PandaArm: 'exec_gripper_cmd_delta' not implemented")
 
     def exec_position_cmd(self, cmd):
         """
         Execute position control (raw positions). Be careful while using. Send smooth
         commands
 
-        @param cmd: desired joint postions, ordered from joint1 to joint7
+        @param cmd: desired joint postions, ordered from joint1 to joint7 
+                        (optionally, give desired gripper width as 8th element of list)
         @type cmd: [float]
         """
 
@@ -415,10 +400,6 @@ class PandaArm(franka_interface.ArmInterface):
 
         joint_command = dict([(joint, curr_q[joint] + cmd[i]) for i, joint in enumerate(joint_names)])
         self.set_joint_positions(joint_command)
-
-        if len(cmd) > 7:
-            gripper_cmd = cmd[7:]
-            self.exec_gripper_cmd_delta(*gripper_cmd)
 
 
     def move_to_joint_pos_delta(self, cmd):
@@ -629,14 +610,14 @@ class PandaArm(franka_interface.ArmInterface):
         success = False
         soln = None
 
-        if ori is not None:
+        if ori:
             # expects a pykdl quaternion which is of type x,y,z,w 
             if isinstance(ori, np.quaternion):
                 ori = np.array([ori.x, ori.y, ori.z, ori.w])
 
         soln = self._kinematics.inverse_kinematics(position=pos, orientation=ori, seed=seed)
 
-        if soln is not None:
+        if soln:
             success = True
 
         return success, soln
