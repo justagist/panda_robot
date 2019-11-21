@@ -24,15 +24,27 @@ if __name__ == '__main__':
 
     rospy.init_node("panda_env")
     
-    r = PandaArm(reset_frames = False)
-    fi = r.get_frames_interface()
-    cm = r.get_controller_manager()
+    r = PandaArm(reset_frames = False) # handle to use methods from PandaArm class
+    fi = r.get_frames_interface() # frames interface object for the robot. Test switching EE frames
+                                    # How to test: 
+                                    # 1) open rviz -> add RobotModel (topic 'robot_description')
+                                    # 2) set panda_link0 as global fixed frame
+                                    # 3) add tf -> disable visualisation of all links except panda_EE
+                                    # 4) run this script in terminal in interactive mode
+                                    # 5) type $ fi.set_EE_frame_to_link('panda_hand')
+                                    #       to move the EE frame to the link. Try different link names. 
+                                    #       Test the same for the stiffness frame (set_K_frame_to_link)
 
-    neutral = r.move_to_neutral
+    cm = r.get_controller_manager() # controller manager object to get controller states and switch controllers
+
+
+    g = r.get_gripper() # gripper object. Test using $ g.close(), $ g.open(), $ g.home_joints(), $g.move_joints(0.01), etc.
+
+    neutral = r.move_to_neutral 
     move_to = r.move_to_joint_position
-
-    g = r.get_gripper()
-
-    # poses = 
+    # In interactive mode, for instance enter 
+    #               $ neutral()
+    #   to make the robot move to neutral pose
+    # or type $ move_to(poses[0]) to move to the first joint pose from the list defined above (make sure robot workspace is free)
 
 

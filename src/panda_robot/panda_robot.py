@@ -47,6 +47,8 @@ class PandaArm(franka_interface.ArmInterface):
 
         self._q_mean = np.array([0.5 * (limit['lower'] + limit['upper']) for limit in self._jnt_limits])
 
+        # if not self.get_robot_params()._in_sim:
+
         self._franka_robot_enable_interface = franka_interface.RobotEnable(self._params)
 
         if not self._franka_robot_enable_interface.is_enabled():
@@ -60,7 +62,7 @@ class PandaArm(franka_interface.ArmInterface):
             self.set_EE_frame_to_link('panda_hand' if self.has_gripper else 'panda_link8')
 
     def enable_robot(self):
-
+        # if not self.get_robot_params()._in_sim:
         self._franka_robot_enable_interface.enable()
 
 
@@ -81,7 +83,7 @@ class PandaArm(franka_interface.ArmInterface):
         # gravity + feed forward torques
         self._h = [0. for _ in range(self._nq)]
 
-        self.set_command_timeout(0.2)
+        # self.set_command_timeout(0.2)
 
         self._transform_ft_vals = False
 
@@ -91,7 +93,6 @@ class PandaArm(franka_interface.ArmInterface):
 
         
     def _configure_gripper(self, gripper_joint_names):
-
         self._gripper = franka_interface.GripperInterface(ns = self._ns, gripper_joint_names = gripper_joint_names)
         if not self._gripper.exists:
             self._gripper = None

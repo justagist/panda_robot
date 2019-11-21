@@ -18,7 +18,7 @@ if __name__ == '__main__':
     elapsed_time_ = rospy.Duration(0.0)
     period = rospy.Duration(0.005)
 
-    r.untuck()
+    r.untuck() # move to neutral pose before beginning
 
     initial_pose = deepcopy(r.joint_ordered_angles())
 
@@ -33,28 +33,21 @@ if __name__ == '__main__':
         elapsed_time_ += period
 
         delta = 3.14 / 16.0 * (1 - np.cos(3.14 / 5.0 * elapsed_time_.to_sec())) * 0.2
-        # delta = 0.001
-        delta = delta
-        # if count%100 == 0:
+
         for j in range(len(vals)):
             if j == 4:
                 vals[j] = initial_pose[j] - delta
             else:
                 vals[j] = initial_pose[j] + delta
 
-        # plt.plot(a)
-        # plt.pause(0.00001)
         if count%500 == 0:
             print vals, delta
             print "\n ----  \n"
             print " "
-            # print initial_pose
 
-        # pos = {}
-        # for j in range(len(names)):
-        #     pos[names[j]] = vals[j]
-        r.set_joint_positions_velocities(vals, [0.0 for _ in range(7)])
-        # r.set_joint_positions(vals)
+
+        r.set_joint_positions_velocities(vals, [0.0 for _ in range(7)]) # for impedance control
+        # r.set_joint_positions(vals) # try this for position control 
 
         count += 1
         rate.sleep()
