@@ -1,4 +1,27 @@
-#!/usr/bin/python
+# /***************************************************************************
+
+# 
+# @package: panda_robot
+# @author: Saif Sidhik <sxs1412@bham.ac.uk>
+# 
+
+# **************************************************************************/
+
+# /***************************************************************************
+# Copyright (c) 2019, Saif Sidhik
+ 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+#     http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# **************************************************************************/
 
 import numpy as np
 import PyKDL
@@ -13,7 +36,9 @@ class PandaKinematics(object):
     """
     Franka Kinematics with PyKDL
 
-    This will match with the RobotState if the tip frames are the same.
+    This will match with the RobotState if the tip frames are the same. 
+    Use frame interface from franka_tools (franka_ros_interface) to set EE
+    frame to the same as the tip of the URDF loaded.
     
     """
     def __init__(self, limb, description = None):
@@ -25,15 +50,13 @@ class PandaKinematics(object):
 
         self._kdl_tree = kdl_tree_from_urdf_model(self._franka)
         self._base_link = self._franka.get_root()
-        self._tip_link = limb.name + '_hand' if limb.has_gripper else '_link8' # ---- hand frame does not work
+        self._tip_link = limb.name + '_hand' if limb.has_gripper else '_link8' 
         self._tip_frame = PyKDL.Frame()
         self._arm_chain = self._kdl_tree.getChain(self._base_link,
                                                   self._tip_link)
 
         self._limb_interface = limb
         self._joint_names = deepcopy(self._limb_interface.joint_names())
-        # if self._limb_interface.has_gripper:
-        #     self._joint_names += self._limb_interface.get_gripper().joint_names()
         self._num_jnts = len(self._joint_names)
 
         # KDL Solvers
@@ -69,27 +92,19 @@ class PandaKinematics(object):
         if values is None:
             if type == 'positions':
                 cur_type_values = self._limb_interface.joint_angles()
-                # if self._limb_interface.has_gripper:
-                #     cur_type_values.update(self._limb_interface.get_gripper().joint_positions())
             elif type == 'velocities':
                 cur_type_values = self._limb_interface.joint_velocities()
                 pos_list = self._limb_interface.joint_angles()
-                # if self._limb_interface.has_gripper:
-                #     cur_type_values.update(self._limb_interface.get_gripper().joint_velocities())
-                #     pos_list.update(self._limb_interface.get_gripper().joint_positions())
 
             elif type == 'torques':
                 cur_type_values = self._limb_interface.joint_efforts()
-                # if self._limb_interface.has_gripper:
-                #     cur_type_values.update(self._limb_interface.get_gripper().joint_efforts())
         else:
             cur_type_values = values
         for idx, name in enumerate(self._joint_names):
             kdl_array[idx] = cur_type_values[name]
             if type == 'velocities':
                 pos_array[idx] = pos_list[name]
-        # print pos_list
-        # print "THIS", cur_type_values
+
         if type == 'velocities':
             kdl_array = PyKDL.JntArrayVel(pos_array, kdl_array) # ----- using different constructor for getting velocity fk
         return kdl_array
@@ -173,16 +188,11 @@ class PandaKinematics(object):
 if __name__ == '__main__':
     
     rospy.init_node('test')
+
+    from panda_robot import PandaArm
     r = PandaArm()
     # print r.has_gripper
     kin = PandaKinematics(r)
-    # print kin._base_link
-    # print r.joint_names()
-    # print kin.print_robot_description()
-    # # print kin.print_kdl_chain()
-    # print kin._arm_chain.getNrOfSegments()
-    # for idx in xrange(kin._arm_chain.getNrOfSegments()):
-    #     print '* ' + kin._arm_chain.getSegment(idx).getName()
 
 
 
@@ -197,9 +207,11 @@ if __name__ == '__main__':
         print ""
         # print jacobian
         print kin.forward_position_kinematics()
+        # print kin.forward_velocity_kinematics()
         print ""
 
         print r._cartesian_pose
+        # print r._cartesian_velocity
         print "-----------------"
         print "-----------------"
         print "-----------------"

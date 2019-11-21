@@ -37,6 +37,7 @@ if __name__ == '__main__':
 
     cm = r.get_controller_manager() # controller manager object to get controller states and switch controllers
 
+    kin = r._kinematics() # to test the kinematics (not required, can directly query kinematics using  methods in PandaArm)
 
     g = r.get_gripper() # gripper object. Test using $ g.close(), $ g.open(), $ g.home_joints(), $g.move_joints(0.01), etc.
 
