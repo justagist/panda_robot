@@ -12,7 +12,7 @@ names = ['panda_joint1','panda_joint2','panda_joint3','panda_joint4','panda_join
 if __name__ == '__main__':
     
 
-    rospy.init_node("test_node")
+    rospy.init_node("test_node", disable_signals = True)
     r = PandaArm()
 
     rate = rospy.Rate(100)
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     upper_lim = limits[0]['upper']/4
     print "commanding"
 
-    speed = 20
+    speed = 10
 
     start_time = rospy.Time().now().to_sec()
 
@@ -57,7 +57,7 @@ if __name__ == '__main__':
 
         joints[0] = np.sin((rospy.Time().now().to_sec() - start_time)/100.0 * speed)*diff + offset
 
-        r.exec_position_cmd(joints)
+        r.set_joint_positions_velocities(joints, r.velocities())
 
         rate.sleep()
 
