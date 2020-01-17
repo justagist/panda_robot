@@ -48,4 +48,5 @@ if __name__ == '__main__':
     #   to make the robot move to neutral pose
     # or type $ move_to(poses[0]) to move to the first joint pose from the list defined above (make sure robot workspace is free)
 
-
+    # movegroup interface instance of the robot
+    mvt = r.get_movegroup_interface()
