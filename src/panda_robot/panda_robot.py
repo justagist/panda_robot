@@ -78,11 +78,11 @@ class PandaArm(franka_interface.ArmInterface):
 
         self._configure(on_state_callback)
 
-        self._untuck = self._tuck # _tuck defined in franka_interface.ArmInterface
+        self._tuck = [self._neutral_pose_joints[j] for j in self._joint_names]
+
+        self._untuck = self._tuck
 
         self._q_mean = np.array([0.5 * (limit['lower'] + limit['upper']) for limit in self._jnt_limits])
-
-        # if not self.get_robot_params()._in_sim:
 
         self._franka_robot_enable_interface = franka_interface.RobotEnable(self._params)
 
@@ -153,6 +153,7 @@ class PandaArm(franka_interface.ArmInterface):
 
     def tuck(self):
         self._logger.warning("PandaArm: tuck function NOT IMPLEMENTED")
+        self.untuck()
 
     def untuck(self):
         """
