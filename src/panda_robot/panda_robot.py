@@ -136,8 +136,8 @@ class PandaArm(franka_interface.ArmInterface):
 
     def get_gripper(self):
         """
-        @return gripper instance
-        @rtype: GripperInterface
+        :return: gripper instance
+        :rtype: GripperInterface
 
         """
         return self._gripper
@@ -145,8 +145,8 @@ class PandaArm(franka_interface.ArmInterface):
     @property
     def has_gripper(self):
         """
-        @return True if gripper is initialised, else False
-        @rtype: bool    
+        :return: True if gripper is initialised, else False
+        :rtype: bool    
 
         """
         return self._gripper is not None
@@ -207,8 +207,8 @@ class PandaArm(franka_interface.ArmInterface):
         """
         Enable transformation of force vector to base frame
 
-        @param boolval: set True to transform forces to base frame
-        @type boolval: bool
+        :param boolval: set True to transform forces to base frame
+        :type boolval: bool
         """
         self._transform_ft_vals = boolval
 
@@ -256,11 +256,11 @@ class PandaArm(franka_interface.ArmInterface):
 
     def angles(self, include_gripper=False):
         """
-        @return current joint positions
-        @rtype: [float]
+        :return: current joint positions
+        :rtype: [float]
 
-        @param include_gripper: if True, append gripper joint positions to list
-        @type include_gripper: bool
+        :param include_gripper: if True, append gripper joint positions to list
+        :type include_gripper: bool
         """
         joint_angles = self.joint_angles()
 
@@ -278,18 +278,18 @@ class PandaArm(franka_interface.ArmInterface):
 
     def joint_limits(self):
         """
-        @return joint limits
-        @rtype: [{'lower': float, 'upper': float}]
+        :return: joint limits
+        :rtype: [{'lower': float, 'upper': float}]
         """
         return self._jnt_limits
 
     def velocities(self, include_gripper=False):
         """
-        @return current joint velocities
-        @rtype: [float]
+        :return: current joint velocities
+        :rtype: [float]
 
-        @param include_gripper: if True, append gripper joint velocities to list
-        @type include_gripper: bool
+        :param include_gripper: if True, append gripper joint velocities to list
+        :type include_gripper: bool
         """
         joint_velocities = self.joint_velocities()
 
@@ -307,36 +307,36 @@ class PandaArm(franka_interface.ArmInterface):
 
     def q_mean(self):
         """
-        @return mean of joint limits
-        @rtype: [float]
+        :return: mean of joint limits
+        :rtype: [float]
         """
         return self._q_mean
 
     def n_cmd(self):
         """
-        @return number of control commands (normally same as number of joints)
-        @rtype: int
+        :return: number of control commands (normally same as number of joints)
+        :rtype: int
         """
         return self._nu
 
     def n_joints(self):
         """
-        @return number of joints
-        @rtype: int
+        :return: number of joints
+        :rtype: int
         """
         return self._nq
 
     def state(self):
         """
-        @return robot state as a dictionary
-        @rtype: dict {str: obj}
+        :return: robot state as a dictionary
+        :rtype: dict {str: obj}
         """
         return self._state
 
     def tip_state(self):
         """
-        @return tip_state dictionary
-        @rtype: dict {str: obj}
+        :return: tip_state dictionary
+        :rtype: dict {str: obj}
         """
         return self._tip_state
 
@@ -350,7 +350,6 @@ class PandaArm(franka_interface.ArmInterface):
         """
             Parent callback function is overriden to update robot state of this class
         """
-        # envoke parent class function 
         franka_interface.ArmInterface._on_joint_states(self, msg)
 
         if self._arm_configured:
@@ -360,16 +359,16 @@ class PandaArm(franka_interface.ArmInterface):
 
     def end_effector_link_name(self):
         """
-        @return name of end-effector frame
-        @rtype: str    
+        :return: name of end-effector frame
+        :rtype: str    
 
         """
         return self._kinematics._tip_link
 
     def base_link_name(self):
         """
-        @return name of base link frame
-        @rtype: str    
+        :return: name of base link frame
+        :rtype: str    
 
         """
         return self._kinematics._base_link
@@ -379,12 +378,12 @@ class PandaArm(franka_interface.ArmInterface):
         Move gripper joints to the desired width (space between finger joints), while applying
         the specified force (optional)
 
-        @param pos  : desired width [m]
-        @param force: desired force to be applied on object [N]
-        @type pos   : float
-        @type force : float
+        :param pos  : desired width [m]
+        :param force: desired force to be applied on object [N]
+        :type pos   : float
+        :type force : float
 
-        @return True if command was successful, False otherwise.
+        :return: True if command was successful, False otherwise.
         @rtype bool
         """
         if self._gripper is None:
@@ -409,9 +408,9 @@ class PandaArm(franka_interface.ArmInterface):
         Execute position control (raw positions). Be careful while using. Send smooth
         commands
 
-        @param cmd: desired joint postions, ordered from joint1 to joint7 
+        :param cmd: desired joint postions, ordered from joint1 to joint7 
                         (optionally, give desired gripper width as 8th element of list)
-        @type cmd: [float]
+        :type cmd: [float]
         """
 
         curr_q = self._state['position']
@@ -429,8 +428,8 @@ class PandaArm(franka_interface.ArmInterface):
         """
         Execute position control based on desired change in joint position
 
-        @param cmd: desired joint postion changes, ordered from joint1 to joint7
-        @type cmd: [float]
+        :param cmd: desired joint postion changes, ordered from joint1 to joint7
+        :type cmd: [float]
         """
         curr_q = self.joint_angles()
         joint_names = self.joint_names()
@@ -443,8 +442,8 @@ class PandaArm(franka_interface.ArmInterface):
         """
         Execute motion (trajectory controller) based on desired change in joint position
 
-        @param cmd: desired joint postion changes, ordered from joint1 to joint7
-        @type cmd: [float]
+        :param cmd: desired joint postion changes, ordered from joint1 to joint7
+        :type cmd: [float]
         """
         curr_q = self.joint_angles()
         joint_names = self.joint_names()
@@ -455,10 +454,10 @@ class PandaArm(franka_interface.ArmInterface):
 
     def exec_velocity_cmd(self, cmd):
         """
-        Execute velocity command at joint level (using internal velocity controller [NOT IMPLEMENTED])
+        Execute velocity command at joint level (using internal velocity controller)
 
-        @param cmd: desired joint velocities, ordered from joint1 to joint7
-        @type cmd: [float]
+        :param cmd: desired joint velocities, ordered from joint1 to joint7
+        :type cmd: [float]
         """
         joint_names = self.joint_names()
 
@@ -470,8 +469,8 @@ class PandaArm(franka_interface.ArmInterface):
         """
         Execute torque command at joint level directly
 
-        @param cmd: desired joint torques, ordered from joint1 to joint7
-        @type cmd: [float]
+        :param cmd: desired joint torques, ordered from joint1 to joint7
+        :type cmd: [float]
         """
         joint_names = self.joint_names()
 
@@ -483,15 +482,15 @@ class PandaArm(franka_interface.ArmInterface):
         """
         Move to joint position specified (using low-level position control)
 
-        @param joint_angles: desired joint positions, ordered from joint1 to joint7
-        @type joint_angles: [float]
+        :param joint_angles: desired joint positions, ordered from joint1 to joint7
+        :type joint_angles: [float]
         """
         self.move_to_joint_positions(dict(zip(self.joint_names(), joint_angles)))
 
     def ee_pose(self):
         """
-        @return end-effector pose as position and quaternion in global frame 
-        @rtype: np.ndarray (pose), np.quaternion (orientation)
+        :return: end-effector pose as position and quaternion in global frame 
+        :rtype: np.ndarray (pose), np.quaternion (orientation)
         """
         ee_point = np.asarray(self.endpoint_pose()['position'])
 
@@ -506,16 +505,15 @@ class PandaArm(franka_interface.ArmInterface):
 
     def ee_velocity(self, real_robot=True):
         """
-        @return end effector velocity (linear and angular) computed using finite difference
-        @rtype: np.ndarray, np.ndarray
+        :return: end effector velocity (linear and angular) computed using finite difference
+        :rtype: np.ndarray, np.ndarray
 
-        @param real_robot: if False, computes ee velocity using finite difference 
-        @type real_robot : bool
+        :param real_robot: if False, computes ee velocity using finite difference 
+        :type real_robot : bool
 
-        # this is a simple finite difference based velocity computation
-        # please note that this might produce a bug since self._goal_ori_old gets
-        # updated only if get_ee_vel is called.
-        # TODO : to update in get_ee_pose or find a better way to compute velocity
+        this is a simple finite difference based velocity computation
+        please note that this might produce a bug since self._goal_ori_old gets
+        updated only if get_ee_vel is called.
         """
 
         if real_robot:
@@ -543,12 +541,12 @@ class PandaArm(franka_interface.ArmInterface):
 
     def forward_kinematics(self, joint_angles=None, ori_type='quat'):
         """
-        @return position and orientaion of end-effector for the current/provided joint angles
-        @rtype: np.ndarray, np.ndarray/np.quaternion
+        :return: position and orientaion of end-effector for the current/provided joint angles
+        :rtype: np.ndarray, np.ndarray/np.quaternion
 
-        @param joint_angles: joint angles (optional) for which the ee pose is to be computed 
-        @type joint_angles : [float]
-        @param ori_type: to specify the orientation representation to return
+        :param joint_angles: joint angles (optional) for which the ee pose is to be computed 
+        :type joint_angles : [float]
+        :param ori_type: to specify the orientation representation to return
         """
         if joint_angles is None:
 
@@ -583,11 +581,11 @@ class PandaArm(franka_interface.ArmInterface):
 
     def cartesian_velocity(self, joint_angles=None):
         """
-        @return end-effector velocity computed using kdl
-        @rtype: np.ndarray
+        :return: end-effector velocity computed using kdl
+        :rtype: np.ndarray
 
-        @param joint_angles: joint angles (optional) 
-        @type joint_angles : [float]
+        :param joint_angles: joint angles (optional) 
+        :type joint_angles : [float]
         """
         if joint_angles is None:
             argument = None
@@ -598,11 +596,11 @@ class PandaArm(franka_interface.ArmInterface):
 
     def jacobian(self, joint_angles=None):
         """
-        @return jacobian matrix of robot at current state
-        @rtype: np.ndarray
+        :return: jacobian matrix of robot at current state
+        :rtype: np.ndarray
 
-        @param joint_angles: joint angles (optional) for which the jacobian is to be computed 
-        @type joint_angles : [float]
+        :param joint_angles: joint angles (optional) for which the jacobian is to be computed 
+        :type joint_angles : [float]
         """
         if joint_angles is None:
             argument = None
@@ -615,11 +613,11 @@ class PandaArm(franka_interface.ArmInterface):
 
     def inertia(self, joint_angles=None):
         """
-        @return inertia matrix of robot at current state
-        @rtype: np.ndarray
+        :return: inertia matrix of robot at current state
+        :rtype: np.ndarray
 
-        @param joint_angles: joint angles (optional) 
-        @type joint_angles : [float]
+        :param joint_angles: joint angles (optional) 
+        :type joint_angles : [float]
         """
         if joint_angles is None:
             argument = None
@@ -630,17 +628,17 @@ class PandaArm(franka_interface.ArmInterface):
 
     def inverse_kinematics(self, pos, ori=None, seed=None, null_space_goal = None, **kwargs):
         """
-        @return get the joint positions using inverse kinematics from the provided end-effector pose
-        @rtype: bool (success), [float]
+        :return: get the joint positions using inverse kinematics from the provided end-effector pose
+        :rtype: bool (success), [float]
 
-        @param pos: end-effector position (x,y,z)
-        @type pos : [float]
-        @param ori: end-effector orientation (quaternion)
-        @type ori : [float] or np.quaternion
-        @param seed: seed joints to start ik computation
-        @type seed: [float]
-        @param null_space_goal: null-space joint position if required
-        @type null_space_goal: [float]
+        :param pos: end-effector position (x,y,z)
+        :type pos : [float]
+        :param ori: end-effector orientation (quaternion)
+        :type ori : [float] or np.quaternion
+        :param seed: seed joints to start ik computation
+        :type seed: [float]
+        :param null_space_goal: null-space joint position if required
+        :type null_space_goal: [float]
 
         kwargs are to avoid breaking of sister classes for arguments that are not used in this class.
         """

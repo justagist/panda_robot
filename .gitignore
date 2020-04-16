@@ -45,6 +45,10 @@ devel
 cpp
 docs
 msg_gen
+
+docs_src
+doc_src
+docs_build
 srv_gen
 *.smoketest
 *.cfgc

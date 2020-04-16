@@ -46,7 +46,7 @@ if __name__ == '__main__':
     # In interactive mode, for instance enter 
     #               $ neutral()
     #   to make the robot move to neutral pose
-    # or type $ move_to(poses[0]) to move to the first joint pose from the list defined above (make sure robot workspace is free)
+    #   or type $ move_to(poses[0]) to move to the first joint pose from the list defined above (make sure robot workspace is free, visualise in panda_simulator or moveit planning before executing to be sure.)
 
-    # movegroup interface instance of the robot
+    # movegroup interface instance of the robot. See https://justagist.github.io/franka_ros_interface/DOC.html#pandamovegroupinterface for available methods.
     mvt = r.get_movegroup_interface()
