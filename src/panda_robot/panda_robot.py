@@ -57,8 +57,25 @@ def compute_omg(q1, q2):
 # camera sensor (in state callback, _configure)
 
 class PandaArm(franka_interface.ArmInterface):
+    """
+        Constructor class.  Methods from :py:class:`franka_interface.ArmInterface` are also available to this object.
 
-    def __init__(self, limb = None, on_state_callback = None, reset_frames = True):
+        :bases: :py:class:`franka_interface.ArmInterface`
+
+        :param on_state_callback: optional callback function to run on each state update
+        :param reset_frames: if True, EE frame is reset using :py:class:`franka_interface.ArmInteface` 
+            (using :py:class:`franka_interface.ArmInterface` and :py:class:`franka_tools.FrankaFramesInterface`.)
+
+    """
+
+    def __init__(self, on_state_callback = None, reset_frames = True):
+        """
+            Constructor class.  Functions from `franka_interface.ArmInterface <https://justagist.github.io/franka_ros_interface/DOC.html#arminterface>`_
+
+            :param on_state_callback: optional callback function to run on each state update
+            :param reset_frames: if True, EE frame is reset using :py:class:`franka_interface.ArmInteface` 
+                (using `franka_interface.ArmInterface <https://justagist.github.io/franka_ros_interface/DOC.html#arminterface>`_ and `franka_tools.FrankaFramesInterface <https://justagist.github.io/franka_ros_interface/DOC.html#frankaframesinterface>`_)
+        """
 
         self._logger = logging.getLogger(__name__)
 
@@ -97,7 +114,9 @@ class PandaArm(franka_interface.ArmInterface):
             self.set_EE_frame_to_link('panda_hand' if self.has_gripper else 'panda_link8')
 
     def enable_robot(self):
-        # if not self.get_robot_params()._in_sim:
+        """
+            Re-enable robot if stopped due to collision or safety.
+        """
         self._franka_robot_enable_interface.enable()
 
 
@@ -136,8 +155,8 @@ class PandaArm(franka_interface.ArmInterface):
 
     def get_gripper(self):
         """
-        :return: gripper instance
-        :rtype: GripperInterface
+            :return: gripper instance
+            :rtype: franka_interface.GripperInterface
 
         """
         return self._gripper
@@ -145,9 +164,8 @@ class PandaArm(franka_interface.ArmInterface):
     @property
     def has_gripper(self):
         """
-        :return: True if gripper is initialised, else False
-        :rtype: bool    
-
+            :return: True if gripper is initialised, else False
+            :rtype: bool    
         """
         return self._gripper is not None
 
@@ -157,11 +175,20 @@ class PandaArm(franka_interface.ArmInterface):
 
     def untuck(self):
         """
-            Move to neutral pose (using trajectory controller)  
+            Move to neutral pose (using trajectory controller, or moveit (if moveit is available))  
         """
         self.move_to_neutral()
 
     def gripper_state(self):
+        """
+        Return Gripper state {'position', 'force'}. Only available if Franka gripper is connected.
+
+        :rtype: dict({str:np.ndarray (shape:(2,)),str:np.ndarray (shape:(2,))})
+        :return: dict of position and force
+
+          - 'position': np.array 
+          - 'force': np.array 
+        """
         gripper_state = {}
 
         if self._gripper:
@@ -172,6 +199,12 @@ class PandaArm(franka_interface.ArmInterface):
 
     def set_gripper_speed(self, speed):
 
+        """
+            Set velocity for gripper motion
+
+            :param speed: speed ratio to set  
+            :type speed: float
+        """
         if self._gripper:
             self._gripper.set_velocity(speed)
 
@@ -378,13 +411,13 @@ class PandaArm(franka_interface.ArmInterface):
         Move gripper joints to the desired width (space between finger joints), while applying
         the specified force (optional)
 
-        :param pos  : desired width [m]
+        :param pos: desired width [m]
         :param force: desired force to be applied on object [N]
-        :type pos   : float
-        :type force : float
+        :type pos: float
+        :type force: float
 
         :return: True if command was successful, False otherwise.
-        @rtype bool
+        :rtype: bool
         """
         if self._gripper is None:
             return
@@ -509,10 +542,10 @@ class PandaArm(franka_interface.ArmInterface):
         :rtype: np.ndarray, np.ndarray
 
         :param real_robot: if False, computes ee velocity using finite difference 
-        :type real_robot : bool
+        :type real_robot: bool
 
-        this is a simple finite difference based velocity computation
-        please note that this might produce a bug since self._goal_ori_old gets
+        If real_robot is False, this is a simple finite difference based velocity 
+        computation. Please note that this might produce a bug since self._goal_ori_old gets
         updated only if get_ee_vel is called.
         """
 
@@ -545,7 +578,7 @@ class PandaArm(franka_interface.ArmInterface):
         :rtype: np.ndarray, np.ndarray/np.quaternion
 
         :param joint_angles: joint angles (optional) for which the ee pose is to be computed 
-        :type joint_angles : [float]
+        :type joint_angles: [float]
         :param ori_type: to specify the orientation representation to return
         """
         if joint_angles is None:
@@ -581,18 +614,22 @@ class PandaArm(franka_interface.ArmInterface):
 
     def cartesian_velocity(self, joint_angles=None):
         """
+        Get cartesian end-effector velocity. To get velocity from franka_ros_interface directly, use method
+        :py:func:`ee_velocity`.
+
         :return: end-effector velocity computed using kdl
         :rtype: np.ndarray
 
         :param joint_angles: joint angles (optional) 
-        :type joint_angles : [float]
+        :type joint_angles: [float]
+
         """
         if joint_angles is None:
             argument = None
         else:
             argument = dict(zip(self.joint_names(), joint_angles))
 
-        return np.array(self._kinematics.forward_velocity_kinematics(argument))[0:3]  # only position
+        return np.array(self._kinematics.forward_velocity_kinematics(argument))[0:3]  # only velocity
 
     def jacobian(self, joint_angles=None):
         """
@@ -600,7 +637,7 @@ class PandaArm(franka_interface.ArmInterface):
         :rtype: np.ndarray
 
         :param joint_angles: joint angles (optional) for which the jacobian is to be computed 
-        :type joint_angles : [float]
+        :type joint_angles: [float]
         """
         if joint_angles is None:
             argument = None
@@ -617,7 +654,7 @@ class PandaArm(franka_interface.ArmInterface):
         :rtype: np.ndarray
 
         :param joint_angles: joint angles (optional) 
-        :type joint_angles : [float]
+        :type joint_angles: [float]
         """
         if joint_angles is None:
             argument = None
@@ -632,9 +669,9 @@ class PandaArm(franka_interface.ArmInterface):
         :rtype: bool (success), [float]
 
         :param pos: end-effector position (x,y,z)
-        :type pos : [float]
+        :type pos: [float]
         :param ori: end-effector orientation (quaternion)
-        :type ori : [float] or np.quaternion
+        :type ori: [float] or np.quaternion
         :param seed: seed joints to start ik computation
         :type seed: [float]
         :param null_space_goal: null-space joint position if required
