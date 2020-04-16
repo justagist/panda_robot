@@ -174,7 +174,7 @@
 <span class="c1"># </span>
 <span class="c1"># @package: panda_robot</span>
 <span class="c1"># @author: Saif Sidhik &lt;sxs1412@bham.ac.uk&gt;</span>
-<span class="c1"># </span>
+<span class="c1">#</span>
 
 <span class="c1"># **************************************************************************/</span>
 
@@ -197,7 +197,7 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    @info</span>
-<span class="sd">        Interface class for the Franka Robot integrated with gripper handling, </span>
+<span class="sd">        Interface class for the Franka Robot integrated with gripper handling,</span>
 <span class="sd">        low-level controller commanding, motion controlling, trajectory controlling,</span>
 <span class="sd">        controller manager, frames interface, kinematics, dynamics, etc.</span>
 
@@ -215,12 +215,16 @@
 
 <span class="k">def</span> <span class="nf">compute_omg</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">q2</span><span class="p">):</span>
     <span class="k">return</span> <span class="mf">2.</span><span class="o">*</span><span class="n">compute_log</span><span class="p">(</span> <span class="n">quat_mult</span><span class="p">(</span> <span class="n">quat_convert</span><span class="p">(</span><span class="n">q1</span><span class="p">),</span> <span class="n">quat_conj</span><span class="p">(</span> <span class="n">quat_convert</span><span class="p">(</span><span class="n">q2</span><span class="p">)</span> <span class="p">)</span> <span class="p">)</span> <span class="p">)</span>
-    
+
+<span class="k">def</span> <span class="nf">time_in_seconds</span><span class="p">():</span>
+    <span class="n">time_now</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Time</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">time_now</span><span class="o">.</span><span class="n">secs</span> <span class="o">+</span> <span class="n">time_now</span><span class="o">.</span><span class="n">nsecs</span> <span class="o">*</span> <span class="mf">1e-9</span>
+
 
 <span class="c1"># ----- TO CHANGE WHEN MOVING TO AML:</span>
 <span class="c1"># logger</span>
 <span class="c1"># add ArmInterface as parent class</span>
-<span class="c1"># from aml_math.quaternion_utils import compute_omg </span>
+<span class="c1"># from aml_math.quaternion_utils import compute_omg</span>
 <span class="c1"># ft smoother subscriber and callback, also tip_state_callback</span>
 <span class="c1"># ft reading for external ft sensor (in state callback, _configure)</span>
 <span class="c1"># camera sensor (in state callback, _configure)</span>
@@ -232,7 +236,7 @@
 <span class="sd">        :bases: :py:class:`franka_interface.ArmInterface`</span>
 
 <span class="sd">        :param on_state_callback: optional callback function to run on each state update</span>
-<span class="sd">        :param reset_frames: if True, EE frame is reset using :py:class:`franka_interface.ArmInteface` </span>
+<span class="sd">        :param reset_frames: if True, EE frame is reset using :py:class:`franka_interface.ArmInteface`</span>
 <span class="sd">            (using :py:class:`franka_interface.ArmInterface` and :py:class:`franka_tools.FrankaFramesInterface`.)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -242,7 +246,7 @@
 <span class="sd">            Constructor class.  Functions from `franka_interface.ArmInterface &lt;https://justagist.github.io/franka_ros_interface/DOC.html#arminterface&gt;`_</span>
 
 <span class="sd">            :param on_state_callback: optional callback function to run on each state update</span>
-<span class="sd">            :param reset_frames: if True, EE frame is reset using :py:class:`franka_interface.ArmInteface` </span>
+<span class="sd">            :param reset_frames: if True, EE frame is reset using :py:class:`franka_interface.ArmInteface`</span>
 <span class="sd">                (using `franka_interface.ArmInterface &lt;https://justagist.github.io/franka_ros_interface/DOC.html#arminterface&gt;`_ and `franka_tools.FrankaFramesInterface &lt;https://justagist.github.io/franka_ros_interface/DOC.html#frankaframesinterface&gt;`_)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
@@ -253,8 +257,8 @@
         <span class="c1"># Parent constructor</span>
         <span class="n">franka_interface</span><span class="o">.</span><span class="n">ArmInterface</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_jnt_limits</span> <span class="o">=</span> <span class="p">[</span> <span class="p">{</span><span class="s1">&#39;lower&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_joint_limits</span><span class="p">()</span><span class="o">.</span><span class="n">position_lower</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> 
-                             <span class="s1">&#39;upper&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_joint_limits</span><span class="p">()</span><span class="o">.</span><span class="n">position_upper</span><span class="p">[</span><span class="n">i</span><span class="p">]}</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">_jnt_limits</span> <span class="o">=</span> <span class="p">[</span> <span class="p">{</span><span class="s1">&#39;lower&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_joint_limits</span><span class="p">()</span><span class="o">.</span><span class="n">position_lower</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                             <span class="s1">&#39;upper&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_joint_limits</span><span class="p">()</span><span class="o">.</span><span class="n">position_upper</span><span class="p">[</span><span class="n">i</span><span class="p">]}</span>
                              <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">joint_names</span><span class="p">()))</span> <span class="p">]</span>
 
         <span class="c1"># number of joints</span>
@@ -277,7 +281,7 @@
 
         <span class="c1"># this will be useful to compute ee_velocity using finite differences</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ee_pos_old</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ee_ori_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ee_pose</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_time_now_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_in_seconds</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_time_now_old</span> <span class="o">=</span> <span class="n">time_in_seconds</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">reset_frames</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_EE_frame_to_link</span><span class="p">(</span><span class="s1">&#39;panda_hand&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_gripper</span> <span class="k">else</span> <span class="s1">&#39;panda_link8&#39;</span><span class="p">)</span>
@@ -334,7 +338,7 @@
     <span class="k">def</span> <span class="nf">has_gripper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            :return: True if gripper is initialised, else False</span>
-<span class="sd">            :rtype: bool    </span>
+<span class="sd">            :rtype: bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gripper</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
@@ -344,7 +348,7 @@
 
 <div class="viewcode-block" id="PandaArm.untuck"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.untuck">[docs]</a>    <span class="k">def</span> <span class="nf">untuck</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Move to neutral pose (using trajectory controller, or moveit (if moveit is available))  </span>
+<span class="sd">            Move to neutral pose (using trajectory controller, or moveit (if moveit is available))</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">move_to_neutral</span><span class="p">()</span></div>
 
@@ -355,8 +359,8 @@
 <span class="sd">        :rtype: dict({str:np.ndarray (shape:(2,)),str:np.ndarray (shape:(2,))})</span>
 <span class="sd">        :return: dict of position and force</span>
 
-<span class="sd">          - &#39;position&#39;: np.array </span>
-<span class="sd">          - &#39;force&#39;: np.array </span>
+<span class="sd">          - &#39;position&#39;: np.array</span>
+<span class="sd">          - &#39;force&#39;: np.array</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">gripper_state</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -371,7 +375,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Set velocity for gripper motion</span>
 
-<span class="sd">            :param speed: speed ratio to set  </span>
+<span class="sd">            :param speed: speed ratio to set</span>
 <span class="sd">            :type speed: float</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gripper</span><span class="p">:</span>
@@ -383,7 +387,7 @@
         <span class="n">time</span> <span class="o">=</span> <span class="n">tipstate_msg</span><span class="o">.</span><span class="n">timestamp</span>
         <span class="n">tip_state</span><span class="p">[</span><span class="s1">&#39;position&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tipstate_msg</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;position&#39;</span><span class="p">]</span>
         <span class="n">ori</span> <span class="o">=</span> <span class="n">tipstate_msg</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;orientation&#39;</span><span class="p">]</span>
-        <span class="n">force</span> <span class="o">=</span> <span class="n">tipstate_msg</span><span class="o">.</span><span class="n">effort</span><span class="p">[</span><span class="s1">&#39;force&#39;</span><span class="p">]</span> 
+        <span class="n">force</span> <span class="o">=</span> <span class="n">tipstate_msg</span><span class="o">.</span><span class="n">effort</span><span class="p">[</span><span class="s1">&#39;force&#39;</span><span class="p">]</span>
         <span class="n">torque</span> <span class="o">=</span> <span class="n">tipstate_msg</span><span class="o">.</span><span class="n">effort</span><span class="p">[</span><span class="s1">&#39;torque&#39;</span><span class="p">]</span>
 
         <span class="n">tip_state</span><span class="p">[</span><span class="s1">&#39;orientation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">ori</span><span class="o">.</span><span class="n">w</span><span class="p">,</span> <span class="n">ori</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">ori</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">ori</span><span class="o">.</span><span class="n">z</span><span class="p">])</span>
@@ -396,7 +400,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_ft_vals</span><span class="p">:</span>
             <span class="n">rotation_mat</span> <span class="o">=</span> <span class="n">quaternion</span><span class="o">.</span><span class="n">as_rotation_matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">quaternion</span><span class="p">(</span><span class="n">ori</span><span class="o">.</span><span class="n">w</span><span class="p">,</span> <span class="n">ori</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">ori</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">ori</span><span class="o">.</span><span class="n">z</span><span class="p">))</span>
             <span class="n">tip_state</span><span class="p">[</span><span class="s1">&#39;force&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rotation_mat</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="o">-</span><span class="n">force</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">force</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="n">force</span><span class="p">[</span><span class="mi">2</span><span class="p">]]))</span>
-            <span class="n">tip_state</span><span class="p">[</span><span class="s1">&#39;torque&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rotation_mat</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="o">-</span><span class="n">torque</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">torque</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="n">torque</span><span class="p">[</span><span class="mi">2</span><span class="p">]]))</span>            
+            <span class="n">tip_state</span><span class="p">[</span><span class="s1">&#39;torque&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">rotation_mat</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="o">-</span><span class="n">torque</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">torque</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="n">torque</span><span class="p">[</span><span class="mi">2</span><span class="p">]]))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">tip_state</span><span class="p">[</span><span class="s1">&#39;force&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="o">-</span><span class="n">force</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">force</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="n">force</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
             <span class="n">tip_state</span><span class="p">[</span><span class="s1">&#39;torque&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="o">-</span><span class="n">torque</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">torque</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="n">torque</span><span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
@@ -447,7 +451,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">tmp</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;jacobian&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">state</span><span class="p">[</span><span class="s1">&#39;velocity&#39;</span><span class="p">])</span>
             <span class="n">state</span><span class="p">[</span><span class="s1">&#39;ee_vel&#39;</span><span class="p">],</span> <span class="n">state</span><span class="p">[</span><span class="s1">&#39;ee_omg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span><span class="c1">#self.ee_velocity()</span>
-        <span class="k">except</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
             <span class="k">pass</span>
 
         <span class="n">state</span><span class="p">[</span><span class="s1">&#39;ft_reading&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -562,7 +566,7 @@
 <div class="viewcode-block" id="PandaArm.end_effector_link_name"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.end_effector_link_name">[docs]</a>    <span class="k">def</span> <span class="nf">end_effector_link_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :return: name of end-effector frame</span>
-<span class="sd">        :rtype: str    </span>
+<span class="sd">        :rtype: str</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span><span class="o">.</span><span class="n">_tip_link</span></div>
@@ -610,12 +614,10 @@
 <span class="sd">        Execute position control (raw positions). Be careful while using. Send smooth</span>
 <span class="sd">        commands</span>
 
-<span class="sd">        :param cmd: desired joint postions, ordered from joint1 to joint7 </span>
+<span class="sd">        :param cmd: desired joint postions, ordered from joint1 to joint7</span>
 <span class="sd">                        (optionally, give desired gripper width as 8th element of list)</span>
 <span class="sd">        :type cmd: [float]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">curr_q</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="s1">&#39;position&#39;</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">7</span><span class="p">:</span>
             <span class="n">gripper_cmd</span> <span class="o">=</span> <span class="n">cmd</span><span class="p">[</span><span class="mi">7</span><span class="p">:]</span>
@@ -691,7 +693,7 @@
 
 <div class="viewcode-block" id="PandaArm.ee_pose"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.ee_pose">[docs]</a>    <span class="k">def</span> <span class="nf">ee_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :return: end-effector pose as position and quaternion in global frame </span>
+<span class="sd">        :return: end-effector pose as position and quaternion in global frame</span>
 <span class="sd">        :rtype: np.ndarray (pose), np.quaternion (orientation)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ee_point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endpoint_pose</span><span class="p">()[</span><span class="s1">&#39;position&#39;</span><span class="p">])</span>
@@ -701,19 +703,17 @@
 
         <span class="k">return</span> <span class="n">ee_point</span><span class="p">,</span> <span class="n">ee_ori</span></div>
 
-    <span class="k">def</span> <span class="nf">time_in_seconds</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">time_now</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Time</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">time_now</span><span class="o">.</span><span class="n">secs</span> <span class="o">+</span> <span class="n">time_now</span><span class="o">.</span><span class="n">nsecs</span> <span class="o">*</span> <span class="mf">1e-9</span>
+
 
 <div class="viewcode-block" id="PandaArm.ee_velocity"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.ee_velocity">[docs]</a>    <span class="k">def</span> <span class="nf">ee_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">real_robot</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :return: end effector velocity (linear and angular) computed using finite difference</span>
 <span class="sd">        :rtype: np.ndarray, np.ndarray</span>
 
-<span class="sd">        :param real_robot: if False, computes ee velocity using finite difference </span>
+<span class="sd">        :param real_robot: if False, computes ee velocity using finite difference</span>
 <span class="sd">        :type real_robot: bool</span>
 
-<span class="sd">        If real_robot is False, this is a simple finite difference based velocity </span>
+<span class="sd">        If real_robot is False, this is a simple finite difference based velocity</span>
 <span class="sd">        computation. Please note that this might produce a bug since self._goal_ori_old gets</span>
 <span class="sd">        updated only if get_ee_vel is called.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -725,7 +725,7 @@
 
         <span class="k">else</span><span class="p">:</span>
 
-            <span class="n">time_now_new</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_in_seconds</span><span class="p">()</span>
+            <span class="n">time_now_new</span> <span class="o">=</span> <span class="n">time_in_seconds</span><span class="p">()</span>
 
             <span class="n">ee_pos_new</span><span class="p">,</span> <span class="n">ee_ori_new</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ee_pose</span><span class="p">()</span>
 
@@ -746,7 +746,7 @@
 <span class="sd">        :return: position and orientaion of end-effector for the current/provided joint angles</span>
 <span class="sd">        :rtype: np.ndarray, np.ndarray/np.quaternion</span>
 
-<span class="sd">        :param joint_angles: joint angles (optional) for which the ee pose is to be computed </span>
+<span class="sd">        :param joint_angles: joint angles (optional) for which the ee pose is to be computed</span>
 <span class="sd">        :type joint_angles: [float]</span>
 <span class="sd">        :param ori_type: to specify the orientation representation to return</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -805,7 +805,7 @@
 <span class="sd">        :return: jacobian matrix of robot at current state</span>
 <span class="sd">        :rtype: np.ndarray</span>
 
-<span class="sd">        :param joint_angles: joint angles (optional) for which the jacobian is to be computed </span>
+<span class="sd">        :param joint_angles: joint angles (optional) for which the jacobian is to be computed</span>
 <span class="sd">        :type joint_angles: [float]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">joint_angles</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -822,7 +822,7 @@
 <span class="sd">        :return: inertia matrix of robot at current state</span>
 <span class="sd">        :rtype: np.ndarray</span>
 
-<span class="sd">        :param joint_angles: joint angles (optional) </span>
+<span class="sd">        :param joint_angles: joint angles (optional)</span>
 <span class="sd">        :type joint_angles: [float]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">joint_angles</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -852,7 +852,7 @@
         <span class="n">soln</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">if</span> <span class="n">ori</span><span class="p">:</span>
-            <span class="c1"># expects a pykdl quaternion which is of type x,y,z,w </span>
+            <span class="c1"># expects a pykdl quaternion which is of type x,y,z,w</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ori</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">quaternion</span><span class="p">):</span>
                 <span class="n">ori</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">ori</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">ori</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">ori</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">ori</span><span class="o">.</span><span class="n">w</span><span class="p">])</span>
 
@@ -873,7 +873,6 @@
     <span class="n">tuck_group</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_mutually_exclusive_group</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">tuck_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-u&quot;</span><span class="p">,</span> <span class="s2">&quot;--untuck&quot;</span><span class="p">,</span>
         <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;untuck arms&quot;</span><span class="p">)</span>
-    
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">rospy</span><span class="o">.</span><span class="n">myargv</span><span class="p">()[</span><span class="mi">1</span><span class="p">:])</span>
     <span class="n">untuck</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">untuck</span>
 

@@ -1,6 +1,9 @@
 Python API Documentation
 ========================
 
+.. image:: https://api.codacy.com/project/badge/Grade/104807d6e9d74377ac40c827d9d261e3
+    :target: https://www.codacy.com/manual/justagist/panda_robot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=justagist/panda_robot&amp;utm_campaign=Badge_Grade
+
 panda_robot
 -----------
 .. automodule:: panda_robot

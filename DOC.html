@@ -171,6 +171,7 @@
             
   <div class="section" id="python-api-documentation">
 <h1>1. Python API Documentation<a class="headerlink" href="#python-api-documentation" title="Permalink to this headline">¶</a></h1>
+<a class="reference external image-reference" href="https://www.codacy.com/manual/justagist/panda_robot?utm_source=github.com&amp;amp;utm_medium=referral&amp;amp;utm_content=justagist/panda_robot&amp;amp;utm_campaign=Badge_Grade"><img alt="https://api.codacy.com/project/badge/Grade/104807d6e9d74377ac40c827d9d261e3" src="https://api.codacy.com/project/badge/Grade/104807d6e9d74377ac40c827d9d261e3" /></a>
 <div class="section" id="module-panda_robot">
 <span id="panda-robot"></span><h2>1.1. panda_robot<a class="headerlink" href="#module-panda_robot" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="pandaarm">
@@ -188,7 +189,7 @@
 </tr>
 <tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>on_state_callback</strong> – optional callback function to run on each state update</li>
-<li><strong>reset_frames</strong> – if True, EE frame is reset using <code class="xref py py-class docutils literal notranslate"><span class="pre">franka_interface.ArmInteface</span></code> 
+<li><strong>reset_frames</strong> – if True, EE frame is reset using <code class="xref py py-class docutils literal notranslate"><span class="pre">franka_interface.ArmInteface</span></code>
 (using <a class="reference external" href="https://justagist.github.io/franka_ros_interface/DOC.html#franka_interface.ArmInterface" title="(in Franka ROS Interface v1.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">franka_interface.ArmInterface</span></code></a> and <a class="reference external" href="https://justagist.github.io/franka_ros_interface/DOC.html#franka_tools.FrankaFramesInterface" title="(in Franka ROS Interface v1.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">franka_tools.FrankaFramesInterface</span></code></a>.)</li>
 </ul>
 </td>
@@ -276,7 +277,7 @@
 </tr>
 </tbody>
 </table>
-<p>If real_robot is False, this is a simple finite difference based velocity 
+<p>If real_robot is False, this is a simple finite difference based velocity
 computation. Please note that this might produce a bug since self._goal_ori_old gets
 updated only if get_ee_vel is called.</p>
 </dd></dl>
@@ -350,7 +351,7 @@ commands</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cmd</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>]</em>) – desired joint postions, ordered from joint1 to joint7 
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cmd</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>]</em>) – desired joint postions, ordered from joint1 to joint7
 (optionally, give desired gripper width as 8th element of list)</td>
 </tr>
 </tbody>
