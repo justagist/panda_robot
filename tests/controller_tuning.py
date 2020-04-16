@@ -1,8 +1,8 @@
 import rospy
 from panda_robot import PandaArm
 import numpy as np
-import matplotlib.pyplot as plt
-from std_msgs.msg import Float64
+# import matplotlib.pyplot as plt
+# from std_msgs.msg import Float64
 from copy import deepcopy
 
 # test file; used for tuning impedance controller
@@ -12,7 +12,7 @@ vels = []
 names = ['panda_joint1','panda_joint2','panda_joint3','panda_joint4','panda_joint5','panda_joint6','panda_joint7']
 
 if __name__ == '__main__':
-    
+
 
     rospy.init_node("test_node", disable_signals = True)
     r = PandaArm()

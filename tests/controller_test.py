@@ -1,14 +1,13 @@
 import rospy
 from panda_robot import PandaArm
 import numpy as np
-import matplotlib.pyplot as plt
-from std_msgs.msg import Float64
+# import matplotlib.pyplot as plt
+# from std_msgs.msg import Float64
 from copy import deepcopy
 
 names = ['panda_joint1','panda_joint2','panda_joint3','panda_joint4','panda_joint5','panda_joint6','panda_joint7']
 
 if __name__ == '__main__':
-    
 
     rospy.init_node("test_node")
     r = PandaArm()
@@ -34,7 +33,7 @@ if __name__ == '__main__':
 
         delta = 3.14 / 16.0 * (1 - np.cos(3.14 / 5.0 * elapsed_time_.to_sec())) * 0.2
 
-        for j in range(len(vals)):
+        for j, v in enumerate(vals):
             if j == 4:
                 vals[j] = initial_pose[j] - delta
             else:
@@ -47,7 +46,7 @@ if __name__ == '__main__':
 
 
         r.set_joint_positions_velocities(vals, [0.0 for _ in range(7)]) # for impedance control
-        # r.set_joint_positions(vals) # try this for position control 
+        # r.set_joint_positions(vals) # try this for position control
 
         count += 1
         rate.sleep()

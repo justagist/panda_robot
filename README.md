@@ -1,5 +1,7 @@
 # Panda Robot (ROS Python)
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/104807d6e9d74377ac40c827d9d261e3)](https://www.codacy.com/manual/justagist/panda_robot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=justagist/panda_robot&amp;utm_campaign=Badge_Grade)
+
 A Python interface package built over the [*franka_ros_interface*](https://github.com/justagist/franka_ros_interface) package for controlling and handling the Franka Emika Panda robot. Also works directly with [*panda_simulator*](https://github.com/justagist/panda_simulator).
 
 ### Features
@@ -25,3 +27,5 @@ $ source devel/setup.bash
 ```
 
 See example scripts (`scripts/env.py`) for usage.
+
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

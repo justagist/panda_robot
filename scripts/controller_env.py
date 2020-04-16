@@ -1,13 +1,12 @@
 
 import rospy
-import numpy as np
 from panda_robot import PandaArm
 
 
 if __name__ == '__main__':
 
     rospy.init_node("controller_env")
-    
+
     r = PandaArm()
     fi = r.get_frames_interface()
     cm = r.get_controller_manager()

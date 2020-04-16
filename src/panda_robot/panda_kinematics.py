@@ -3,13 +3,13 @@
 # 
 # @package: panda_robot
 # @author: Saif Sidhik <sxs1412@bham.ac.uk>
-# 
+#
 
 # **************************************************************************/
 
 # /***************************************************************************
 # Copyright (c) 2019-2020, Saif Sidhik
- 
+
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -32,11 +32,18 @@ from copy import deepcopy
 from utils.kdl_parser import kdl_tree_from_urdf_model
 from urdf_parser_py.urdf import URDF
 
+def kdl_to_mat(data):
+    mat =  np.mat(np.zeros((data.rows(), data.columns())))
+    for i in range(data.rows()):
+        for j in range(data.columns()):
+            mat[i,j] = data[i,j]
+    return mat
+
 class PandaKinematics(object):
     """
     Franka Kinematics with PyKDL
 
-    This will match with the RobotState if the tip frames are the same. 
+    This will match with the RobotState if the tip frames are the same.
     Use frame interface from franka_tools (franka_ros_interface) to set EE
     frame to the same as the tip of the URDF loaded.
     
@@ -85,36 +92,29 @@ class PandaKinematics(object):
         for idx in xrange(self._arm_chain.getNrOfSegments()):
             print '* ' + self._arm_chain.getSegment(idx).getName()
 
-    def joints_to_kdl(self, type, values=None):
+    def joints_to_kdl(self, type_, values=None):
         kdl_array = PyKDL.JntArray(self._num_jnts)
         pos_array = PyKDL.JntArray(self._num_jnts)
 
         if values is None:
-            if type == 'positions':
+            if type_ == 'positions':
                 cur_type_values = self._limb_interface.joint_angles()
-            elif type == 'velocities':
+            elif type_ == 'velocities':
                 cur_type_values = self._limb_interface.joint_velocities()
                 pos_list = self._limb_interface.joint_angles()
 
-            elif type == 'torques':
+            elif type_ == 'torques':
                 cur_type_values = self._limb_interface.joint_efforts()
         else:
             cur_type_values = values
         for idx, name in enumerate(self._joint_names):
             kdl_array[idx] = cur_type_values[name]
-            if type == 'velocities':
+            if type_ == 'velocities':
                 pos_array[idx] = pos_list[name]
 
-        if type == 'velocities':
+        if type_ == 'velocities':
             kdl_array = PyKDL.JntArrayVel(pos_array, kdl_array) # ----- using different constructor for getting velocity fk
         return kdl_array
-
-    def kdl_to_mat(self, data):
-        mat =  np.mat(np.zeros((data.rows(), data.columns())))
-        for i in range(data.rows()):
-            for j in range(data.columns()):
-                mat[i,j] = data[i,j]
-        return mat
 
     def forward_position_kinematics(self,joint_values=None):
         end_frame = PyKDL.Frame()
@@ -130,11 +130,10 @@ class PandaKinematics(object):
         end_frame = PyKDL.FrameVel()
         self._fk_v_kdl.JntToCart(self.joints_to_kdl('velocities',joint_velocities),
                                  end_frame)
-        # print 
         return end_frame.GetTwist()
 
     def inverse_kinematics(self, position, orientation=None, seed=None):
-        ik = PyKDL.ChainIkSolverVel_pinv(self._arm_chain)
+        # ik = PyKDL.ChainIkSolverVel_pinv(self._arm_chain)
         pos = PyKDL.Vector(position[0], position[1], position[2])
         if orientation is not None:
             rot = PyKDL.Rotation()
@@ -165,7 +164,7 @@ class PandaKinematics(object):
     def jacobian(self,joint_values=None):
         jacobian = PyKDL.Jacobian(self._num_jnts)
         self._jac_kdl.JntToJac(self.joints_to_kdl('positions',joint_values), jacobian)
-        return self.kdl_to_mat(jacobian)
+        return kdl_to_mat(jacobian)
 
     def jacobian_transpose(self,joint_values=None):
         return self.jacobian(joint_values).T
@@ -177,7 +176,7 @@ class PandaKinematics(object):
     def inertia(self,joint_values=None):
         inertia = PyKDL.JntSpaceInertiaMatrix(self._num_jnts)
         self._dyn_kdl.JntToMass(self.joints_to_kdl('positions',joint_values), inertia)
-        return self.kdl_to_mat(inertia)
+        return kdl_to_mat(inertia)
 
     def cart_inertia(self,joint_values=None):
         js_inertia = self.inertia(joint_values)

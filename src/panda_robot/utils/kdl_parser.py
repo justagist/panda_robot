@@ -32,11 +32,9 @@
 
 import numpy as np
 
-import rospy
-
 import PyKDL as kdl
 
-from urdf_parser_py.urdf import URDF
+# from urdf_parser_py.urdf import URDF
 
 def euler_to_quat(r, p, y):
     sr, sp, sy = np.sin(r/2.0), np.sin(p/2.0), np.sin(y/2.0)
