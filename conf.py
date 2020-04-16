@@ -167,7 +167,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'panda_robot.tex', u'franka\\_ros\\_interface Documentation',
+    (master_doc, 'panda_robot.tex', u'panda\\_robot Documentation',
      u'Saif Sidhik', 'manual'),
 ]
 
@@ -217,4 +217,4 @@ epub_exclude_files = ['search.html']
 # -- Options for intersphinx extension ---------------------------------------
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/2/': None}
+intersphinx_mapping = {'https://docs.python.org/2/': None, 'https://justagist.github.io/franka_ros_interface/':None}
