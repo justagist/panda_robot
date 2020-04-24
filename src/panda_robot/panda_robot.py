@@ -682,14 +682,14 @@ class PandaArm(franka_interface.ArmInterface):
         success = False
         soln = None
 
-        if ori:
+        if ori is not None:
             # expects a pykdl quaternion which is of type x,y,z,w
             if isinstance(ori, np.quaternion):
                 ori = np.array([ori.x, ori.y, ori.z, ori.w])
 
         soln = self._kinematics.inverse_kinematics(position=pos, orientation=ori, seed=seed)
 
-        if soln:
+        if soln is not None:
             success = True
 
         return success, soln
