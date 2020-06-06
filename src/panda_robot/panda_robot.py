@@ -34,31 +34,20 @@
 
 """
 
-import argparse
 import copy
 import rospy
 import logging
-import numpy as np
+import argparse
 import quaternion
+import numpy as np
 import franka_interface
+from utils.math_utils import compute_omg
 from panda_kinematics import PandaKinematics
-
-
-def compute_omg(q1, q2):
-    return 2.*compute_log( quat_mult( quat_convert(q1), quat_conj( quat_convert(q2) ) ) )
 
 def time_in_seconds():
     time_now = rospy.Time.now()
     return time_now.secs + time_now.nsecs * 1e-9
-
-
-# ----- TO CHANGE WHEN MOVING TO AML:
-# logger
-# add ArmInterface as parent class
-# from aml_math.quaternion_utils import compute_omg
-# ft smoother subscriber and callback, also tip_state_callback
-# ft reading for external ft sensor (in state callback, _configure)
-# camera sensor (in state callback, _configure)
+    
 
 class PandaArm(franka_interface.ArmInterface):
     """
@@ -711,14 +700,6 @@ def main():
         rospy.loginfo("Untucking arms")
         arm.untuck()
         rospy.loginfo("Finished Untuck")
-
-    #     print "this",arm.state()['ft_reading'][:3]
-    #     # print arm.state()['ee_ori']
-    #     # arm.state()
-    #     # pass
-    #     rospy.sleep(0.1)
-
-    # rospy.spin()
 
 
 if __name__ == '__main__':
