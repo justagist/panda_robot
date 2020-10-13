@@ -206,6 +206,8 @@ class PandaArm(franka_interface.ArmInterface):
         ori = tipstate_msg.pose['orientation']
         force = tipstate_msg.effort['force']
         torque = tipstate_msg.effort['torque']
+        tip_state['force_K'] = -tipstate_msg.effort_in_K_frame['force'] 
+        tip_state['torque_K'] = -tipstate_msg.effort_in_K_frame['torque'] 
 
         tip_state['orientation'] = np.asarray([ori.w, ori.x, ori.y, ori.z])
         tip_state['linear_vel'] = tipstate_msg.velocity['linear']
@@ -239,23 +241,16 @@ class PandaArm(franka_interface.ArmInterface):
 
         now = rospy.Time.now()
 
-        joint_angles = self.angles()
-        joint_velocities = self.velocities()
-        joint_efforts = self.joint_efforts()
-        tip_state = self.tip_state()
-
-        joint_names = self.joint_names()
-
         def to_list(ls):
-            return [ls[n] for n in joint_names]
+            return [ls[n] for n in self.joint_names()]
 
         state = {}
-        state['position'] = joint_angles
-        state['velocity'] = joint_velocities
-        state['effort'] = np.array(to_list(joint_efforts))
+        state['position'] = self.angles()
+        state['velocity'] = self.velocities()
+        state['effort'] = np.array(to_list(self.joint_efforts()))
         state['jacobian'] = self.jacobian(None)
         state['inertia'] = self.inertia(None)
-        state['tip_state'] = tip_state
+        state['tip_state'] = self.tip_state()
         state['coriolis'] = self.coriolis_comp()
         state['gravity'] = self.gravity_comp()
 
