@@ -127,9 +127,6 @@ class PandaArm(franka_interface.ArmInterface):
 
         self._kinematics = PandaKinematics(self)
 
-        # gravity + feed forward torques
-        self._h = [0. for _ in range(self._nq)]
-
         # self.set_command_timeout(0.2)
 
         self._transform_ft_vals = False
@@ -259,8 +256,8 @@ class PandaArm(franka_interface.ArmInterface):
         state['jacobian'] = self.jacobian(None)
         state['inertia'] = self.inertia(None)
         state['tip_state'] = tip_state
-
-        self._h = self.gravity_comp() # update record of gravity compensation torques
+        state['coriolis'] = self.coriolis_comp()
+        state['gravity'] = self.gravity_comp()
 
         state['timestamp'] = {'secs': now.secs, 'nsecs': now.nsecs}
         try:
