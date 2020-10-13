@@ -49,7 +49,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="1. Basic Usage" href="usage_demo.html" /> 
+    <link rel="next" title="Python API Documentation" href="DOC.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -100,14 +100,9 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="usage_demo.html">1. Basic Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="DOC.html">2. Python API Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="DOC.html#panda-robot">2.1. panda_robot</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="DOC.html#pandaarm">2.1.1. PandaArm</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference external" href="https://justagist.github.io/panda_robot">Introduction</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://justagist.github.io/panda_robot#basic-usage">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DOC.html">Python API Documentation</a></li>
 </ul>
 
             
@@ -176,9 +171,10 @@
   <div class="section" id="panda-robot">
 <h1>Panda Robot<a class="headerlink" href="#panda-robot" title="Permalink to this headline">¶</a></h1>
 <p>A Python interface package built over the <a class="reference external" href="https://github.com/justagist/franka_ros_interface">franka_ros_interface</a> package for controlling and handling the Franka Emika Panda robot. Also works directly with <a class="reference external" href="https://github.com/justagist/panda_simulator">panda_simulator</a>.</p>
+<p>The package provides an extensive and unified API for controlling and managing the Franka Emika Robot (and gripper) using pre-defined low-level controllers (position, velocity, torque, joint impedance), MoveIt planners, and JointTrajectory action service.</p>
 <p><strong>Features</strong></p>
 <ul class="simple">
-<li>Provides simple-intuitive interface classes with methods to directly and easily control the robot.</li>
+<li>Provides simple-intuitive interface classes with methods to directly and easily control the robot using low-level controllers, MoveIt planners, or Trajectory action client.</li>
 <li>Get real-time robot state, joint state, controller state, kinematics, dynamics, etc.</li>
 <li>Provides Kinematics computation (using <a class="reference external" href="http://wiki.ros.org/kdl">kdl</a>).</li>
 <li>Integrated with gripper control.</li>
@@ -187,17 +183,32 @@
 providing direct sim-to-real and real-to-sim code transfer.</li>
 </ul>
 <p>Go to <a class="reference external" href="https://github.com/justagist/panda_robot">Project Source Code</a>.</p>
+</div>
+<div class="section" id="basic-usage">
+<h1>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h1>
+<p>See <a class="reference external" href="https://github.com/justagist/panda_robot/tree/master/scripts">scripts</a> folder to see usage of some of the available methods</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rospy</span>
+<span class="kn">from</span> <span class="nn">aml_robot.panda_robot</span> <span class="kn">import</span> <span class="n">PandaArm</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s2">&quot;panda_demo&quot;</span><span class="p">)</span> <span class="c1"># initialise ros node</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">PandaArm</span><span class="p">()</span> <span class="c1"># create PandaArm instance</span>
+
+    <span class="n">r</span><span class="o">.</span><span class="n">move_to_neutral</span><span class="p">()</span> <span class="c1"># moves robot to neutral pose; uses moveit if available, else JointTrajectory action client</span>
+
+    <span class="n">r</span><span class="o">.</span><span class="n">get_gripper</span><span class="p">()</span><span class="o">.</span><span class="n">home_joints</span><span class="p">()</span> <span class="c1"># homes gripper joints</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">get_gripper</span><span class="p">()</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="c1"># open gripper</span>
+
+    <span class="n">r</span><span class="o">.</span><span class="n">move_to_joint_position</span><span class="p">([</span><span class="o">-</span><span class="mf">8.48556818e-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">8.88127666e-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.59622769e-01</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.57569726e+00</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.82374882e-04</span><span class="p">,</span>  <span class="mf">2.15975946e+00</span><span class="p">,</span>  <span class="mf">4.36766917e-01</span><span class="p">])</span> <span class="c1"># move robot to the specified pose</span>
+</pre></div>
+</div>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="usage_demo.html">1. Basic Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="DOC.html">2. Python API Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="DOC.html#panda-robot">2.1. panda_robot</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="DOC.html#pandaarm">2.1.1. PandaArm</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference external" href="https://justagist.github.io/panda_robot">Introduction</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://justagist.github.io/panda_robot#basic-usage">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DOC.html">Python API Documentation</a></li>
 </ul>
 </div>
 </div>
@@ -222,7 +233,7 @@ providing direct sim-to-real and real-to-sim code transfer.</li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="usage_demo.html" class="btn btn-neutral float-right" title="1. Basic Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="DOC.html" class="btn btn-neutral float-right" title="Python API Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
     </div>

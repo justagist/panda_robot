@@ -1,12 +1,13 @@
-
 Panda Robot
 ===========
 
 A Python interface package built over the `franka_ros_interface`_ package for controlling and handling the Franka Emika Panda robot. Also works directly with `panda_simulator`_.
 
+The package provides an extensive and unified API for controlling and managing the Franka Emika Robot (and gripper) using pre-defined low-level controllers (position, velocity, torque, joint impedance), MoveIt planners, and JointTrajectory action service.
+
 **Features**
 
-- Provides simple-intuitive interface classes with methods to directly and easily control the robot.
+- Provides simple-intuitive interface classes with methods to directly and easily control the robot using low-level controllers, MoveIt planners, or Trajectory action client.
 - Get real-time robot state, joint state, controller state, kinematics, dynamics, etc.
 - Provides Kinematics computation (using `kdl`_).
 - Integrated with gripper control.
@@ -16,12 +17,34 @@ A Python interface package built over the `franka_ros_interface`_ package for co
 
 Go to `Project Source Code`_.
 
-.. toctree::
-   :maxdepth: 4
-   :caption: Contents:
-   :numbered:
+Basic Usage
+===========
 
-   usage_demo
+See `scripts`_ folder to see usage of some of the available methods
+
+.. code-block:: python
+
+    import rospy
+    from aml_robot.panda_robot import PandaArm
+
+    if __name__ == '__main__':
+        rospy.init_node("panda_demo") # initialise ros node
+
+        r = PandaArm() # create PandaArm instance
+
+        r.move_to_neutral() # moves robot to neutral pose; uses moveit if available, else JointTrajectory action client
+
+        r.get_gripper().home_joints() # homes gripper joints
+        r.get_gripper().open() # open gripper
+
+        r.move_to_joint_position([-8.48556818e-02, -8.88127666e-02, -6.59622769e-01, -1.57569726e+00, -4.82374882e-04,  2.15975946e+00,  4.36766917e-01]) # move robot to the specified pose
+
+.. toctree::
+   :caption: Contents:
+   :titlesonly:
+
+   Introduction <https://justagist.github.io/panda_robot>
+   Basic Usage <https://justagist.github.io/panda_robot#basic-usage>
    DOC
 
 Indices and tables
@@ -56,6 +79,8 @@ Copyright (c) 2019-2020, Saif Sidhik
 
 .. _Python API Documentation: https://justagist.github.io/panda_robot
 .. _Project Source Code: https://github.com/justagist/panda_robot
+
+.. _scripts: https://github.com/justagist/panda_robot/tree/master/scripts
 
 
 .. |License| image:: https://img.shields.io/badge/License-Apache2.0-blue.svg
