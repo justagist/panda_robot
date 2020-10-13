@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html4" lang="en" >
 <head>
   <meta charset="utf-8">
   <script type="text/javascript">
@@ -19,18 +18,24 @@
     </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Python Module Index &mdash; Panda Robot 0.0.1-beta documentation</title>
+  <title>1. Basic Usage &mdash; Panda Robot 0.0.1-beta documentation</title>
   
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
 
   
   
   
   
-    <link rel="canonical" href="justagist.github.io/panda_robot/py-modindex.html"/>
+    <link rel="canonical" href="justagist.github.io/panda_robot/usage_demo.html"/>
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -42,19 +47,10 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
- 
-
-    <script type="text/javascript">
-      DOCUMENTATION_OPTIONS.COLLAPSE_INDEX = true;
-    </script>
-
-
+    <link rel="next" title="2. Python API Documentation" href="DOC.html" />
+    <link rel="prev" title="Panda Robot" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -68,7 +64,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Panda Robot
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Panda Robot
           
 
           
@@ -95,6 +91,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -103,10 +100,11 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="DOC.html">1. Python API Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="DOC.html#module-panda_robot">1.1. panda_robot</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="DOC.html#pandaarm">1.1.1. PandaArm</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DOC.html">2. Python API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="DOC.html#panda-robot">2.1. panda_robot</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="DOC.html#pandaarm">2.1.1. PandaArm</a></li>
 </ul>
 </li>
 </ul>
@@ -116,6 +114,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -154,12 +153,16 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Python Module Index</li>
+      <li>1. Basic Usage</li>
     
     
       <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/usage_demo.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -171,23 +174,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-
-   <h1>Python Module Index</h1>
-
-   <div class="modindex-jumpbox">
-   <a href="#cap-p"><strong>p</strong></a>
-   </div>
-
-   <table class="indextable modindextable">
-     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
-     <tr class="cap" id="cap-p"><td></td><td>
-       <strong>p</strong></td><td></td></tr>
-     <tr>
-       <td></td>
-       <td>
-       <a href="DOC.html#module-panda_robot"><code class="xref">panda_robot</code></a></td><td>
-       <em></em></td></tr>
-   </table>
+  <div class="section" id="basic-usage">
+<h1>1. Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h1>
+<p>See <cite>scripts/</cite> folder to see usage of some of the available methods</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">some_function</span><span class="p">():</span>
+    <span class="n">interesting</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="hll">    <span class="nb">print</span> <span class="s1">&#39;This line is highlighted.&#39;</span>
+</span>    <span class="nb">print</span> <span class="s1">&#39;This one is not...&#39;</span>
+<span class="hll">    <span class="nb">print</span> <span class="s1">&#39;...but this one is.&#39;</span>
+</span></pre></div>
+</div>
+</div>
 
 
            </div>
@@ -195,16 +192,33 @@
           </div>
           <footer>
   
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="DOC.html" class="btn btn-neutral float-right" title="2. Python API Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Panda Robot" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2020, Saif Sidhik
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -215,7 +229,6 @@
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
