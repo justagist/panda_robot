@@ -21,6 +21,7 @@ Go to `Project Source Code`_.
    :caption: Contents:
    :numbered:
 
+   usage_demo
    DOC
 
 Indices and tables
