@@ -41,9 +41,9 @@ Clone package to `src` folder of your catkin workspace. In catkin root run:
 Example: Testing interface in terminal
 
 ```bash
->> python # start interactive python session
+>> python # start interactive python session; make sure the correct ros workspace is sourced.
 >> import rospy
->> from aml_robot.panda_robot import PandaArm
+>> from panda_robot import PandaArm
 >> rospy.init_node("panda_demo") # initialise ros node
 
 >> r = PandaArm() # create PandaArm instance
