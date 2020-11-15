@@ -18,7 +18,7 @@
 import rospy
 import numpy as np
 from copy import deepcopy
-from aml_robot.panda_robot import PandaArm
+from panda_robot import PandaArm
 
 if __name__ == '__main__':
     
