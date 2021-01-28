@@ -18,7 +18,7 @@
     </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Python API Documentation &mdash; Panda Robot 0.0.1-beta documentation</title>
+  <title>Python API Documentation &mdash; Panda Robot 0.7.1-beta documentation</title>
   
 
   
@@ -73,7 +73,7 @@
             
             
               <div class="version">
-                0.0.1
+                0.7.1
               </div>
             
           
@@ -102,7 +102,13 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference external" href="https://justagist.github.io/panda_robot">Introduction</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://justagist.github.io/panda_robot#basic-usage">Basic Usage</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Python API Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-panda_robot">panda_robot</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pandaarm">PandaArm</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             
@@ -177,18 +183,17 @@
 <dl class="class">
 <dt id="panda_robot.PandaArm">
 <em class="property">class </em><code class="descclassname">panda_robot.</code><code class="descname">PandaArm</code><span class="sig-paren">(</span><em>on_state_callback=None</em>, <em>reset_frames=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/panda_robot/panda_robot.html#PandaArm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#panda_robot.PandaArm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Constructor class.  Methods from <a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_interface.ArmInterface" title="(in Franka ROS Interface v1.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">franka_interface.ArmInterface</span></code></a> are also available to this object.</p>
+<dd><p>Constructor class.  Methods from <a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_interface.ArmInterface" title="(in Franka ROS Interface v0.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">franka_interface.ArmInterface</span></code></a> are also available to this object.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Bases:</th><td class="field-body"><p class="first"><a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_interface.ArmInterface" title="(in Franka ROS Interface v1.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">franka_interface.ArmInterface</span></code></a></p>
+<tr class="field-odd field"><th class="field-name">Bases:</th><td class="field-body"><p class="first"><a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_interface.ArmInterface" title="(in Franka ROS Interface v0.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">franka_interface.ArmInterface</span></code></a></p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>on_state_callback</strong> – optional callback function to run on each state update</li>
-<li><strong>reset_frames</strong> – if True, EE frame is reset using <code class="xref py py-class docutils literal notranslate"><span class="pre">franka_interface.ArmInteface</span></code>
-(using <a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_interface.ArmInterface" title="(in Franka ROS Interface v1.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">franka_interface.ArmInterface</span></code></a> and <a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_tools.FrankaFramesInterface" title="(in Franka ROS Interface v1.0.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">franka_tools.FrankaFramesInterface</span></code></a>.)</li>
+<li><strong>reset_frames</strong> – if True, EE frame is reset to nominal end-effector frame using using <a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_interface.ArmInterface" title="(in Franka ROS Interface v0.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">franka_interface.ArmInterface</span></code></a> and <a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_tools.FrankaFramesInterface" title="(in Franka ROS Interface v0.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">franka_tools.FrankaFramesInterface</span></code></a>.</li>
 </ul>
 </td>
 </tr>
@@ -276,8 +281,9 @@
 </tbody>
 </table>
 <p>If real_robot is False, this is a simple finite difference based velocity
-computation. Please note that this might produce a bug since self._goal_ori_old gets
-updated only if get_ee_vel is called.</p>
+computation. Please note that this might produce a bug since some values gets
+updated only if ee_velocity() is called. [TODO: This can be fixed by moving the update
+to the state callback method.]</p>
 </dd></dl>
 
 <dl class="method">
@@ -413,7 +419,7 @@ commands</p>
 </tr>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>joint_angles</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>]</em>) – joint angles (optional) for which the ee pose is to be computed</li>
-<li><strong>ori_type</strong> – to specify the orientation representation to return</li>
+<li><strong>ori_type</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – to specify the orientation representation to return (‘quat’,’mat’,’eul’)</li>
 </ul>
 </td>
 </tr>
@@ -430,7 +436,7 @@ commands</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">gripper instance</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_interface.GripperInterface" title="(in Franka ROS Interface v1.0.0)">franka_interface.GripperInterface</a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_interface.GripperInterface" title="(in Franka ROS Interface v0.7.1)">franka_interface.GripperInterface</a></td>
 </tr>
 </tbody>
 </table>
@@ -555,20 +561,6 @@ commands</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cmd</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>]</em>) – desired joint postion changes, ordered from joint1 to joint7</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="panda_robot.PandaArm.move_to_joint_position">
-<code class="descname">move_to_joint_position</code><span class="sig-paren">(</span><em>joint_angles</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/panda_robot/panda_robot.html#PandaArm.move_to_joint_position"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#panda_robot.PandaArm.move_to_joint_position" title="Permalink to this definition">¶</a></dt>
-<dd><p>Move to joint position specified (using low-level position control)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>joint_angles</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>]</em>) – desired joint positions, ordered from joint1 to joint7</td>
 </tr>
 </tbody>
 </table>
@@ -717,7 +709,7 @@ commands</p>
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2020, Saif Sidhik
+        &copy; Copyright 2019-2021, Saif Sidhik
 
     </p>
   </div>

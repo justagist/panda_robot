@@ -7,7 +7,7 @@ panda_robot
    :members:
 
 PandaArm
-^^^^^^^^
+^^^^^^^^^^^^
 
 .. autoclass:: PandaArm
    :members: 

@@ -3,6 +3,8 @@ Panda Robot
 
 A Python interface package built over the `franka_ros_interface`_ package for controlling and handling the Franka Emika Panda robot. Also works directly with `panda_simulator`_.
 
+*NOTE: This version requires Franka ROS Interface v0.7.1. For usage with older versions, use Panda Robot branch 'v0.6.0' from Github.*
+
 The package provides an extensive and unified API for controlling and managing the Franka Emika Robot (and gripper) using pre-defined low-level controllers (position, velocity, torque, joint impedance), MoveIt planners, and JointTrajectory action service.
 
 **Features**
@@ -34,14 +36,20 @@ See `scripts`_ folder to see usage of some of the available methods
 
         r.move_to_neutral() # moves robot to neutral pose; uses moveit if available, else JointTrajectory action client
 
+        pos,ori = r.ee_pose() # get current end-effector pose (3d position and orientation quaternion of end-effector frame in base frame)
+
         r.get_gripper().home_joints() # homes gripper joints
         r.get_gripper().open() # open gripper
 
         r.move_to_joint_position([-8.48556818e-02, -8.88127666e-02, -6.59622769e-01, -1.57569726e+00, -4.82374882e-04,  2.15975946e+00,  4.36766917e-01]) # move robot to the specified pose
 
+        raw_input("Hit enter to continue") # hit enter to continue
+
+        r.move_to_cartesian_pose(pos,ori) # move the robot end-effector to pose specified by 'pos','ori'
+
 .. toctree::
    :caption: Contents:
-   :titlesonly:
+   :hidden:
 
    Introduction <https://justagist.github.io/panda_robot>
    Basic Usage <https://justagist.github.io/panda_robot#basic-usage>
@@ -60,7 +68,7 @@ Go to `Project Source Code`_.
 
 |License|
 
-Copyright (c) 2019-2020, Saif Sidhik
+Copyright (c) 2019-2021, Saif Sidhik
 
 .. _panda_simulator: https://github.com/justagist/panda_simulator
 .. _KDL library: http://wiki.ros.org/kdl
@@ -85,4 +93,3 @@ Copyright (c) 2019-2020, Saif Sidhik
 
 .. |License| image:: https://img.shields.io/badge/License-Apache2.0-blue.svg
    :target: https://opensource.org/licenses/Apache-2.0
-

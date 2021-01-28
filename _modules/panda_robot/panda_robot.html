@@ -18,7 +18,7 @@
     </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>panda_robot.panda_robot &mdash; Panda Robot 0.0.1-beta documentation</title>
+  <title>panda_robot.panda_robot &mdash; Panda Robot 0.7.1-beta documentation</title>
   
 
   
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.0.1
+                0.7.1
               </div>
             
           
@@ -101,7 +101,13 @@
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://justagist.github.io/panda_robot">Introduction</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://justagist.github.io/panda_robot#basic-usage">Basic Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../DOC.html">Python API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../DOC.html">Python API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../DOC.html#module-panda_robot">panda_robot</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../DOC.html#pandaarm">PandaArm</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             
@@ -178,7 +184,7 @@
 <span class="c1"># **************************************************************************/</span>
 
 <span class="c1"># /***************************************************************************</span>
-<span class="c1"># Copyright (c) 2019-2020, Saif Sidhik</span>
+<span class="c1"># Copyright (c) 2019-2021, Saif Sidhik</span>
 <span class="c1"># Copyright (c) 2013-2014, Rethink Robotics</span>
  
 <span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
@@ -224,8 +230,7 @@
 <span class="sd">        :bases: :py:class:`franka_interface.ArmInterface`</span>
 
 <span class="sd">        :param on_state_callback: optional callback function to run on each state update</span>
-<span class="sd">        :param reset_frames: if True, EE frame is reset using :py:class:`franka_interface.ArmInteface`</span>
-<span class="sd">            (using :py:class:`franka_interface.ArmInterface` and :py:class:`franka_tools.FrankaFramesInterface`.)</span>
+<span class="sd">        :param reset_frames: if True, EE frame is reset to nominal end-effector frame using using :py:class:`franka_interface.ArmInterface` and :py:class:`franka_tools.FrankaFramesInterface`.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -272,7 +277,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_time_now_old</span> <span class="o">=</span> <span class="n">time_in_seconds</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">reset_frames</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_EE_frame_to_link</span><span class="p">(</span><span class="s1">&#39;panda_hand&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_gripper</span> <span class="k">else</span> <span class="s1">&#39;panda_link8&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_EE_frame_to_link</span><span class="p">(</span><span class="s1">&#39;panda_NE&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="PandaArm.enable_robot"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.enable_robot">[docs]</a>    <span class="k">def</span> <span class="nf">enable_robot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -293,7 +298,35 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_robot_params</span><span class="p">()</span><span class="o">.</span><span class="n">_in_sim</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_frames_interface</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># Frames interface is not implemented for simulation controller</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span> <span class="o">=</span> <span class="n">PandaKinematics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_robot_params</span><span class="p">()</span><span class="o">.</span><span class="n">_in_sim</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span> <span class="o">=</span> <span class="n">PandaKinematics</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;_hand&#39;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_gripper</span> <span class="k">else</span> <span class="s1">&#39;_link8&#39;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># match the kinematics end-effector with the libfranka-defined EE by adding segments to kdl chain</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_gripper</span><span class="p">:</span>
+                <span class="n">ee_frame_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_EE&quot;</span>
+                <span class="n">F_T_NE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_F_T_NE</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">)</span>
+                <span class="n">NE_T_EE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_NE_T_EE</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">)</span>
+                <span class="n">ee_conf</span> <span class="o">=</span> <span class="p">[{</span>
+                    <span class="s2">&quot;child_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;_NE&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;origin_pos&quot;</span><span class="p">:</span> <span class="n">F_T_NE</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                    <span class="s2">&quot;origin_ori&quot;</span><span class="p">:</span><span class="n">F_T_NE</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span>
+                    <span class="s2">&quot;joint_name&quot;</span><span class="p">:</span><span class="s2">&quot;fixed_NE_jnt&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;parent_name&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;_link8&quot;</span>
+                <span class="p">},</span>
+                    <span class="p">{</span>
+                    <span class="s2">&quot;child_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;_EE&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;origin_pos&quot;</span><span class="p">:</span> <span class="n">NE_T_EE</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                    <span class="s2">&quot;origin_ori&quot;</span><span class="p">:</span><span class="n">NE_T_EE</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">],</span>
+                    <span class="s2">&quot;joint_name&quot;</span><span class="p">:</span><span class="s2">&quot;fixed_EE_jnt&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;parent_name&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s2">&quot;_NE&quot;</span>
+                <span class="p">}</span>
+                <span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span> <span class="o">=</span> <span class="n">PandaKinematics</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="p">,</span> <span class="n">ee_frame_name</span><span class="p">,</span> <span class="n">additional_segment_config</span><span class="o">=</span><span class="n">ee_conf</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_kinematics</span> <span class="o">=</span> <span class="n">PandaKinematics</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_link8&#39;</span><span class="p">)</span>
 
         <span class="c1"># self.set_command_timeout(0.2)</span>
 
@@ -333,7 +366,7 @@
 
 <div class="viewcode-block" id="PandaArm.untuck"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.untuck">[docs]</a>    <span class="k">def</span> <span class="nf">untuck</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Move to neutral pose (using trajectory controller, or moveit (if moveit is available))</span>
+<span class="sd">        Move to neutral pose (using trajectory controller, or moveit (if moveit is available))</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">move_to_neutral</span><span class="p">()</span></div>
 
@@ -356,7 +389,6 @@
         <span class="k">return</span> <span class="n">gripper_state</span></div>
 
 <div class="viewcode-block" id="PandaArm.set_gripper_speed"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.set_gripper_speed">[docs]</a>    <span class="k">def</span> <span class="nf">set_gripper_speed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">speed</span><span class="p">):</span>
-
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Set velocity for gripper motion</span>
 
@@ -374,6 +406,8 @@
         <span class="n">ori</span> <span class="o">=</span> <span class="n">tipstate_msg</span><span class="o">.</span><span class="n">pose</span><span class="p">[</span><span class="s1">&#39;orientation&#39;</span><span class="p">]</span>
         <span class="n">force</span> <span class="o">=</span> <span class="n">tipstate_msg</span><span class="o">.</span><span class="n">effort</span><span class="p">[</span><span class="s1">&#39;force&#39;</span><span class="p">]</span>
         <span class="n">torque</span> <span class="o">=</span> <span class="n">tipstate_msg</span><span class="o">.</span><span class="n">effort</span><span class="p">[</span><span class="s1">&#39;torque&#39;</span><span class="p">]</span>
+        <span class="n">tip_state</span><span class="p">[</span><span class="s1">&#39;force_K&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">tipstate_msg</span><span class="o">.</span><span class="n">effort_in_K_frame</span><span class="p">[</span><span class="s1">&#39;force&#39;</span><span class="p">]</span> 
+        <span class="n">tip_state</span><span class="p">[</span><span class="s1">&#39;torque_K&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">tipstate_msg</span><span class="o">.</span><span class="n">effort_in_K_frame</span><span class="p">[</span><span class="s1">&#39;torque&#39;</span><span class="p">]</span> 
 
         <span class="n">tip_state</span><span class="p">[</span><span class="s1">&#39;orientation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">ori</span><span class="o">.</span><span class="n">w</span><span class="p">,</span> <span class="n">ori</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">ori</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">ori</span><span class="o">.</span><span class="n">z</span><span class="p">])</span>
         <span class="n">tip_state</span><span class="p">[</span><span class="s1">&#39;linear_vel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tipstate_msg</span><span class="o">.</span><span class="n">velocity</span><span class="p">[</span><span class="s1">&#39;linear&#39;</span><span class="p">]</span>
@@ -407,23 +441,16 @@
 
         <span class="n">now</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Time</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
-        <span class="n">joint_angles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">angles</span><span class="p">()</span>
-        <span class="n">joint_velocities</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocities</span><span class="p">()</span>
-        <span class="n">joint_efforts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">joint_efforts</span><span class="p">()</span>
-        <span class="n">tip_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tip_state</span><span class="p">()</span>
-
-        <span class="n">joint_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">joint_names</span><span class="p">()</span>
-
         <span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="n">ls</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">[</span><span class="n">ls</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">joint_names</span><span class="p">]</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">ls</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">joint_names</span><span class="p">()]</span>
 
         <span class="n">state</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;position&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">joint_angles</span>
-        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;velocity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">joint_velocities</span>
-        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;effort&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">to_list</span><span class="p">(</span><span class="n">joint_efforts</span><span class="p">))</span>
+        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;position&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">angles</span><span class="p">()</span>
+        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;velocity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocities</span><span class="p">()</span>
+        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;effort&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">to_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">joint_efforts</span><span class="p">()))</span>
         <span class="n">state</span><span class="p">[</span><span class="s1">&#39;jacobian&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
         <span class="n">state</span><span class="p">[</span><span class="s1">&#39;inertia&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inertia</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;tip_state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tip_state</span>
+        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;tip_state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tip_state</span><span class="p">()</span>
         <span class="n">state</span><span class="p">[</span><span class="s1">&#39;coriolis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coriolis_comp</span><span class="p">()</span>
         <span class="n">state</span><span class="p">[</span><span class="s1">&#39;gravity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gravity_comp</span><span class="p">()</span>
 
@@ -667,15 +694,6 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">set_joint_torques</span><span class="p">(</span><span class="n">torque_command</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="PandaArm.move_to_joint_position"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.move_to_joint_position">[docs]</a>    <span class="k">def</span> <span class="nf">move_to_joint_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_angles</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Move to joint position specified (using low-level position control)</span>
-
-<span class="sd">        :param joint_angles: desired joint positions, ordered from joint1 to joint7</span>
-<span class="sd">        :type joint_angles: [float]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">move_to_joint_positions</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">joint_names</span><span class="p">(),</span> <span class="n">joint_angles</span><span class="p">)))</span></div>
-
 <div class="viewcode-block" id="PandaArm.ee_pose"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.ee_pose">[docs]</a>    <span class="k">def</span> <span class="nf">ee_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :return: end-effector pose as position and quaternion in global frame</span>
@@ -688,8 +706,6 @@
 
         <span class="k">return</span> <span class="n">ee_point</span><span class="p">,</span> <span class="n">ee_ori</span></div>
 
-
-
 <div class="viewcode-block" id="PandaArm.ee_velocity"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.ee_velocity">[docs]</a>    <span class="k">def</span> <span class="nf">ee_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">real_robot</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :return: end effector velocity (linear and angular) computed using finite difference</span>
@@ -699,8 +715,9 @@
 <span class="sd">        :type real_robot: bool</span>
 
 <span class="sd">        If real_robot is False, this is a simple finite difference based velocity</span>
-<span class="sd">        computation. Please note that this might produce a bug since self._goal_ori_old gets</span>
-<span class="sd">        updated only if get_ee_vel is called.</span>
+<span class="sd">        computation. Please note that this might produce a bug since some values gets</span>
+<span class="sd">        updated only if ee_velocity() is called. [TODO: This can be fixed by moving the update</span>
+<span class="sd">        to the state callback method.]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">real_robot</span><span class="p">:</span>
@@ -733,7 +750,8 @@
 
 <span class="sd">        :param joint_angles: joint angles (optional) for which the ee pose is to be computed</span>
 <span class="sd">        :type joint_angles: [float]</span>
-<span class="sd">        :param ori_type: to specify the orientation representation to return</span>
+<span class="sd">        :param ori_type: to specify the orientation representation to return (&#39;quat&#39;,&#39;mat&#39;,&#39;eul&#39;)</span>
+<span class="sd">        :type ori_type: str</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">joint_angles</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 
@@ -755,14 +773,10 @@
         <span class="n">rotation</span> <span class="o">=</span> <span class="n">quaternion</span><span class="o">.</span><span class="n">quaternion</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">ori_type</span> <span class="o">==</span> <span class="s1">&#39;mat&#39;</span><span class="p">:</span>
-
             <span class="n">rotation</span> <span class="o">=</span> <span class="n">quaternion</span><span class="o">.</span><span class="n">as_rotation_matrix</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span>
 
         <span class="k">elif</span> <span class="n">ori_type</span> <span class="o">==</span> <span class="s1">&#39;eul&#39;</span><span class="p">:</span>
-
             <span class="n">rotation</span> <span class="o">=</span> <span class="n">quaternion</span><span class="o">.</span><span class="n">as_euler_angles</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">ori_type</span> <span class="o">==</span> <span class="s1">&#39;quat&#39;</span><span class="p">:</span>
-            <span class="k">pass</span>
 
         <span class="k">return</span> <span class="n">position</span><span class="p">,</span> <span class="n">rotation</span></div>
 
@@ -882,7 +896,7 @@
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2020, Saif Sidhik
+        &copy; Copyright 2019-2021, Saif Sidhik
 
     </p>
   </div>

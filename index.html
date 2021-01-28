@@ -18,7 +18,7 @@
     </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Panda Robot &mdash; Panda Robot 0.0.1-beta documentation</title>
+  <title>Panda Robot &mdash; Panda Robot 0.7.1-beta documentation</title>
   
 
   
@@ -73,7 +73,7 @@
             
             
               <div class="version">
-                0.0.1
+                0.7.1
               </div>
             
           
@@ -102,7 +102,13 @@
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://justagist.github.io/panda_robot">Introduction</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://justagist.github.io/panda_robot#basic-usage">Basic Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="DOC.html">Python API Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DOC.html">Python API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="DOC.html#module-panda_robot">panda_robot</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="DOC.html#pandaarm">PandaArm</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             
@@ -171,6 +177,7 @@
   <div class="section" id="panda-robot">
 <h1>Panda Robot<a class="headerlink" href="#panda-robot" title="Permalink to this headline">¶</a></h1>
 <p>A Python interface package built over the <a class="reference external" href="https://github.com/justagist/franka_ros_interface">franka_ros_interface</a> package for controlling and handling the Franka Emika Panda robot. Also works directly with <a class="reference external" href="https://github.com/justagist/panda_simulator">panda_simulator</a>.</p>
+<p><em>NOTE: This version requires Franka ROS Interface v0.7.1. For usage with older versions, use Panda Robot branch ‘v0.6.0’ from Github.</em></p>
 <p>The package provides an extensive and unified API for controlling and managing the Franka Emika Robot (and gripper) using pre-defined low-level controllers (position, velocity, torque, joint impedance), MoveIt planners, and JointTrajectory action service.</p>
 <p><strong>Features</strong></p>
 <ul class="simple">
@@ -197,19 +204,19 @@ providing direct sim-to-real and real-to-sim code transfer.</li>
 
     <span class="n">r</span><span class="o">.</span><span class="n">move_to_neutral</span><span class="p">()</span> <span class="c1"># moves robot to neutral pose; uses moveit if available, else JointTrajectory action client</span>
 
+    <span class="n">pos</span><span class="p">,</span><span class="n">ori</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">ee_pose</span><span class="p">()</span> <span class="c1"># get current end-effector pose (3d position and orientation quaternion of end-effector frame in base frame)</span>
+
     <span class="n">r</span><span class="o">.</span><span class="n">get_gripper</span><span class="p">()</span><span class="o">.</span><span class="n">home_joints</span><span class="p">()</span> <span class="c1"># homes gripper joints</span>
     <span class="n">r</span><span class="o">.</span><span class="n">get_gripper</span><span class="p">()</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="c1"># open gripper</span>
 
     <span class="n">r</span><span class="o">.</span><span class="n">move_to_joint_position</span><span class="p">([</span><span class="o">-</span><span class="mf">8.48556818e-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">8.88127666e-02</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.59622769e-01</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.57569726e+00</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.82374882e-04</span><span class="p">,</span>  <span class="mf">2.15975946e+00</span><span class="p">,</span>  <span class="mf">4.36766917e-01</span><span class="p">])</span> <span class="c1"># move robot to the specified pose</span>
+
+    <span class="n">raw_input</span><span class="p">(</span><span class="s2">&quot;Hit enter to continue&quot;</span><span class="p">)</span> <span class="c1"># hit enter to continue</span>
+
+    <span class="n">r</span><span class="o">.</span><span class="n">move_to_cartesian_pose</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="n">ori</span><span class="p">)</span> <span class="c1"># move the robot end-effector to pose specified by &#39;pos&#39;,&#39;ori&#39;</span>
 </pre></div>
 </div>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference external" href="https://justagist.github.io/panda_robot">Introduction</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://justagist.github.io/panda_robot#basic-usage">Basic Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="DOC.html">Python API Documentation</a></li>
-</ul>
 </div>
 </div>
 <div class="section" id="indices-and-tables">
@@ -222,7 +229,7 @@ providing direct sim-to-real and real-to-sim code transfer.</li>
 <p>Go to <a class="reference external" href="https://github.com/justagist/panda_robot">Project Source Code</a>.</p>
 <p><strong>LICENSE:</strong></p>
 <p><a class="reference external" href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache2.0-blue.svg" /></a></p>
-<p>Copyright (c) 2019-2020, Saif Sidhik</p>
+<p>Copyright (c) 2019-2021, Saif Sidhik</p>
 </div>
 
 
@@ -244,7 +251,7 @@ providing direct sim-to-real and real-to-sim code transfer.</li>
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2020, Saif Sidhik
+        &copy; Copyright 2019-2021, Saif Sidhik
 
     </p>
   </div>
