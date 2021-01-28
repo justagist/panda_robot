@@ -8,7 +8,7 @@
 # **************************************************************************/
 
 # /***************************************************************************
-# Copyright (c) 2019-2020, Saif Sidhik
+# Copyright (c) 2019-2021, Saif Sidhik
 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -46,9 +46,19 @@ class PandaKinematics(object):
     This will match with the RobotState if the tip frames are the same.
     Use frame interface from franka_tools (franka_ros_interface) to set EE
     frame to the same as the tip of the URDF loaded.
+
+    :param limb: The ArmInterface instance to be used
+    :type limb: franka_interface.ArmInterface
+    :param ee_frame_name: Name of the end-effector link
+    :type ee_frame_name: str
+    :param additional_segment_config: dictionary specifying additional details for custom links to be added to KDL chain (see source code of PandaRobot), defaults to None
+    :type additional_segment_config: dict, optional
+    :param description: optional path to description file for the robot, defaults to None
+    :type description: str, optional
     
     """
-    def __init__(self, limb, description = None):
+
+    def __init__(self, limb, ee_frame_name="panda_link8", additional_segment_config=None, description=None):
 
         if description is None:
             self._franka = URDF.from_parameter_server(key='robot_description')
@@ -56,8 +66,19 @@ class PandaKinematics(object):
             self._franka = URDF.from_xml_file(description)
 
         self._kdl_tree = kdl_tree_from_urdf_model(self._franka)
-        self._base_link = self._franka.get_root()
-        self._tip_link = limb.name + ('_hand' if limb.has_gripper else '_link8')
+
+        if additional_segment_config is not None:
+            for c in additional_segment_config:
+                q = quaternion.from_rotation_matrix(c["origin_ori"]).tolist()
+                kdl_origin_frame = kdl.Frame(kdl.Rotation.Quaternion(q.x, q.y, q.z, q.w),
+                                             kdl.Vector(*(c["origin_pos"].tolist())))
+                kdl_sgm = kdl.Segment(c["child_name"], kdl.Joint(c["joint_name"]),
+                                      kdl_origin_frame, kdl.RigidBodyInertia())
+                self._kdl_tree.addSegment(
+                    kdl_sgm, c["parent_name"])
+
+        self._base_link = self._robot_model.get_root()
+        self._tip_link = ee_frame_name
         self._tip_frame = PyKDL.Frame()
         self._arm_chain = self._kdl_tree.getChain(self._base_link,
                                                   self._tip_link)
