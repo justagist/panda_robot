@@ -24,6 +24,7 @@
 # **************************************************************************/
 
 import numpy as np
+import quaternion
 import PyKDL
 
 import rospy
@@ -70,10 +71,10 @@ class PandaKinematics(object):
         if additional_segment_config is not None:
             for c in additional_segment_config:
                 q = quaternion.from_rotation_matrix(c["origin_ori"]).tolist()
-                kdl_origin_frame = kdl.Frame(kdl.Rotation.Quaternion(q.x, q.y, q.z, q.w),
-                                             kdl.Vector(*(c["origin_pos"].tolist())))
-                kdl_sgm = kdl.Segment(c["child_name"], kdl.Joint(c["joint_name"]),
-                                      kdl_origin_frame, kdl.RigidBodyInertia())
+                kdl_origin_frame = PyKDL.Frame(PyKDL.Rotation.Quaternion(q.x, q.y, q.z, q.w),
+                                             PyKDL.Vector(*(c["origin_pos"].tolist())))
+                kdl_sgm = PyKDL.Segment(c["child_name"], PyKDL.Joint(c["joint_name"]),
+                                      kdl_origin_frame, PyKDL.RigidBodyInertia())
                 self._kdl_tree.addSegment(
                     kdl_sgm, c["parent_name"])
 
