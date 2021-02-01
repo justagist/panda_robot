@@ -77,7 +77,7 @@ class PandaKinematics(object):
                 self._kdl_tree.addSegment(
                     kdl_sgm, c["parent_name"])
 
-        self._base_link = self._robot_model.get_root()
+        self._base_link = self._franka.get_root()
         self._tip_link = ee_frame_name
         self._tip_frame = PyKDL.Frame()
         self._arm_chain = self._kdl_tree.getChain(self._base_link,

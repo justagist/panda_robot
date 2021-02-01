@@ -161,7 +161,7 @@ class PandaArm(franka_interface.ArmInterface):
 
         # self.set_command_timeout(0.2)
 
-        self._transform_ft_vals = False
+        # self._transform_ft_vals = False
 
         self._tip_state = {}
 
@@ -244,31 +244,28 @@ class PandaArm(franka_interface.ArmInterface):
         tip_state['angular_vel'] = tipstate_msg.velocity['angular']
         tip_state['time'] = {'secs': time.secs, 'nsecs': time.nsecs}
 
-        # ----- transform ft to right hand frame ('/right_hand')
-
-        if self._transform_ft_vals:
-            rotation_mat = quaternion.as_rotation_matrix(
-                np.quaternion(ori.w, ori.x, ori.y, ori.z))
-            tip_state['force'] = np.dot(rotation_mat, np.asarray(
-                [-force[0], -force[1], -force[2]]))
-            tip_state['torque'] = np.dot(rotation_mat, np.asarray(
-                [-torque[0], -torque[1], -torque[2]]))
-        else:
-            tip_state['force'] = np.asarray([-force[0], -force[1], -force[2]])
-            tip_state['torque'] = np.asarray(
-                [-torque[0], -torque[1], -torque[2]])
-        tip_state['valid'] = True
-
+        # if self._transform_ft_vals:
+        #     rotation_mat = quaternion.as_rotation_matrix(
+        #         np.quaternion(ori.w, ori.x, ori.y, ori.z))
+        #     tip_state['force'] = np.dot(rotation_mat, np.asarray(
+        #         [-force[0], -force[1], -force[2]]))
+        #     tip_state['torque'] = np.dot(rotation_mat, np.asarray(
+        #         [-torque[0], -torque[1], -torque[2]]))
+        # else:
+        tip_state['force'] = np.asarray([-force[0], -force[1], -force[2]])
+        tip_state['torque'] = np.asarray(
+            [-torque[0], -torque[1], -torque[2]])
+        # tip_state['valid'] = True
         self._tip_state = copy.deepcopy(tip_state)
 
-    def enable_force_torque_transform_to_base_frame(self, boolval=True):
-        """
-        Enable transformation of force vector to base frame
+    # def enable_force_torque_transform_to_base_frame(self, boolval=True):
+    #     """
+    #     Enable transformation of force vector to base frame
 
-        :param boolval: set True to transform forces to base frame
-        :type boolval: bool
-        """
-        self._transform_ft_vals = boolval
+    #     :param boolval: set True to transform forces to base frame
+    #     :type boolval: bool
+    #     """
+    #     self._transform_ft_vals = boolval
 
     def _update_state(self):
 
@@ -291,11 +288,11 @@ class PandaArm(franka_interface.ArmInterface):
         state['ee_point'], state['ee_ori'] = self.ee_pose()
 
         tmp = state['jacobian'].dot(state['velocity'])
-        
-        state['ee_vel'], state['ee_omg'] = tmp[:3], tmp[3:]
 
-        state['ft_reading'] = [state['tip_state']
-                               ['force'], state['tip_state']['torque']]
+        state['ee_vel'], state['ee_omg'] = tmp[:3], tmp[3:]
+        # print self._tip_state.keys()
+        state['ft_reading'] = [self._tip_state
+                               ['force'], self._tip_state['torque']]
 
         state['gripper_state'] = self.gripper_state()
 
@@ -400,9 +397,9 @@ class PandaArm(franka_interface.ArmInterface):
         franka_interface.ArmInterface._on_joint_states(self, msg)
 
         if self._arm_configured:
+            self._update_tip_state(self.tip_states())
             self._state = self._update_state()
             self._on_state_callback(self._state)
-            self._update_tip_state(self.tip_states())
 
     def end_effector_link_name(self):
         """
@@ -572,6 +569,15 @@ class PandaArm(franka_interface.ArmInterface):
             self._time_now_old = time_now_new
 
         return ee_vel, ee_omg
+    
+    def move_to_joint_position(self, joint_angles):
+        """
+        Move to joint position specified (using low-level position control)
+        :param joint_angles: desired joint positions, ordered from joint1 to joint7
+        :type joint_angles: [float]
+        """
+        self.move_to_joint_positions(
+            dict(zip(self.joint_names(), joint_angles)))
 
     def forward_kinematics(self, joint_angles=None, ori_type='quat'):
         """
