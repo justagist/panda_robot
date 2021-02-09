@@ -58,8 +58,12 @@ if __name__ == '__main__':
             print " "
 
 
+        ## ===== IMPORTANT: ONLY USE ONE CONTROL METHOD AT A TIME IN A LOOP! COMMENT OUT ONE OF THE TWO LINES BELOW ALWAYS!
+
         r.set_joint_positions_velocities(vals, [0.0 for _ in range(7)]) # uncomment this line for impedance control
         # r.exec_position_cmd(vals) # comment out the above line and uncomment this for position control. NOTE: the provided trajectory is still not fully smooth, so the motion might be slightly jerky 
+
+        ## ==================================================================================================================
 
         count += 1
         rate.sleep()

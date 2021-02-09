@@ -2,7 +2,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/104807d6e9d74377ac40c827d9d261e3)](https://www.codacy.com/manual/justagist/panda_robot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=justagist/panda_robot&amp;utm_campaign=Badge_Grade) [![franka_ros_interface_version](https://img.shields.io/badge/franka_ros_interface-v0.7.1-yellow.svg)](https://github.com/justagist/franka_ros_interface)
 
-A Python interface package built over the [*franka_ros_interface*](https://github.com/justagist/franka_ros_interface) package, combining its different classes to provide a unified interface for controlling and handling the Franka Emika Panda robot. Also works directly with [*panda_simulator*](https://github.com/justagist/panda_simulator).
+A Python interface package built over the [*Franka ROS Interface*](https://github.com/justagist/franka_ros_interface) package, combining its different classes to provide a unified interface for controlling and handling the Franka Emika Panda robot. Also works directly with [*Panda Simulator*](https://github.com/justagist/panda_simulator).
 
 The package provides an extensive and unified [API](https://justagist.github.io/panda_robot/) for controlling and managing the Franka Emika Robot (and gripper) using pre-defined low-level controllers (position, velocity, torque, joint impedance), MoveIt planners, and JointTrajectory action service.
 
@@ -12,10 +12,10 @@ The package provides an extensive and unified [API](https://justagist.github.io/
 
 - Provides simple-intuitive interface classes with methods to directly and easily control the robot using low-level controllers, MoveIt planners, or Trajectory action client.
 - Get real-time robot state, joint state, controller state, kinematics, dynamics, etc.
-- Provides Kinematics computation (using [KDL library](http://wiki.ros.org/kdl)).
+- Provides Kinematics computation (using [KDL library](http://wiki.ros.org/kdl)). Automatically adjusts computations for the end-effector frames set in Dash or by code.
 - Integrated with gripper control.
 - Manage frames transformation and controller switching using simple utility functions.
-- Works directly on simulated robot when using [*panda_simulator*](https://github.com/justagist/panda_simulator) providing direct sim-to-real and real-to-sim code transfer.
+- Works directly on simulated robot when using [*Panda Simulator*](https://github.com/justagist/panda_simulator) providing direct sim-to-real and real-to-sim code transfer.
 
 **DOCUMENTATION**: https://justagist.github.io/panda_robot/
 
@@ -26,7 +26,8 @@ The package provides an extensive and unified [API](https://justagist.github.io/
  Watch video [here](https://www.youtube.com/watch?v=NdSbXC0r7tU)
 
 #### Dependency
-- [*franka_ros_interface*](https://github.com/justagist/franka_ros_interface) package
+
+- [*Franka ROS Interface*](https://github.com/justagist/franka_ros_interface) package. *This package should be installed from source (v0.7.1 or master branch) following all instructions in the [Installation](https://github.com/justagist/franka_ros_interface#installation) section.*
 
 ### Installation
 
@@ -38,6 +39,8 @@ Clone package to `src` folder of your catkin workspace. In catkin root run:
 ```
 
 ### Usage
+
+**Note: The franka_ros_interface 'driver' should be running in the 'master' environment in one terminal (See [Franka ROS Interface instructions](https://github.com/justagist/franka_ros_interface#usage) for details). Then, any code which uses PandaRobot or Franka ROS Interface should be run in 'master' or 'remote' environment (as appropriate).**
 
 Example: Testing interface in terminal
 
