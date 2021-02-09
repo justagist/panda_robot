@@ -22,7 +22,7 @@ Go to `Project Source Code`_.
 Installation
 ============
 
-- Install `Franka ROS Interface <https://github.com/justagist/franka_ros_interface>`_ package. *This package should be installed from source (v0.7.1 or master branch) following all instructions in the* `Installation <https://github.com/justagist/franka_ros_interface#installation>`_ *section.*
+- Install `Franka ROS Interface <https://github.com/justagist/franka_ros_interface>`_ package. *This package should be installed from source (v0.7.1-dev or master branch) following all instructions in the* `Installation <https://github.com/justagist/franka_ros_interface#installation>`_ *section.*
 
 - Clone the PandaRobot package to `src` folder of your catkin workspace. In catkin root run:
 
