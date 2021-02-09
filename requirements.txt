@@ -1,0 +1,7 @@
+numpy 
+numpy-quaternion 
+rospy-message-converter
+ros-melodic-moveit
+ros-melodic-moveit-plugins
+ros-melodic-moveit-planners
+PyKDL
