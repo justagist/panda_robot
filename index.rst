@@ -1,7 +1,7 @@
 Panda Robot
 ===========
 
-A Python interface package built over the `franka_ros_interface`_ package for controlling and handling the Franka Emika Panda robot. Also works directly with `panda_simulator`_.
+A Python interface package built over the `Franka ROS Interface <franka_ros_interface_>`_ package for controlling and handling the Franka Emika Panda robot. Also works directly with `Panda Simulator <panda_simulator_>`_.
 
 *NOTE: This version requires Franka ROS Interface v0.7.1. For usage with older versions, use Panda Robot branch 'v0.6.0' from Github.*
 
@@ -14,15 +14,29 @@ The package provides an extensive and unified API for controlling and managing t
 - Provides Kinematics computation (using `kdl`_).
 - Integrated with gripper control.
 - Manage frames transformation and controller switching using simple utility functions
-- Works directly on simulated robot when using `panda_simulator`_ 
+- Works directly on simulated robot when using `Panda Simulator <panda_simulator_>`_ 
   providing direct sim-to-real and real-to-sim code transfer.
 
 Go to `Project Source Code`_.
 
+Installation
+============
+
+- Install `Franka ROS Interface <https://github.com/justagist/franka_ros_interface>`_ package. *This package should be installed from source (v0.7.1 or master branch) following all instructions in the* `Installation <https://github.com/justagist/franka_ros_interface#installation>`_ *section.*
+
+- Clone the PandaRobot package to `src` folder of your catkin workspace. In catkin root run:
+
+.. code-block:: bash
+
+    $ catkin build
+    $ source devel/setup.bash
+
 Basic Usage
 ===========
 
-See `scripts`_ folder to see usage of some of the available methods
+**Note: The franka_ros_interface 'driver' should be running in the 'master' environment in one terminal (See** `Franka ROS Interface instructions <https://github.com/justagist/franka_ros_interface#usage>`_ **for details). Then, any code which uses PandaRobot or Franka ROS Interface should be run in 'master' or 'remote' environment (as appropriate).**
+
+Basic usage of PandaRobot API is shown below. See `scripts`_ folder to see usage of some of the available methods, and example for real-time low-level control of the robot.
 
 .. code-block:: python
 
@@ -51,8 +65,7 @@ See `scripts`_ folder to see usage of some of the available methods
    :caption: Contents:
    :hidden:
 
-   Introduction <https://justagist.github.io/panda_robot>
-   Basic Usage <https://justagist.github.io/panda_robot#basic-usage>
+   self
    DOC
 
 Indices and tables
