@@ -100,8 +100,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference external" href="https://justagist.github.io/panda_robot">Introduction</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://justagist.github.io/panda_robot#basic-usage">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Panda Robot</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Python API Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-panda_robot">panda_robot</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pandaarm">PandaArm</a></li>
@@ -284,20 +283,6 @@
 computation. Please note that this might produce a bug since some values gets
 updated only if ee_velocity() is called. [TODO: This can be fixed by moving the update
 to the state callback method.]</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="panda_robot.PandaArm.enable_force_torque_transform_to_base_frame">
-<code class="descname">enable_force_torque_transform_to_base_frame</code><span class="sig-paren">(</span><em>boolval=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/panda_robot/panda_robot.html#PandaArm.enable_force_torque_transform_to_base_frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#panda_robot.PandaArm.enable_force_torque_transform_to_base_frame" title="Permalink to this definition">¶</a></dt>
-<dd><p>Enable transformation of force vector to base frame</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>boolval</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – set True to transform forces to base frame</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 <dl class="method">
@@ -564,6 +549,14 @@ commands</p>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.move_to_joint_position">
+<code class="descname">move_to_joint_position</code><span class="sig-paren">(</span><em>joint_angles</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/panda_robot/panda_robot.html#PandaArm.move_to_joint_position"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#panda_robot.PandaArm.move_to_joint_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move to joint position specified (using low-level position control)
+:param joint_angles: desired joint positions, ordered from joint1 to joint7
+:type joint_angles: [float]</p>
 </dd></dl>
 
 <dl class="method">
