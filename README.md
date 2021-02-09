@@ -8,7 +8,7 @@ The package provides an extensive and unified [API](https://justagist.github.io/
 
 *NOTE: This version requires Franka ROS Interface v0.7.1. For usage with older versions, use Panda Robot branch [v0.6.0](https://github.com/justagist/panda_robot/tree/v0.6.0) from Github.*
 
-### Features
+## Features
 
 - Provides simple-intuitive interface classes with methods to directly and easily control the robot using low-level controllers, MoveIt planners, or Trajectory action client.
 - Get real-time robot state, joint state, controller state, kinematics, dynamics, etc.
@@ -17,7 +17,7 @@ The package provides an extensive and unified [API](https://justagist.github.io/
 - Manage frames transformation and controller switching using simple utility functions.
 - Works directly on simulated robot when using [*Panda Simulator*](https://github.com/justagist/panda_simulator) providing direct sim-to-real and real-to-sim code transfer.
 
-**DOCUMENTATION**: https://justagist.github.io/panda_robot/
+**DOCUMENTATION**: <https://justagist.github.io/panda_robot/>
 
   ![vid](assets/panda_robot_demo.gif)
  Watch video [here](https://youtu.be/4bEVysUIvOY)
@@ -25,20 +25,20 @@ The package provides an extensive and unified [API](https://justagist.github.io/
   ![vid](assets/panda_simulator.gif)
  Watch video [here](https://www.youtube.com/watch?v=NdSbXC0r7tU)
 
-#### Dependency
+## Installation
 
-- [*Franka ROS Interface*](https://github.com/justagist/franka_ros_interface) package. *This package should be installed from source (v0.7.1 or master branch) following all instructions in the [Installation](https://github.com/justagist/franka_ros_interface#installation) section.*
+- Requires ROS Melodic (preferably the `desktop-full` version to cover all dependencies such as PyKDL and MoveIt)
 
-### Installation
+- Install [*Franka ROS Interface*](https://github.com/justagist/franka_ros_interface) package. *This package should be installed from source (v0.7.1 or master branch) following all instructions in the [Installation](https://github.com/justagist/franka_ros_interface#installation) section.*
 
-Clone package to `src` folder of your catkin workspace. In catkin root run:
+- Clone this repo to `src` folder of your catkin workspace. In catkin workspace root, run:
 
 ```sh
  catkin build
  source devel/setup.bash
 ```
 
-### Usage
+## Usage
 
 **Note: The franka_ros_interface 'driver' should be running in the 'master' environment in one terminal (See [Franka ROS Interface instructions](https://github.com/justagist/franka_ros_interface#usage) for details). Then, any code which uses PandaRobot or Franka ROS Interface should be run in 'master' or 'remote' environment (as appropriate).**
 
