@@ -70,13 +70,13 @@ class PandaKinematics(object):
 
         if additional_segment_config is not None:
             for c in additional_segment_config:
-                q = quaternion.from_rotation_matrix(c["origin_ori"]).tolist()
+                q = quaternion.from_rotation_matrix(c['origin_ori']).tolist()
                 kdl_origin_frame = PyKDL.Frame(PyKDL.Rotation.Quaternion(q.x, q.y, q.z, q.w),
-                                             PyKDL.Vector(*(c["origin_pos"].tolist())))
-                kdl_sgm = PyKDL.Segment(c["child_name"], PyKDL.Joint(c["joint_name"]),
+                                             PyKDL.Vector(*(c['origin_pos'].tolist())))
+                kdl_sgm = PyKDL.Segment(c['child_name'], PyKDL.Joint(c['joint_name']),
                                       kdl_origin_frame, PyKDL.RigidBodyInertia())
                 self._kdl_tree.addSegment(
-                    kdl_sgm, c["parent_name"])
+                    kdl_sgm, c['parent_name'])
 
         self._base_link = self._franka.get_root()
         self._tip_link = ee_frame_name
@@ -104,15 +104,16 @@ class PandaKinematics(object):
         for j in self._franka.joints:
             if j.type != 'fixed':
                 nf_joints += 1
-        print "URDF non-fixed joints: %d;" % nf_joints
-        print "URDF total joints: %d" % len(self._franka.joints)
-        print "URDF links: %d" % len(self._franka.links), [link.name for link in self._franka.links]
-        print "KDL joints: %d" % self._kdl_tree.getNrOfJoints()
-        print "KDL segments: %d" % self._kdl_tree.getNrOfSegments()
+        print('URDF non-fixed joints: %d;' % nf_joints)
+        print('URDF total joints: %d' % len(self._franka.joints))
+        print('URDF links: %d' % len(self._franka.links),
+              [link.name for link in self._franka.links])
+        print('KDL joints: %d' % self._kdl_tree.getNrOfJoints())
+        print('KDL segments: %d' % self._kdl_tree.getNrOfSegments())
 
     def print_kdl_chain(self):
         for idx in xrange(self._arm_chain.getNrOfSegments()):
-            print '* ' + self._arm_chain.getSegment(idx).getName()
+            print('* ' + self._arm_chain.getSegment(idx).getName())
 
     def joints_to_kdl(self, type_, values=None):
         kdl_array = PyKDL.JntArray(self._num_jnts)
@@ -224,18 +225,18 @@ if __name__ == '__main__':
         # combine the names and joint angles to a dictionary, that only is accepted by kdl
         # jacobian = np.array(kin.jacobian(argument))
 
-        print "-----------------"
-        print ""
+        print('-----------------')
+        print('')
         # print jacobian
-        print kin.forward_position_kinematics()
+        print(kin.forward_position_kinematics())
         # print kin.forward_velocity_kinematics()
-        print ""
+        print('')
 
-        print r._cartesian_pose
+        print(r._cartesian_pose)
         # print r._cartesian_velocity
-        print "-----------------"
-        print "-----------------"
-        print "-----------------"
+        print('-----------------')
+        print('-----------------')
+        print('-----------------')
 
         # break
         rate.sleep()
