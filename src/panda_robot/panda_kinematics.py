@@ -61,6 +61,7 @@ class PandaKinematics(object):
 
     def __init__(self, limb, ee_frame_name="panda_link8", additional_segment_config=None, description=None):
 
+        self._kdl_tree = None
         if description is None:
             self._franka = URDF.from_parameter_server(key='robot_description')
         else:
@@ -69,6 +70,8 @@ class PandaKinematics(object):
         self._kdl_tree = kdl_tree_from_urdf_model(self._franka)
 
         if additional_segment_config is not None:
+            # add additional segments to account for NE_T_EE and F_T_NE transformations
+            # ---- this may cause issues in eg. inertia computations maybe? TODO: test inertia behaviour
             for c in additional_segment_config:
                 q = quaternion.from_rotation_matrix(c["origin_ori"]).tolist()
                 kdl_origin_frame = PyKDL.Frame(PyKDL.Rotation.Quaternion(q.x, q.y, q.z, q.w),
@@ -79,12 +82,16 @@ class PandaKinematics(object):
                     kdl_sgm, c["parent_name"])
 
         self._base_link = self._franka.get_root()
+        # self._tip_frame = PyKDL.Frame()
+        self._limb_interface = limb
+        self.create_chain(ee_frame_name)
+
+    def create_chain(self, ee_frame_name):
+
         self._tip_link = ee_frame_name
-        self._tip_frame = PyKDL.Frame()
         self._arm_chain = self._kdl_tree.getChain(self._base_link,
                                                   self._tip_link)
 
-        self._limb_interface = limb
         self._joint_names = deepcopy(self._limb_interface.joint_names())
         self._num_jnts = len(self._joint_names)
 
