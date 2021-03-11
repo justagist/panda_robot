@@ -469,7 +469,7 @@ commands</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">inertia matrix of robot at current state</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">inertia matrix of robot at current state as computed using KDL (should be close to the value provided by libfranka through <a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_interface.ArmInterface.joint_inertia_matrix" title="(in Franka ROS Interface v0.7.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">franka_interface.ArmInterface.joint_inertia_matrix()</span></code></a> when no argument is passed; Exact match may not be available due to dynamics model and computation errors.)</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
 </tr>
@@ -512,7 +512,7 @@ commands</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">jacobian matrix of robot at current state</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">jacobian matrix of robot at current state as computed using KDL (should match the value provided by libfranka through <a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_interface.ArmInterface.zero_jacobian" title="(in Franka ROS Interface v0.7.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">franka_interface.ArmInterface.zero_jacobian()</span></code></a> when no argument is passed)</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
 </tr>
@@ -599,6 +599,70 @@ commands</p>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">mean of joint limits</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">[<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.reset_EE_frame">
+<code class="descname">reset_EE_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/panda_robot/panda_robot.html#PandaArm.reset_EE_frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#panda_robot.PandaArm.reset_EE_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset EE frame to default. (defined by 
+FrankaFramesInterface.DEFAULT_TRANSFORMATIONS.EE_FRAME 
+global variable defined in <a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_tools.FrankaFramesInterface" title="(in Franka ROS Interface v0.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">franka_tools.FrankaFramesInterface</span></code></a> 
+source code). By default, this resets to align with the nominal-end effector
+frame (F_T_NE) in the flange frame.
+Motion controllers are stopped and restarted for switching. Also resets the 
+kinematic chain for PyKDL IK/FK computations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">[<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a>, <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a>]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">[success status of service request, error msg if any]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.set_EE_at_frame">
+<code class="descname">set_EE_at_frame</code><span class="sig-paren">(</span><em>frame_name</em>, <em>timeout=5.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/panda_robot/panda_robot.html#PandaArm.set_EE_at_frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#panda_robot.PandaArm.set_EE_at_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set new EE frame to the same frame as the link frame given by ‘frame_name’.
+Motion controllers are stopped and restarted for switching. Also resets the 
+kinematic chain for PyKDL IK/FK computations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame_name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – desired tf frame name in the tf tree</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">[<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a>, <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a>]</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">[success status of service request, error msg if any]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.set_EE_frame">
+<code class="descname">set_EE_frame</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/panda_robot/panda_robot.html#PandaArm.set_EE_frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#panda_robot.PandaArm.set_EE_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set new EE frame based on the transformation given by ‘frame’, which is the 
+transformation matrix defining the new desired EE frame with respect to the 
+nominal end-effector frame (NE_T_EE).
+Motion controllers are stopped and restarted for switching. Also resets the 
+kinematic chain for PyKDL IK/FK computations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em> (</em><em>16</em><em>,</em><em>)</em><em>] </em><em>/ np.ndarray</em><em> (</em><em>4x4</em><em>)</em>) – transformation matrix of new EE frame wrt nominal end-effector frame (column major)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">[<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a>, <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a>]</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">[success status of service request, error msg if any]</td>
 </tr>
 </tbody>
 </table>
