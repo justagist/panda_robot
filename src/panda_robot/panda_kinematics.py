@@ -220,7 +220,8 @@ if __name__ == '__main__':
     from panda_robot import PandaArm
     r = PandaArm()
     # print r.has_gripper
-    kin = PandaKinematics(r)
+    # kin = PandaKinematics(r)
+    kin = r._kinematics
 
 
 
@@ -234,11 +235,11 @@ if __name__ == '__main__':
         print "-----------------"
         print ""
         # print jacobian
-        print kin.forward_position_kinematics()
+        print kin.forward_position_kinematics() # ee positions from kdl
         # print kin.forward_velocity_kinematics()
         print ""
 
-        print r._cartesian_pose
+        print r._cartesian_pose # ee positions from robot directly
         # print r._cartesian_velocity
         print "-----------------"
         print "-----------------"

@@ -57,7 +57,8 @@ class PandaArm(franka_interface.ArmInterface):
         :bases: :py:class:`franka_interface.ArmInterface`
 
         :param on_state_callback: optional callback function to run on each state update
-        :param reset_frames: if True, EE frame is reset to nominal end-effector frame using using :py:class:`franka_interface.ArmInterface` and :py:class:`franka_tools.FrankaFramesInterface`.
+        :param reset_frames: if True, EE frame is reset using :py:class:`franka_interface.ArmInteface`
+                (using `franka_interface.ArmInterface <https://justagist.github.io/franka_ros_interface/DOC.html#arminterface>`_ and `franka_tools.FrankaFramesInterface <https://justagist.github.io/franka_ros_interface/DOC.html#frankaframesinterface>`_).
 
     """
 
@@ -67,7 +68,7 @@ class PandaArm(franka_interface.ArmInterface):
 
             :param on_state_callback: optional callback function to run on each state update
             :param reset_frames: if True, EE frame is reset using :py:class:`franka_interface.ArmInteface`
-                (using `franka_interface.ArmInterface <https://justagist.github.io/franka_ros_interface/DOC.html#arminterface>`_ and `franka_tools.FrankaFramesInterface <https://justagist.github.io/franka_ros_interface/DOC.html#frankaframesinterface>`_)
+                (using :py:class:`franka_interface.ArmInterface` and :py:class:`franka_tools.FrankaFramesInterface`).
         """
 
         self._logger = logging.getLogger(__name__)
@@ -171,6 +172,8 @@ class PandaArm(franka_interface.ArmInterface):
 
     def set_EE_frame(self, frame):
         """
+        .. note:: This method is not available in simulated environment (when using PandaSimulator).
+
         Set new EE frame based on the transformation given by 'frame', which is the 
         transformation matrix defining the new desired EE frame with respect to the 
         nominal end-effector frame (NE_T_EE).
@@ -189,6 +192,8 @@ class PandaArm(franka_interface.ArmInterface):
 
     def set_EE_at_frame(self, frame_name, timeout=5.0):
         """
+        .. note:: This method is not available in simulated environment (when using PandaSimulator).
+
         Set new EE frame to the same frame as the link frame given by 'frame_name'.
         Motion controllers are stopped and restarted for switching. Also resets the 
         kinematic chain for PyKDL IK/FK computations.
@@ -205,13 +210,17 @@ class PandaArm(franka_interface.ArmInterface):
 
     def reset_EE_frame(self):
         """
+        .. note:: This method is not available in simulated environment (when using PandaSimulator).
+
         Reset EE frame to default. (defined by 
         FrankaFramesInterface.DEFAULT_TRANSFORMATIONS.EE_FRAME 
         global variable defined in :py:class:`franka_tools.FrankaFramesInterface` 
-        source code). By default, this resets to align with the nominal-end effector
-        frame (F_T_NE) in the flange frame.
+        source code). 
+        
+        By default, this resets to align EE with the nominal-end effector
+        frame (F_T_NE) in the flange frame (defined in Desk GUI).
         Motion controllers are stopped and restarted for switching. Also resets the 
-        kinematic chain for PyKDL IK/FK computations.
+        kinematic chain accordingly for PyKDL IK/FK computations.
 
         :rtype: [bool, str]
         :return: [success status of service request, error msg if any]
@@ -423,14 +432,18 @@ class PandaArm(franka_interface.ArmInterface):
 
     def set_arm_speed(self, speed):
         """
-            Set joint position speed (for joint trajectory controller [move_to_joint_positions] only)
+        Set joint position speed (only effective for :py:meth:`move_to_joint_position`, 
+        :py:meth:`move_to_joint_pos_delta`, and 
+        :py:meth:`move_to_cartesian_pose <franka_interface.ArmInterface.move_to_cartesian_pose>`)
+
+        :type speed: float
+        :param speed: ratio of maximum joint speed for execution; range = [0.0,1.0]
         """
         self.set_joint_position_speed(speed)
 
     def _on_joint_states(self, msg):
-        """
-            Parent callback function is overriden to update robot state of this class
-        """
+        # Parent callback function is overriden to update robot state of this class
+
         franka_interface.ArmInterface._on_joint_states(self, msg)
 
         if self._arm_configured:
@@ -487,8 +500,8 @@ class PandaArm(franka_interface.ArmInterface):
 
     def exec_position_cmd(self, cmd):
         """
-        Execute position control (raw positions). Be careful while using. Send smooth
-        commands
+        Execute position control on the robot (raw positions). Be careful while using. Send smooth
+        commands (positions that are very small distance apart from current position).
 
         :param cmd: desired joint postions, ordered from joint1 to joint7
                         (optionally, give desired gripper width as 8th element of list)
@@ -505,7 +518,7 @@ class PandaArm(franka_interface.ArmInterface):
 
     def exec_position_cmd_delta(self, cmd):
         """
-        Execute position control based on desired change in joint position
+        Execute position control based on desired change in joint positions wrt current joint positions.
 
         :param cmd: desired joint postion changes, ordered from joint1 to joint7
         :type cmd: [float]
@@ -519,7 +532,8 @@ class PandaArm(franka_interface.ArmInterface):
 
     def move_to_joint_pos_delta(self, cmd):
         """
-        Execute motion (trajectory controller) based on desired change in joint position
+        Execute motion (using moveit; if moveit not available attempts with trajectory controller) 
+        based on desired change in joint position wrt to current joint positions
 
         :param cmd: desired joint postion changes, ordered from joint1 to joint7
         :type cmd: [float]
@@ -560,7 +574,7 @@ class PandaArm(franka_interface.ArmInterface):
 
     def ee_pose(self):
         """
-        :return: end-effector pose as position and quaternion in global frame
+        :return: end-effector pose as position and quaternion in global frame obtained directly from robot state
         :rtype: np.ndarray (pose), np.quaternion (orientation)
         """
         ee_point = np.asarray(self.endpoint_pose()['position'])
@@ -609,7 +623,8 @@ class PandaArm(franka_interface.ArmInterface):
     
     def move_to_joint_position(self, joint_angles):
         """
-        Move to joint position specified (using low-level position control)
+        Move to joint position specified (using MoveIt by default; if MoveIt server is not running then attempts with trajectory action client)
+
         :param joint_angles: desired joint positions, ordered from joint1 to joint7
         :type joint_angles: [float]
         """
