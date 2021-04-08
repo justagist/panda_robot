@@ -230,7 +230,8 @@
 <span class="sd">        :bases: :py:class:`franka_interface.ArmInterface`</span>
 
 <span class="sd">        :param on_state_callback: optional callback function to run on each state update</span>
-<span class="sd">        :param reset_frames: if True, EE frame is reset to nominal end-effector frame using using :py:class:`franka_interface.ArmInterface` and :py:class:`franka_tools.FrankaFramesInterface`.</span>
+<span class="sd">        :param reset_frames: if True, EE frame is reset using :py:class:`franka_interface.ArmInteface`</span>
+<span class="sd">                (using `franka_interface.ArmInterface &lt;https://justagist.github.io/franka_ros_interface/DOC.html#arminterface&gt;`_ and `franka_tools.FrankaFramesInterface &lt;https://justagist.github.io/franka_ros_interface/DOC.html#frankaframesinterface&gt;`_).</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -240,7 +241,7 @@
 
 <span class="sd">            :param on_state_callback: optional callback function to run on each state update</span>
 <span class="sd">            :param reset_frames: if True, EE frame is reset using :py:class:`franka_interface.ArmInteface`</span>
-<span class="sd">                (using `franka_interface.ArmInterface &lt;https://justagist.github.io/franka_ros_interface/DOC.html#arminterface&gt;`_ and `franka_tools.FrankaFramesInterface &lt;https://justagist.github.io/franka_ros_interface/DOC.html#frankaframesinterface&gt;`_)</span>
+<span class="sd">                (using `franka_interface.ArmInterface &lt;https://justagist.github.io/franka_ros_interface/DOC.html#arminterface&gt;`_ and `franka_tools.FrankaFramesInterface &lt;https://justagist.github.io/franka_ros_interface/DOC.html#frankaframesinterface&gt;`_).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -344,6 +345,8 @@
 
 <div class="viewcode-block" id="PandaArm.set_EE_frame"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.set_EE_frame">[docs]</a>    <span class="k">def</span> <span class="nf">set_EE_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. note:: This method is not available in simulated environment (when using PandaSimulator).</span>
+
 <span class="sd">        Set new EE frame based on the transformation given by &#39;frame&#39;, which is the </span>
 <span class="sd">        transformation matrix defining the new desired EE frame with respect to the </span>
 <span class="sd">        nominal end-effector frame (NE_T_EE).</span>
@@ -362,6 +365,8 @@
 
 <div class="viewcode-block" id="PandaArm.set_EE_at_frame"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.set_EE_at_frame">[docs]</a>    <span class="k">def</span> <span class="nf">set_EE_at_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame_name</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">5.0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. note:: This method is not available in simulated environment (when using PandaSimulator).</span>
+
 <span class="sd">        Set new EE frame to the same frame as the link frame given by &#39;frame_name&#39;.</span>
 <span class="sd">        Motion controllers are stopped and restarted for switching. Also resets the </span>
 <span class="sd">        kinematic chain for PyKDL IK/FK computations.</span>
@@ -378,13 +383,17 @@
 
 <div class="viewcode-block" id="PandaArm.reset_EE_frame"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.reset_EE_frame">[docs]</a>    <span class="k">def</span> <span class="nf">reset_EE_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        .. note:: This method is not available in simulated environment (when using PandaSimulator).</span>
+
 <span class="sd">        Reset EE frame to default. (defined by </span>
 <span class="sd">        FrankaFramesInterface.DEFAULT_TRANSFORMATIONS.EE_FRAME </span>
 <span class="sd">        global variable defined in :py:class:`franka_tools.FrankaFramesInterface` </span>
-<span class="sd">        source code). By default, this resets to align with the nominal-end effector</span>
-<span class="sd">        frame (F_T_NE) in the flange frame.</span>
+<span class="sd">        source code). </span>
+<span class="sd">        </span>
+<span class="sd">        By default, this resets to align EE with the nominal-end effector</span>
+<span class="sd">        frame (F_T_NE) in the flange frame (defined in Desk GUI).</span>
 <span class="sd">        Motion controllers are stopped and restarted for switching. Also resets the </span>
-<span class="sd">        kinematic chain for PyKDL IK/FK computations.</span>
+<span class="sd">        kinematic chain accordingly for PyKDL IK/FK computations.</span>
 
 <span class="sd">        :rtype: [bool, str]</span>
 <span class="sd">        :return: [success status of service request, error msg if any]</span>
@@ -596,14 +605,18 @@
 
 <div class="viewcode-block" id="PandaArm.set_arm_speed"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.set_arm_speed">[docs]</a>    <span class="k">def</span> <span class="nf">set_arm_speed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">speed</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Set joint position speed (for joint trajectory controller [move_to_joint_positions] only)</span>
+<span class="sd">        Set joint position speed (only effective for :py:meth:`move_to_joint_position`, </span>
+<span class="sd">        :py:meth:`move_to_joint_pos_delta`, and </span>
+<span class="sd">        :py:meth:`move_to_cartesian_pose &lt;franka_interface.ArmInterface.move_to_cartesian_pose&gt;`)</span>
+
+<span class="sd">        :type speed: float</span>
+<span class="sd">        :param speed: ratio of maximum joint speed for execution; range = [0.0,1.0]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_joint_position_speed</span><span class="p">(</span><span class="n">speed</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_on_joint_states</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Parent callback function is overriden to update robot state of this class</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Parent callback function is overriden to update robot state of this class</span>
+
         <span class="n">franka_interface</span><span class="o">.</span><span class="n">ArmInterface</span><span class="o">.</span><span class="n">_on_joint_states</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_arm_configured</span><span class="p">:</span>
@@ -660,8 +673,8 @@
 
 <div class="viewcode-block" id="PandaArm.exec_position_cmd"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.exec_position_cmd">[docs]</a>    <span class="k">def</span> <span class="nf">exec_position_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Execute position control (raw positions). Be careful while using. Send smooth</span>
-<span class="sd">        commands</span>
+<span class="sd">        Execute position control on the robot (raw positions). Be careful while using. Send smooth</span>
+<span class="sd">        commands (positions that are very small distance apart from current position).</span>
 
 <span class="sd">        :param cmd: desired joint postions, ordered from joint1 to joint7</span>
 <span class="sd">                        (optionally, give desired gripper width as 8th element of list)</span>
@@ -678,7 +691,7 @@
 
 <div class="viewcode-block" id="PandaArm.exec_position_cmd_delta"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.exec_position_cmd_delta">[docs]</a>    <span class="k">def</span> <span class="nf">exec_position_cmd_delta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Execute position control based on desired change in joint position</span>
+<span class="sd">        Execute position control based on desired change in joint positions wrt current joint positions.</span>
 
 <span class="sd">        :param cmd: desired joint postion changes, ordered from joint1 to joint7</span>
 <span class="sd">        :type cmd: [float]</span>
@@ -692,7 +705,8 @@
 
 <div class="viewcode-block" id="PandaArm.move_to_joint_pos_delta"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.move_to_joint_pos_delta">[docs]</a>    <span class="k">def</span> <span class="nf">move_to_joint_pos_delta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmd</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Execute motion (trajectory controller) based on desired change in joint position</span>
+<span class="sd">        Execute motion (using moveit; if moveit not available attempts with trajectory controller) </span>
+<span class="sd">        based on desired change in joint position wrt to current joint positions</span>
 
 <span class="sd">        :param cmd: desired joint postion changes, ordered from joint1 to joint7</span>
 <span class="sd">        :type cmd: [float]</span>
@@ -782,7 +796,8 @@
     
 <div class="viewcode-block" id="PandaArm.move_to_joint_position"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.move_to_joint_position">[docs]</a>    <span class="k">def</span> <span class="nf">move_to_joint_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_angles</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Move to joint position specified (using low-level position control)</span>
+<span class="sd">        Move to joint position specified (using MoveIt by default; if MoveIt server is not running then attempts with trajectory action client)</span>
+
 <span class="sd">        :param joint_angles: desired joint positions, ordered from joint1 to joint7</span>
 <span class="sd">        :type joint_angles: [float]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
