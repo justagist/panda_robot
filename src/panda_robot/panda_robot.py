@@ -180,7 +180,7 @@ class PandaArm(franka_interface.ArmInterface):
         Motion controllers are stopped and restarted for switching. Also resets the 
         kinematic chain for PyKDL IK/FK computations.
 
-        :type frame: [float (16,)] / np.ndarray (4x4) 
+        :type frame: [float (len = 16)] (or) numpy.ndarray (4x4) 
         :param frame: transformation matrix of new EE frame wrt nominal end-effector frame (column major)
         :rtype: [bool, str]
         :return: [success status of service request, error msg if any]
@@ -267,11 +267,11 @@ class PandaArm(franka_interface.ArmInterface):
         """
         Return Gripper state {'position', 'force'}. Only available if Franka gripper is connected.
 
-        :rtype: dict({str:np.ndarray (shape:(2,)),str:np.ndarray (shape:(2,))})
+        :rtype: dict ({str : numpy.ndarray (shape:(2,)), str : numpy.ndarray (shape:(2,))})
         :return: dict of position and force
 
-          - 'position': np.array
-          - 'force': np.array
+          - 'position': :py:obj:`numpy.ndarray`
+          - 'force': :py:obj:`numpy.ndarray`
         """
         gripper_state = {}
 
@@ -438,8 +438,8 @@ class PandaArm(franka_interface.ArmInterface):
         """
         :return: tip (end-effector frame) state dictionary with keys 
             ['position', 'orientation', 'force', 'torque', 'force_K',
-            'torque_K', 'linear_vel', 'angular_vel']. All are np.ndarray of
-            appropriate dims. 'force' and 'torque' are in the robot's base
+            'torque_K', 'linear_vel', 'angular_vel']. All are :py:obj:`numpy.ndarray` 
+            objects of appropriate dims. 'force' and 'torque' are in the robot's base
             frame, while 'force_K' and 'torque_K' are in the stiffness frame.
         :rtype: dict {str: obj}
         """
@@ -590,7 +590,7 @@ class PandaArm(franka_interface.ArmInterface):
     def ee_pose(self):
         """
         :return: end-effector pose as position and quaternion in global frame obtained directly from robot state
-        :rtype: np.ndarray (pose), np.quaternion (orientation)
+        :rtype: numpy.ndarray (pose), np.quaternion (orientation)
         """
         ee_point = np.asarray(self.endpoint_pose()['position'])
 
@@ -602,7 +602,7 @@ class PandaArm(franka_interface.ArmInterface):
     def ee_velocity(self, real_robot=True):
         """
         :return: end effector velocity (linear and angular) computed using finite difference
-        :rtype: np.ndarray, np.ndarray
+        :rtype: numpy.ndarray, numpy.ndarray
 
         :param real_robot: if False, computes ee velocity using finite difference
         :type real_robot: bool
@@ -660,7 +660,7 @@ class PandaArm(franka_interface.ArmInterface):
     def forward_kinematics(self, joint_angles=None, ori_type='quat'):
         """
         :return: position and orientaion of end-effector for the current/provided joint angles
-        :rtype: np.ndarray, np.ndarray/np.quaternion
+        :rtype: [numpy.ndarray, numpy.ndarray (or) quaternion.quaternion]
 
         :param joint_angles: joint angles (optional) for which the ee pose is to be computed
         :type joint_angles: [float]
@@ -700,7 +700,7 @@ class PandaArm(franka_interface.ArmInterface):
         :py:func:`ee_velocity`.
 
         :return: end-effector velocity computed using kdl
-        :rtype: np.ndarray
+        :rtype: numpy.ndarray
 
         :param joint_angles: joint angles (optional) 
         :type joint_angles: [float]
@@ -717,7 +717,7 @@ class PandaArm(franka_interface.ArmInterface):
     def jacobian(self, joint_angles=None):
         """
         :return: jacobian matrix of robot at current state as computed using KDL (should match the value provided by libfranka through :py:meth:`franka_interface.ArmInterface.zero_jacobian` when no argument is passed)
-        :rtype: np.ndarray
+        :rtype: numpy.ndarray
 
         :param joint_angles: joint angles (optional) for which the jacobian is to be computed
         :type joint_angles: [float]
@@ -734,7 +734,7 @@ class PandaArm(franka_interface.ArmInterface):
     def inertia(self, joint_angles=None):
         """
         :return: inertia matrix of robot at current state as computed using KDL (should be close to the value provided by libfranka through :py:meth:`franka_interface.ArmInterface.joint_inertia_matrix` when no argument is passed; Exact match may not be available due to dynamics model and computation errors.)
-        :rtype: np.ndarray
+        :rtype: numpy.ndarray
 
         :param joint_angles: joint angles (optional)
         :type joint_angles: [float]

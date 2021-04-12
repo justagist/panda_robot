@@ -40,7 +40,7 @@ The package provides an extensive and unified [API](https://justagist.github.io/
 
 ## Usage
 
-**Note: If using with a real physical Franka Emika Panda robot, the franka_ros_interface 'driver' should be running in the 'master' environment in one terminal (See [Franka ROS Interface instructions](https://github.com/justagist/franka_ros_interface#usage) for details). Then, any code which uses PandaRobot or Franka ROS Interface should be run in 'master' or 'remote' environment (as appropriate). When using with [Panda Simulator](https://github.com/justagist/panda_simulator), this package can be used directly without the need for any specific environment as long as they are in the same ROS workspace.**
+**Note: If using with a real physical Franka Emika Panda robot, the franka_ros_interface 'driver' should be running in the 'master' environment in one terminal (See [Franka ROS Interface instructions](https://github.com/justagist/franka_ros_interface#usage) for details). Then, any code which uses PandaRobot or Franka ROS Interface should be run in 'master' or 'remote' environment (as appropriate). When using with [Panda Simulator](https://github.com/justagist/panda_simulator), this package can be used directly without the need for any specific environment as long as this package, the simulator package, and Franka ROS Interface packages are in the same ROS workspace.**
 
 Example: Testing interface in terminal
 
