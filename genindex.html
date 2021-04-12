@@ -44,6 +44,7 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -102,10 +103,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html">Panda Robot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="DOC.html">Python API Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="DOC.html#module-panda_robot">panda_robot</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="DOC.html#pandaarm">PandaArm</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="DOC.html#pandaarm">PandaArm</a></li>
 </ul>
 </li>
 </ul>
@@ -193,6 +191,8 @@
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ | <a href="#Z"><strong>Z</strong></a>
  
 </div>
 <h2 id="A">A</h2>
@@ -217,6 +217,10 @@
       <li><a href="DOC.html#panda_robot.PandaArm.cartesian_velocity">cartesian_velocity() (panda_robot.PandaArm method)</a>
 </li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="DOC.html#panda_robot.PandaArm.coriolis_comp">coriolis_comp() (panda_robot.PandaArm method)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="E">E</h2>
@@ -226,12 +230,18 @@
 </li>
       <li><a href="DOC.html#panda_robot.PandaArm.ee_velocity">ee_velocity() (panda_robot.PandaArm method)</a>
 </li>
+      <li><a href="DOC.html#panda_robot.PandaArm.efforts">efforts() (panda_robot.PandaArm method)</a>
+</li>
       <li><a href="DOC.html#panda_robot.PandaArm.enable_robot">enable_robot() (panda_robot.PandaArm method)</a>
 </li>
       <li><a href="DOC.html#panda_robot.PandaArm.end_effector_link_name">end_effector_link_name() (panda_robot.PandaArm method)</a>
 </li>
+      <li><a href="DOC.html#panda_robot.PandaArm.endpoint_effort">endpoint_effort() (panda_robot.PandaArm method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="DOC.html#panda_robot.PandaArm.error_in_current_state">error_in_current_state() (panda_robot.PandaArm method)</a>
+</li>
       <li><a href="DOC.html#panda_robot.PandaArm.exec_gripper_cmd">exec_gripper_cmd() (panda_robot.PandaArm method)</a>
 </li>
       <li><a href="DOC.html#panda_robot.PandaArm.exec_position_cmd">exec_position_cmd() (panda_robot.PandaArm method)</a>
@@ -241,6 +251,8 @@
       <li><a href="DOC.html#panda_robot.PandaArm.exec_torque_cmd">exec_torque_cmd() (panda_robot.PandaArm method)</a>
 </li>
       <li><a href="DOC.html#panda_robot.PandaArm.exec_velocity_cmd">exec_velocity_cmd() (panda_robot.PandaArm method)</a>
+</li>
+      <li><a href="DOC.html#panda_robot.PandaArm.exit_control_mode">exit_control_mode() (panda_robot.PandaArm method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -256,10 +268,26 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="DOC.html#panda_robot.PandaArm.get_controller_manager">get_controller_manager() (panda_robot.PandaArm method)</a>
+</li>
+      <li><a href="DOC.html#panda_robot.PandaArm.get_flange_pose">get_flange_pose() (panda_robot.PandaArm method)</a>
+</li>
+      <li><a href="DOC.html#panda_robot.PandaArm.get_frames_interface">get_frames_interface() (panda_robot.PandaArm method)</a>
+</li>
       <li><a href="DOC.html#panda_robot.PandaArm.get_gripper">get_gripper() (panda_robot.PandaArm method)</a>
+</li>
+      <li><a href="DOC.html#panda_robot.PandaArm.get_joint_limits">get_joint_limits() (panda_robot.PandaArm method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="DOC.html#panda_robot.PandaArm.get_movegroup_interface">get_movegroup_interface() (panda_robot.PandaArm method)</a>
+</li>
+      <li><a href="DOC.html#panda_robot.PandaArm.get_robot_params">get_robot_params() (panda_robot.PandaArm method)</a>
+</li>
+      <li><a href="DOC.html#panda_robot.PandaArm.get_robot_status">get_robot_status() (panda_robot.PandaArm method)</a>
+</li>
+      <li><a href="DOC.html#panda_robot.PandaArm.gravity_comp">gravity_comp() (panda_robot.PandaArm method)</a>
+</li>
       <li><a href="DOC.html#panda_robot.PandaArm.gripper_state">gripper_state() (panda_robot.PandaArm method)</a>
 </li>
   </ul></td>
@@ -267,6 +295,10 @@
 
 <h2 id="H">H</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="DOC.html#panda_robot.PandaArm.has_collided">has_collided() (panda_robot.PandaArm method)</a>
+</li>
+  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="DOC.html#panda_robot.PandaArm.has_gripper">has_gripper (panda_robot.PandaArm attribute)</a>
 </li>
@@ -276,10 +308,12 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="DOC.html#panda_robot.PandaArm.inertia">inertia() (panda_robot.PandaArm method)</a>
+      <li><a href="DOC.html#panda_robot.PandaArm.in_safe_state">in_safe_state() (panda_robot.PandaArm method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="DOC.html#panda_robot.PandaArm.inertia">inertia() (panda_robot.PandaArm method)</a>
+</li>
       <li><a href="DOC.html#panda_robot.PandaArm.inverse_kinematics">inverse_kinematics() (panda_robot.PandaArm method)</a>
 </li>
   </ul></td>
@@ -290,9 +324,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="DOC.html#panda_robot.PandaArm.jacobian">jacobian() (panda_robot.PandaArm method)</a>
 </li>
+      <li><a href="DOC.html#panda_robot.PandaArm.joint_inertia_matrix">joint_inertia_matrix() (panda_robot.PandaArm method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="DOC.html#panda_robot.PandaArm.joint_limits">joint_limits() (panda_robot.PandaArm method)</a>
+</li>
+      <li><a href="DOC.html#panda_robot.PandaArm.joint_names">joint_names() (panda_robot.PandaArm method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -300,11 +338,15 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="DOC.html#panda_robot.PandaArm.move_to_cartesian_pose">move_to_cartesian_pose() (panda_robot.PandaArm method)</a>
+</li>
       <li><a href="DOC.html#panda_robot.PandaArm.move_to_joint_pos_delta">move_to_joint_pos_delta() (panda_robot.PandaArm method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="DOC.html#panda_robot.PandaArm.move_to_joint_position">move_to_joint_position() (panda_robot.PandaArm method)</a>
+</li>
+      <li><a href="DOC.html#panda_robot.PandaArm.move_to_neutral">move_to_neutral() (panda_robot.PandaArm method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -354,6 +396,10 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="DOC.html#panda_robot.PandaArm.set_arm_speed">set_arm_speed() (panda_robot.PandaArm method)</a>
 </li>
+      <li><a href="DOC.html#panda_robot.PandaArm.set_collision_threshold">set_collision_threshold() (panda_robot.PandaArm method)</a>
+</li>
+      <li><a href="DOC.html#panda_robot.PandaArm.set_command_timeout">set_command_timeout() (panda_robot.PandaArm method)</a>
+</li>
       <li><a href="DOC.html#panda_robot.PandaArm.set_EE_at_frame">set_EE_at_frame() (panda_robot.PandaArm method)</a>
 </li>
   </ul></td>
@@ -361,6 +407,10 @@
       <li><a href="DOC.html#panda_robot.PandaArm.set_EE_frame">set_EE_frame() (panda_robot.PandaArm method)</a>
 </li>
       <li><a href="DOC.html#panda_robot.PandaArm.set_gripper_speed">set_gripper_speed() (panda_robot.PandaArm method)</a>
+</li>
+      <li><a href="DOC.html#panda_robot.PandaArm.set_joint_position_speed">set_joint_position_speed() (panda_robot.PandaArm method)</a>
+</li>
+      <li><a href="DOC.html#panda_robot.PandaArm.set_joint_positions_velocities">set_joint_positions_velocities() (panda_robot.PandaArm method)</a>
 </li>
       <li><a href="DOC.html#panda_robot.PandaArm.state">state() (panda_robot.PandaArm method)</a>
 </li>
@@ -387,6 +437,22 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="DOC.html#panda_robot.PandaArm.velocities">velocities() (panda_robot.PandaArm method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="DOC.html#panda_robot.PandaArm.what_errors">what_errors() (panda_robot.PandaArm method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Z">Z</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="DOC.html#panda_robot.PandaArm.zero_jacobian">zero_jacobian() (panda_robot.PandaArm method)</a>
 </li>
   </ul></td>
 </tr></table>

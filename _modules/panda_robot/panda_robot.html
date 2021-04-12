@@ -43,6 +43,7 @@
         <script type="text/javascript" src="../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../_static/doctools.js"></script>
         <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -101,10 +102,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Panda Robot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../DOC.html">Python API Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../DOC.html#module-panda_robot">panda_robot</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../DOC.html#pandaarm">PandaArm</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../../DOC.html#pandaarm">PandaArm</a></li>
 </ul>
 </li>
 </ul>
@@ -225,7 +223,7 @@
 
 <div class="viewcode-block" id="PandaArm"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm">[docs]</a><span class="k">class</span> <span class="nc">PandaArm</span><span class="p">(</span><span class="n">franka_interface</span><span class="o">.</span><span class="n">ArmInterface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Constructor class.  Methods from :py:class:`franka_interface.ArmInterface` are also available to this object.</span>
+<span class="sd">        Methods from :py:class:`franka_interface.ArmInterface` are also available to objects of this class.</span>
 
 <span class="sd">        :bases: :py:class:`franka_interface.ArmInterface`</span>
 
@@ -353,7 +351,7 @@
 <span class="sd">        Motion controllers are stopped and restarted for switching. Also resets the </span>
 <span class="sd">        kinematic chain for PyKDL IK/FK computations.</span>
 
-<span class="sd">        :type frame: [float (16,)] / np.ndarray (4x4) </span>
+<span class="sd">        :type frame: [float (len = 16)] (or) numpy.ndarray (4x4) </span>
 <span class="sd">        :param frame: transformation matrix of new EE frame wrt nominal end-effector frame (column major)</span>
 <span class="sd">        :rtype: [bool, str]</span>
 <span class="sd">        :return: [success status of service request, error msg if any]</span>
@@ -440,11 +438,11 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return Gripper state {&#39;position&#39;, &#39;force&#39;}. Only available if Franka gripper is connected.</span>
 
-<span class="sd">        :rtype: dict({str:np.ndarray (shape:(2,)),str:np.ndarray (shape:(2,))})</span>
+<span class="sd">        :rtype: dict ({str : numpy.ndarray (shape:(2,)), str : numpy.ndarray (shape:(2,))})</span>
 <span class="sd">        :return: dict of position and force</span>
 
-<span class="sd">          - &#39;position&#39;: np.array</span>
-<span class="sd">          - &#39;force&#39;: np.array</span>
+<span class="sd">          - &#39;position&#39;: :py:obj:`numpy.ndarray`</span>
+<span class="sd">          - &#39;force&#39;: :py:obj:`numpy.ndarray`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">gripper_state</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -490,13 +488,10 @@
 
         <span class="n">now</span> <span class="o">=</span> <span class="n">rospy</span><span class="o">.</span><span class="n">Time</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
-        <span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="n">ls</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">[</span><span class="n">ls</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">joint_names</span><span class="p">()]</span>
-
         <span class="n">state</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">state</span><span class="p">[</span><span class="s1">&#39;position&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">angles</span><span class="p">()</span>
         <span class="n">state</span><span class="p">[</span><span class="s1">&#39;velocity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocities</span><span class="p">()</span>
-        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;effort&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">to_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">joint_efforts</span><span class="p">()))</span>
+        <span class="n">state</span><span class="p">[</span><span class="s1">&#39;effort&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">efforts</span><span class="p">()</span>
         <span class="n">state</span><span class="p">[</span><span class="s1">&#39;jacobian&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">jacobian</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
         <span class="n">state</span><span class="p">[</span><span class="s1">&#39;inertia&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inertia</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
         <span class="n">state</span><span class="p">[</span><span class="s1">&#39;tip_state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tip_state</span><span class="p">()</span>
@@ -529,10 +524,7 @@
 
         <span class="n">joint_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">joint_names</span><span class="p">()</span>
 
-        <span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="n">ls</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">[</span><span class="n">ls</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">joint_names</span><span class="p">]</span>
-
-        <span class="n">all_angles</span> <span class="o">=</span> <span class="n">to_list</span><span class="p">(</span><span class="n">joint_angles</span><span class="p">)</span>
+        <span class="n">all_angles</span> <span class="o">=</span> <span class="p">[</span><span class="n">joint_angles</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">joint_names</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">include_gripper</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gripper</span><span class="p">:</span>
             <span class="n">all_angles</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gripper</span><span class="o">.</span><span class="n">joint_ordered_positions</span><span class="p">()</span>
@@ -558,15 +550,32 @@
 
         <span class="n">joint_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">joint_names</span><span class="p">()</span>
 
-        <span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="n">ls</span><span class="p">):</span>
-            <span class="k">return</span> <span class="p">[</span><span class="n">ls</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">joint_names</span><span class="p">]</span>
-
-        <span class="n">all_velocities</span> <span class="o">=</span> <span class="n">to_list</span><span class="p">(</span><span class="n">joint_velocities</span><span class="p">)</span>
+        <span class="n">all_velocities</span> <span class="o">=</span> <span class="p">[</span><span class="n">joint_velocities</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">joint_names</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="n">include_gripper</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gripper</span><span class="p">:</span>
             <span class="n">all_velocities</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gripper</span><span class="o">.</span><span class="n">joint_ordered_velocities</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">all_velocities</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PandaArm.efforts"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.efforts">[docs]</a>    <span class="k">def</span> <span class="nf">efforts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_gripper</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: current joint efforts (measured torques)</span>
+<span class="sd">        :rtype: [float]</span>
+
+<span class="sd">        :param include_gripper: if True, append gripper joint efforts to list</span>
+<span class="sd">        :type include_gripper: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">joint_efforts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">joint_efforts</span><span class="p">()</span>
+
+        <span class="n">joint_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">joint_names</span><span class="p">()</span>
+
+        <span class="n">all_efforts</span> <span class="o">=</span> <span class="p">[</span><span class="n">joint_efforts</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">joint_names</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">include_gripper</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gripper</span><span class="p">:</span>
+            <span class="n">all_efforts</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gripper</span><span class="o">.</span><span class="n">joint_ordered_efforts</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">all_efforts</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="PandaArm.q_mean"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.q_mean">[docs]</a>    <span class="k">def</span> <span class="nf">q_mean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -598,7 +607,11 @@
 
 <div class="viewcode-block" id="PandaArm.tip_state"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.tip_state">[docs]</a>    <span class="k">def</span> <span class="nf">tip_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :return: tip_state dictionary</span>
+<span class="sd">        :return: tip (end-effector frame) state dictionary with keys </span>
+<span class="sd">            [&#39;position&#39;, &#39;orientation&#39;, &#39;force&#39;, &#39;torque&#39;, &#39;force_K&#39;,</span>
+<span class="sd">            &#39;torque_K&#39;, &#39;linear_vel&#39;, &#39;angular_vel&#39;]. All are :py:obj:`numpy.ndarray` </span>
+<span class="sd">            objects of appropriate dims. &#39;force&#39; and &#39;torque&#39; are in the robot&#39;s base</span>
+<span class="sd">            frame, while &#39;force_K&#39; and &#39;torque_K&#39; are in the stiffness frame.</span>
 <span class="sd">        :rtype: dict {str: obj}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tip_state</span></div>
@@ -748,7 +761,7 @@
 <div class="viewcode-block" id="PandaArm.ee_pose"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.ee_pose">[docs]</a>    <span class="k">def</span> <span class="nf">ee_pose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :return: end-effector pose as position and quaternion in global frame obtained directly from robot state</span>
-<span class="sd">        :rtype: np.ndarray (pose), np.quaternion (orientation)</span>
+<span class="sd">        :rtype: numpy.ndarray (pose), np.quaternion (orientation)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ee_point</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">endpoint_pose</span><span class="p">()[</span><span class="s1">&#39;position&#39;</span><span class="p">])</span>
 
@@ -760,7 +773,7 @@
 <div class="viewcode-block" id="PandaArm.ee_velocity"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.ee_velocity">[docs]</a>    <span class="k">def</span> <span class="nf">ee_velocity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">real_robot</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :return: end effector velocity (linear and angular) computed using finite difference</span>
-<span class="sd">        :rtype: np.ndarray, np.ndarray</span>
+<span class="sd">        :rtype: numpy.ndarray, numpy.ndarray</span>
 
 <span class="sd">        :param real_robot: if False, computes ee velocity using finite difference</span>
 <span class="sd">        :type real_robot: bool</span>
@@ -794,20 +807,31 @@
 
         <span class="k">return</span> <span class="n">ee_vel</span><span class="p">,</span> <span class="n">ee_omg</span></div>
     
-<div class="viewcode-block" id="PandaArm.move_to_joint_position"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.move_to_joint_position">[docs]</a>    <span class="k">def</span> <span class="nf">move_to_joint_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_angles</span><span class="p">):</span>
+<div class="viewcode-block" id="PandaArm.move_to_joint_position"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.move_to_joint_position">[docs]</a>    <span class="k">def</span> <span class="nf">move_to_joint_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_angles</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.00085</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">use_moveit</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Move to joint position specified (using MoveIt by default; if MoveIt server is not running then attempts with trajectory action client)</span>
+<span class="sd">        Move to joint position specified (using MoveIt by default; if MoveIt server is not running then attempts with trajectory action client).</span>
+
+<span class="sd">        .. note:: This method stops the currently active controller for trajectory tracking (and automatically restarts the controller(s) after execution of trajectory).</span>
 
 <span class="sd">        :param joint_angles: desired joint positions, ordered from joint1 to joint7</span>
 <span class="sd">        :type joint_angles: [float]</span>
+<span class="sd">        :type timeout: float</span>
+<span class="sd">        :param timeout: seconds to wait for move to finish [15]</span>
+<span class="sd">        :type threshold: float</span>
+<span class="sd">        :param threshold: position threshold in radians across each joint when</span>
+<span class="sd">         move is considered successful [0.00085]</span>
+<span class="sd">        :param test: optional function returning True if motion must be aborted</span>
+<span class="sd">        :type use_moveit: bool</span>
+<span class="sd">        :param use_moveit: if set to True, and movegroup interface is available, </span>
+<span class="sd">         move to the joint positions using moveit planner.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">move_to_joint_positions</span><span class="p">(</span>
-            <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">joint_names</span><span class="p">(),</span> <span class="n">joint_angles</span><span class="p">)))</span></div>
+            <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">joint_names</span><span class="p">(),</span> <span class="n">joint_angles</span><span class="p">)),</span> <span class="n">timeout</span><span class="o">=</span><span class="n">timeout</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">threshold</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="n">test</span><span class="p">,</span> <span class="n">use_moveit</span><span class="o">=</span><span class="n">use_moveit</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PandaArm.forward_kinematics"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.forward_kinematics">[docs]</a>    <span class="k">def</span> <span class="nf">forward_kinematics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_angles</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ori_type</span><span class="o">=</span><span class="s1">&#39;quat&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :return: position and orientaion of end-effector for the current/provided joint angles</span>
-<span class="sd">        :rtype: np.ndarray, np.ndarray/np.quaternion</span>
+<span class="sd">        :rtype: [numpy.ndarray, numpy.ndarray (or) quaternion.quaternion]</span>
 
 <span class="sd">        :param joint_angles: joint angles (optional) for which the ee pose is to be computed</span>
 <span class="sd">        :type joint_angles: [float]</span>
@@ -847,7 +871,7 @@
 <span class="sd">        :py:func:`ee_velocity`.</span>
 
 <span class="sd">        :return: end-effector velocity computed using kdl</span>
-<span class="sd">        :rtype: np.ndarray</span>
+<span class="sd">        :rtype: numpy.ndarray</span>
 
 <span class="sd">        :param joint_angles: joint angles (optional) </span>
 <span class="sd">        :type joint_angles: [float]</span>
@@ -864,7 +888,7 @@
 <div class="viewcode-block" id="PandaArm.jacobian"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.jacobian">[docs]</a>    <span class="k">def</span> <span class="nf">jacobian</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_angles</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :return: jacobian matrix of robot at current state as computed using KDL (should match the value provided by libfranka through :py:meth:`franka_interface.ArmInterface.zero_jacobian` when no argument is passed)</span>
-<span class="sd">        :rtype: np.ndarray</span>
+<span class="sd">        :rtype: numpy.ndarray</span>
 
 <span class="sd">        :param joint_angles: joint angles (optional) for which the jacobian is to be computed</span>
 <span class="sd">        :type joint_angles: [float]</span>
@@ -881,7 +905,7 @@
 <div class="viewcode-block" id="PandaArm.inertia"><a class="viewcode-back" href="../../DOC.html#panda_robot.PandaArm.inertia">[docs]</a>    <span class="k">def</span> <span class="nf">inertia</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">joint_angles</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :return: inertia matrix of robot at current state as computed using KDL (should be close to the value provided by libfranka through :py:meth:`franka_interface.ArmInterface.joint_inertia_matrix` when no argument is passed; Exact match may not be available due to dynamics model and computation errors.)</span>
-<span class="sd">        :rtype: np.ndarray</span>
+<span class="sd">        :rtype: numpy.ndarray</span>
 
 <span class="sd">        :param joint_angles: joint angles (optional)</span>
 <span class="sd">        :type joint_angles: [float]</span>

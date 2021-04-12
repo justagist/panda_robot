@@ -43,6 +43,7 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -102,10 +103,7 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Panda Robot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="DOC.html">Python API Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="DOC.html#module-panda_robot">panda_robot</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="DOC.html#pandaarm">PandaArm</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="DOC.html#pandaarm">PandaArm</a></li>
 </ul>
 </li>
 </ul>
@@ -203,10 +201,10 @@ $ <span class="nb">source</span> devel/setup.bash
 </div>
 <div class="section" id="basic-usage">
 <h1>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h1>
-<p><strong>Note: The franka_ros_interface ‘driver’ should be running in the ‘master’ environment in one terminal (See</strong> <a class="reference external" href="https://github.com/justagist/franka_ros_interface#usage">Franka ROS Interface instructions</a> <strong>for details). Then, any code which uses PandaRobot or Franka ROS Interface should be run in ‘master’ or ‘remote’ environment (as appropriate).</strong></p>
+<p><strong>Note: If using with a real physical Franka Emika Panda robot, the franka_ros_interface ‘driver’ should be running in the ‘master’ environment in one terminal (See</strong> <a class="reference external" href="https://github.com/justagist/franka_ros_interface#usage">Franka ROS Interface instructions</a> <strong>for details). Then, any code which uses PandaRobot or Franka ROS Interface should be run in ‘master’ or ‘remote’ environment (as appropriate). When using with</strong> <a class="reference external" href="https://github.com/justagist/panda_simulator">Panda Simulator</a> <strong>, this package can be used directly without the need for any specific environment as long as this package, the simulator package, and Franka ROS Interface packages are in the same ROS workspace.</strong></p>
 <p>Basic usage of PandaRobot API is shown below. See <a class="reference external" href="https://github.com/justagist/panda_robot/tree/master/scripts">scripts</a> folder to see usage of some of the available methods, and example for real-time low-level control of the robot.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rospy</span>
-<span class="kn">from</span> <span class="nn">aml_robot.panda_robot</span> <span class="kn">import</span> <span class="n">PandaArm</span>
+<span class="kn">from</span> <span class="nn">panda_robot</span> <span class="kn">import</span> <span class="n">PandaArm</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">rospy</span><span class="o">.</span><span class="n">init_node</span><span class="p">(</span><span class="s2">&quot;panda_demo&quot;</span><span class="p">)</span> <span class="c1"># initialise ros node</span>

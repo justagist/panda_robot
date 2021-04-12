@@ -43,6 +43,7 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -102,10 +103,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Panda Robot</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Python API Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-panda_robot">panda_robot</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pandaarm">PandaArm</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#pandaarm">PandaArm</a></li>
 </ul>
 </li>
 </ul>
@@ -173,16 +171,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="python-api-documentation">
-<h1>Python API Documentation<a class="headerlink" href="#python-api-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-panda_robot">
-<span id="panda-robot"></span><h2>panda_robot<a class="headerlink" href="#module-panda_robot" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="module-panda_robot">
+<span id="python-api-documentation"></span><h1>Python API Documentation<a class="headerlink" href="#module-panda_robot" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="pandaarm">
-<h3>PandaArm<a class="headerlink" href="#pandaarm" title="Permalink to this headline">¶</a></h3>
+<h2>PandaArm<a class="headerlink" href="#pandaarm" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The generated documentation below also includes relevant methods that are inherited from parent <a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_interface.ArmInterface" title="(in Franka ROS Interface v0.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">franka_interface.ArmInterface</span></code></a> and therefore their definitions and docs might not be found in the source code file of PandaArm; their definitions and docstring sources are in the source files of the parent class. (Inherited methods can be identified by the lack a link for <cite>[source]</cite> next to their names in the docs below.)</p>
+</div>
 <dl class="class">
 <dt id="panda_robot.PandaArm">
 <em class="property">class </em><code class="descclassname">panda_robot.</code><code class="descname">PandaArm</code><span class="sig-paren">(</span><em>on_state_callback=None</em>, <em>reset_frames=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/panda_robot/panda_robot.html#PandaArm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#panda_robot.PandaArm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Constructor class.  Methods from <a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_interface.ArmInterface" title="(in Franka ROS Interface v0.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">franka_interface.ArmInterface</span></code></a> are also available to this object.</p>
+<dd><p>Methods from <a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_interface.ArmInterface" title="(in Franka ROS Interface v0.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">franka_interface.ArmInterface</span></code></a> are also available to objects of this class.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -242,9 +242,26 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">end-effector velocity computed using kdl</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>joint_angles</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>]</em>) – joint angles (optional)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.coriolis_comp">
+<code class="descname">coriolis_comp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.coriolis_comp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return coriolis compensation torques. Useful for compensating coriolis when
+performing direct torque control of the robot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">7D joint torques compensating for coriolis.</td>
 </tr>
 </tbody>
 </table>
@@ -259,7 +276,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">end-effector pose as position and quaternion in global frame obtained directly from robot state</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray (pose), np.quaternion (orientation)</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a> (pose), np.quaternion (orientation)</td>
 </tr>
 </tbody>
 </table>
@@ -274,7 +291,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">end effector velocity (linear and angular) computed using finite difference</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray, np.ndarray</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>real_robot</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – if False, computes ee velocity using finite difference</td>
 </tr>
@@ -284,6 +301,23 @@
 computation. Please note that this might produce a bug since some values gets
 updated only if ee_velocity() is called. [TODO: This can be fixed by moving the update
 to the state callback method.]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.efforts">
+<code class="descname">efforts</code><span class="sig-paren">(</span><em>include_gripper=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/panda_robot/panda_robot.html#PandaArm.efforts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#panda_robot.PandaArm.efforts" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">current joint efforts (measured torques)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">[<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a>]</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>include_gripper</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – if True, append gripper joint efforts to list</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -302,6 +336,44 @@ to the state callback method.]</p>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">name of end-effector frame</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.endpoint_effort">
+<code class="descname">endpoint_effort</code><span class="sig-paren">(</span><em>in_base_frame=True</em><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.endpoint_effort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return Cartesian endpoint wrench {force, torque}.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>in_base_frame</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – if True, returns end-effector effort with respect to base frame, else in stiffness frame [default: True]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a>({str:np.ndarray (shape:(3,)),str:np.ndarray (shape:(3,))})</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">force and torque at endpoint as named tuples in a dict in the base frame of the robot or in the stiffness frame (wrist)<ul class="simple">
+<li>’force’: Cartesian force on x,y,z axes in np.ndarray format</li>
+<li>’torque’: Torque around x,y,z axes in np.ndarray format</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.error_in_current_state">
+<code class="descname">error_in_current_state</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.error_in_current_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the specified limb has experienced an error.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the arm has error, False otherwise.</td>
 </tr>
 </tbody>
 </table>
@@ -391,6 +463,38 @@ commands (positions that are very small distance apart from current position).</
 </dd></dl>
 
 <dl class="method">
+<dt id="panda_robot.PandaArm.exit_control_mode">
+<code class="descname">exit_control_mode</code><span class="sig-paren">(</span><em>timeout=5</em>, <em>velocity_tolerance=0.01</em><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.exit_control_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clean exit from advanced control modes (joint torque or velocity).
+Resets control to joint position mode with current positions until 
+further advanced control commands are sent to the robot.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In normal cases, this method is not required as the
+interface automatically switches to position control mode if
+advanced control commands (velocity/torque) are not sent at 
+regular intervals. Therefore it is enough to stop sending the 
+commands to disable advanced control modes.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In sim, this method does nothing.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – seconds to wait for robot to stop moving before giving up [default: 5]</li>
+<li><strong>velocity_tolerance</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – tolerance</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="panda_robot.PandaArm.forward_kinematics">
 <code class="descname">forward_kinematics</code><span class="sig-paren">(</span><em>joint_angles=None</em>, <em>ori_type='quat'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/panda_robot/panda_robot.html#PandaArm.forward_kinematics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#panda_robot.PandaArm.forward_kinematics" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
@@ -400,7 +504,7 @@ commands (positions that are very small distance apart from current position).</
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">position and orientaion of end-effector for the current/provided joint angles</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">np.ndarray, np.ndarray/np.quaternion</p>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">[<a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a>, <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a> (or) quaternion.quaternion]</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
@@ -408,6 +512,64 @@ commands (positions that are very small distance apart from current position).</
 <li><strong>ori_type</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) – to specify the orientation representation to return (‘quat’,’mat’,’eul’)</li>
 </ul>
 </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.get_controller_manager">
+<code class="descname">get_controller_manager</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.get_controller_manager" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the FrankaControllerManagerInterface instance associated with the robot.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_tools.FrankaControllerManagerInterface" title="(in Franka ROS Interface v0.7.1)">franka_tools.FrankaControllerManagerInterface</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.get_flange_pose">
+<code class="descname">get_flange_pose</code><span class="sig-paren">(</span><em>pos=None</em>, <em>ori=None</em><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.get_flange_pose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the pose of flange (panda_link8) given the pose of the end-effector frame.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In sim, this method does nothing.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pos</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – position of the end-effector frame in the robot’s base frame, defaults to current end-effector position</li>
+<li><strong>ori</strong> (<em>quaternion.quaternion</em><em>, </em><em>optional</em>) – orientation of the end-effector frame, defaults to current end-effector orientation</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">corresponding flange frame pose in the robot’s base frame</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">np.ndarray, quaternion.quaternion</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.get_frames_interface">
+<code class="descname">get_frames_interface</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.get_frames_interface" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the FrankaFramesInterface instance associated with the robot.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_tools.FrankaFramesInterface" title="(in Franka ROS Interface v0.7.1)">franka_tools.FrankaFramesInterface</a></td>
 </tr>
 </tbody>
 </table>
@@ -429,6 +591,84 @@ commands (positions that are very small distance apart from current position).</
 </dd></dl>
 
 <dl class="method">
+<dt id="panda_robot.PandaArm.get_joint_limits">
+<code class="descname">get_joint_limits</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.get_joint_limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the joint limits (defined in the parameter server)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">franka_core_msgs.msg.JointLimits</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">JointLimits</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.get_movegroup_interface">
+<code class="descname">get_movegroup_interface</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.get_movegroup_interface" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the movegroup interface instance associated with the robot.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_moveit.PandaMoveGroupInterface" title="(in Franka ROS Interface v0.7.1)">franka_moveit.PandaMoveGroupInterface</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.get_robot_params">
+<code class="descname">get_robot_params</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.get_robot_params" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Useful parameters from the ROS parameter server.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_interface.RobotParams" title="(in Franka ROS Interface v0.7.1)">franka_interface.RobotParams</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.get_robot_status">
+<code class="descname">get_robot_status</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.get_robot_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return dict with all robot status information.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">[‘robot_mode’ (RobotMode object), ‘robot_status’ (bool), ‘errors’ (dict() of errors and their truth value), ‘error_in_curr_status’ (bool)]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.gravity_comp">
+<code class="descname">gravity_comp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.gravity_comp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return gravity compensation torques.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">7D joint torques compensating for gravity.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="panda_robot.PandaArm.gripper_state">
 <code class="descname">gripper_state</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/panda_robot/panda_robot.html#PandaArm.gripper_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#panda_robot.PandaArm.gripper_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return Gripper state {‘position’, ‘force’}. Only available if Franka gripper is connected.</p>
@@ -436,16 +676,23 @@ commands (positions that are very small distance apart from current position).</
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a>({str:np.ndarray (shape:(2,)),str:np.ndarray (shape:(2,))})</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a> ({str : numpy.ndarray (shape:(2,)), str : numpy.ndarray (shape:(2,))})</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">dict of position and force<ul class="simple">
-<li>’position’: np.array</li>
-<li>’force’: np.array</li>
+<li>’position’: <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></li>
+<li>’force’: <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.has_collided">
+<code class="descname">has_collided</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.has_collided" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if either joint collision or cartesian collision is detected. 
+Collision thresholds can be set using instance of <a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_tools.CollisionBehaviourInterface" title="(in Franka ROS Interface v0.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">franka_tools.CollisionBehaviourInterface</span></code></a>.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -464,6 +711,22 @@ commands (positions that are very small distance apart from current position).</
 </dd></dl>
 
 <dl class="method">
+<dt id="panda_robot.PandaArm.in_safe_state">
+<code class="descname">in_safe_state</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.in_safe_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the specified limb is in safe state (no collision, reflex, errors etc.).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the arm is in safe state, False otherwise.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="panda_robot.PandaArm.inertia">
 <code class="descname">inertia</code><span class="sig-paren">(</span><em>joint_angles=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/panda_robot/panda_robot.html#PandaArm.inertia"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#panda_robot.PandaArm.inertia" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
@@ -472,7 +735,7 @@ commands (positions that are very small distance apart from current position).</
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">inertia matrix of robot at current state as computed using KDL (should be close to the value provided by libfranka through <a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_interface.ArmInterface.joint_inertia_matrix" title="(in Franka ROS Interface v0.7.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">franka_interface.ArmInterface.joint_inertia_matrix()</span></code></a> when no argument is passed; Exact match may not be available due to dynamics model and computation errors.)</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>joint_angles</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>]</em>) – joint angles (optional)</td>
 </tr>
@@ -515,9 +778,25 @@ commands (positions that are very small distance apart from current position).</
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">jacobian matrix of robot at current state as computed using KDL (should match the value provided by libfranka through <a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_interface.ArmInterface.zero_jacobian" title="(in Franka ROS Interface v0.7.1)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">franka_interface.ArmInterface.zero_jacobian()</span></code></a> when no argument is passed)</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)">numpy.ndarray</a></td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>joint_angles</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>]</em>) – joint angles (optional) for which the jacobian is to be computed</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.joint_inertia_matrix">
+<code class="descname">joint_inertia_matrix</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.joint_inertia_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current joint inertia matrix given by libfranka.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">joint inertia matrix (7,7)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray [7x7]</td>
 </tr>
 </tbody>
 </table>
@@ -533,6 +812,41 @@ commands (positions that are very small distance apart from current position).</
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">joint limits</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">[{‘lower’: float, ‘upper’: float}]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.joint_names">
+<code class="descname">joint_names</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.joint_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the names of the joints for the specified limb.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">[<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a>]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">ordered list of joint names from proximal to distal (i.e. shoulder to wrist).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.move_to_cartesian_pose">
+<code class="descname">move_to_cartesian_pose</code><span class="sig-paren">(</span><em>pos</em>, <em>ori=None</em>, <em>use_moveit=True</em><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.move_to_cartesian_pose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move robot end-effector to specified cartesian pose using MoveIt! (also avoids obstacles if they are defined using <a class="reference external" href="https://www.saifsidhik.page/franka_ros_interface/DOC.html#franka_moveit.ExtendedPlanningSceneInterface" title="(in Franka ROS Interface v0.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">franka_moveit.ExtendedPlanningSceneInterface</span></code></a>)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pos</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>] or </em><em>np.ndarray</em>) – target end-effector position</li>
+<li><strong>ori</strong> (<em>quaternion.quaternion</em><em> or </em><em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>] </em><em>(</em><em>quaternion in w</em><em>,</em><em>x</em><em>,</em><em>y</em><em>,</em><em>z order</em><em>)</em><em>, </em><em>optional</em>) – target orientation quaternion for end-effector, defaults to current ori</li>
+<li><strong>use_moveit</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Flag for using MoveIt (redundant for now; only works if set to True), defaults to True</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -555,13 +869,46 @@ based on desired change in joint position wrt to current joint positions</p>
 
 <dl class="method">
 <dt id="panda_robot.PandaArm.move_to_joint_position">
-<code class="descname">move_to_joint_position</code><span class="sig-paren">(</span><em>joint_angles</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/panda_robot/panda_robot.html#PandaArm.move_to_joint_position"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#panda_robot.PandaArm.move_to_joint_position" title="Permalink to this definition">¶</a></dt>
-<dd><p>Move to joint position specified (using MoveIt by default; if MoveIt server is not running then attempts with trajectory action client)</p>
+<code class="descname">move_to_joint_position</code><span class="sig-paren">(</span><em>joint_angles</em>, <em>timeout=10.0</em>, <em>threshold=0.00085</em>, <em>test=None</em>, <em>use_moveit=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/panda_robot/panda_robot.html#PandaArm.move_to_joint_position"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#panda_robot.PandaArm.move_to_joint_position" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move to joint position specified (using MoveIt by default; if MoveIt server is not running then attempts with trajectory action client).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This method stops the currently active controller for trajectory tracking (and automatically restarts the controller(s) after execution of trajectory).</p>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>joint_angles</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>]</em>) – desired joint positions, ordered from joint1 to joint7</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>joint_angles</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>]</em>) – desired joint positions, ordered from joint1 to joint7</li>
+<li><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – seconds to wait for move to finish [15]</li>
+<li><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – position threshold in radians across each joint when
+move is considered successful [0.00085]</li>
+<li><strong>test</strong> – optional function returning True if motion must be aborted</li>
+<li><strong>use_moveit</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) – if set to True, and movegroup interface is available, 
+move to the joint positions using moveit planner.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.move_to_neutral">
+<code class="descname">move_to_neutral</code><span class="sig-paren">(</span><em>timeout=15.0</em>, <em>speed=0.15</em><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.move_to_neutral" title="Permalink to this definition">¶</a></dt>
+<dd><p>Command the Limb joints to a predefined set of “neutral” joint angles.
+From rosparam /franka_control/neutral_pose.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – seconds to wait for move to finish [15]</li>
+<li><strong>speed</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – ratio of maximum joint speed for execution
+default= 0.15; range= [0.0-1.0]</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -679,7 +1026,7 @@ kinematic chain for PyKDL IK/FK computations.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em> (</em><em>16</em><em>,</em><em>)</em><em>] </em><em>/ np.ndarray</em><em> (</em><em>4x4</em><em>)</em>) – transformation matrix of new EE frame wrt nominal end-effector frame (column major)</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em> (</em><em>len = 16</em><em>)</em><em>] </em><em>(</em><em>or</em><em>) </em><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><em>numpy.ndarray</em></a><em> (</em><em>4x4</em><em>)</em>) – transformation matrix of new EE frame wrt nominal end-effector frame (column major)</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">[<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a>, <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a>]</td>
 </tr>
@@ -706,6 +1053,44 @@ kinematic chain for PyKDL IK/FK computations.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="panda_robot.PandaArm.set_collision_threshold">
+<code class="descname">set_collision_threshold</code><span class="sig-paren">(</span><em>cartesian_forces=None</em>, <em>joint_torques=None</em><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.set_collision_threshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set Force Torque thresholds for deciding robot has collided.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True if service call successful, False otherwise</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cartesian_forces</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>] </em><em>size 6</em>) – Cartesian force threshold for collision detection [x,y,z,R,P,Y] (robot motion stops if violated)</li>
+<li><strong>joint_torques</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>] </em><em>size 7</em>) – Joint torque threshold for collision (robot motion stops if violated)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.set_command_timeout">
+<code class="descname">set_command_timeout</code><span class="sig-paren">(</span><em>timeout</em><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.set_command_timeout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the timeout in seconds for the joint controller</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>timeout</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – timeout in seconds</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="panda_robot.PandaArm.set_gripper_speed">
 <code class="descname">set_gripper_speed</code><span class="sig-paren">(</span><em>speed</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/panda_robot/panda_robot.html#PandaArm.set_gripper_speed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#panda_robot.PandaArm.set_gripper_speed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set velocity for gripper motion</p>
@@ -714,6 +1099,47 @@ kinematic chain for PyKDL IK/FK computations.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>speed</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – speed ratio to set</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.set_joint_position_speed">
+<code class="descname">set_joint_position_speed</code><span class="sig-paren">(</span><em>speed=0.3</em><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.set_joint_position_speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set ratio of max joint speed to use during joint position 
+moves (only for move_to_joint_positions).</p>
+<p>Set the proportion of maximum controllable velocity to use
+during joint position control execution. The default ratio
+is <cite>0.3</cite>, and can be set anywhere from [0.0-1.0] (clipped).
+Once set, a speed ratio will persist until a new execution
+speed is set.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>speed</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) – ratio of maximum joint speed for execution
+default= 0.3; range= [0.0-1.0]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="panda_robot.PandaArm.set_joint_positions_velocities">
+<code class="descname">set_joint_positions_velocities</code><span class="sig-paren">(</span><em>positions</em>, <em>velocities</em><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.set_joint_positions_velocities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Commands the joints of this limb using specified positions and velocities using impedance control.
+Command at time t is computed as:</p>
+<p><span class="math notranslate nohighlight">\(u_t= coriolis\_factor * coriolis\_t + K\_p * (positions - curr\_positions) +  K\_d * (velocities - curr\_velocities)\)</span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>positions</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>]</em>) – desired joint positions as an ordered list corresponding to joints given by self.joint_names()</li>
+<li><strong>velocities</strong> (<em>[</em><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a><em>]</em>) – desired joint velocities as an ordered list corresponding to joints given by self.joint_names()</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -741,7 +1167,11 @@ kinematic chain for PyKDL IK/FK computations.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">tip_state dictionary</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">tip (end-effector frame) state dictionary with keys 
+[‘position’, ‘orientation’, ‘force’, ‘torque’, ‘force_K’,
+‘torque_K’, ‘linear_vel’, ‘angular_vel’]. All are <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.20)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> 
+objects of appropriate dims. ‘force’ and ‘torque’ are in the robot’s base
+frame, while ‘force_K’ and ‘torque_K’ are in the stiffness frame.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">dict {str: obj}</td>
 </tr>
@@ -772,9 +1202,40 @@ kinematic chain for PyKDL IK/FK computations.</p>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="panda_robot.PandaArm.what_errors">
+<code class="descname">what_errors</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.what_errors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return list of error messages if there is error in robot state</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">[<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a>]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of names of current errors in robot state</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-</div>
+<dl class="method">
+<dt id="panda_robot.PandaArm.zero_jacobian">
+<code class="descname">zero_jacobian</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#panda_robot.PandaArm.zero_jacobian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current jacobian matrix given by libfranka.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">end-effector jacobian (6,7)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray [6x7]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
