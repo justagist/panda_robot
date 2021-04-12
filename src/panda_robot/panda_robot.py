@@ -52,7 +52,7 @@ def time_in_seconds():
 
 class PandaArm(franka_interface.ArmInterface):
     """
-        Constructor class.  Methods from :py:class:`franka_interface.ArmInterface` are also available to this object.
+        Methods from :py:class:`franka_interface.ArmInterface` are also available to objects of this class.
 
         :bases: :py:class:`franka_interface.ArmInterface`
 
@@ -317,13 +317,10 @@ class PandaArm(franka_interface.ArmInterface):
 
         now = rospy.Time.now()
 
-        def to_list(ls):
-            return [ls[n] for n in self.joint_names()]
-
         state = {}
         state['position'] = self.angles()
         state['velocity'] = self.velocities()
-        state['effort'] = np.array(to_list(self.joint_efforts()))
+        state['effort'] = self.efforts()
         state['jacobian'] = self.jacobian(None)
         state['inertia'] = self.inertia(None)
         state['tip_state'] = self.tip_state()
@@ -356,10 +353,7 @@ class PandaArm(franka_interface.ArmInterface):
 
         joint_names = self.joint_names()
 
-        def to_list(ls):
-            return [ls[n] for n in joint_names]
-
-        all_angles = to_list(joint_angles)
+        all_angles = [joint_angles[n] for n in joint_names]
 
         if include_gripper and self._gripper:
             all_angles += self._gripper.joint_ordered_positions()
@@ -385,15 +379,32 @@ class PandaArm(franka_interface.ArmInterface):
 
         joint_names = self.joint_names()
 
-        def to_list(ls):
-            return [ls[n] for n in joint_names]
-
-        all_velocities = to_list(joint_velocities)
+        all_velocities = [joint_velocities[n] for n in joint_names]
 
         if include_gripper and self._gripper:
             all_velocities += self._gripper.joint_ordered_velocities()
 
         return np.array(all_velocities)
+
+    def efforts(self, include_gripper=False):
+        """
+        :return: current joint efforts (measured torques)
+        :rtype: [float]
+
+        :param include_gripper: if True, append gripper joint efforts to list
+        :type include_gripper: bool
+        """
+        joint_efforts = self.joint_efforts()
+
+        joint_names = self.joint_names()
+
+        all_efforts = [joint_efforts[n] for n in joint_names]
+
+        if include_gripper and self._gripper:
+            all_efforts += self._gripper.joint_ordered_efforts()
+
+        return np.array(all_efforts)
+
 
     def q_mean(self):
         """
@@ -425,7 +436,11 @@ class PandaArm(franka_interface.ArmInterface):
 
     def tip_state(self):
         """
-        :return: tip_state dictionary
+        :return: tip (end-effector frame) state dictionary with keys 
+            ['position', 'orientation', 'force', 'torque', 'force_K',
+            'torque_K', 'linear_vel', 'angular_vel']. All are np.ndarray of
+            appropriate dims. 'force' and 'torque' are in the robot's base
+            frame, while 'force_K' and 'torque_K' are in the stiffness frame.
         :rtype: dict {str: obj}
         """
         return self._tip_state
@@ -621,15 +636,26 @@ class PandaArm(franka_interface.ArmInterface):
 
         return ee_vel, ee_omg
     
-    def move_to_joint_position(self, joint_angles):
+    def move_to_joint_position(self, joint_angles, timeout=10.0, threshold=0.00085, test=None, use_moveit=True):
         """
-        Move to joint position specified (using MoveIt by default; if MoveIt server is not running then attempts with trajectory action client)
+        Move to joint position specified (using MoveIt by default; if MoveIt server is not running then attempts with trajectory action client).
+
+        .. note:: This method stops the currently active controller for trajectory tracking (and automatically restarts the controller(s) after execution of trajectory).
 
         :param joint_angles: desired joint positions, ordered from joint1 to joint7
         :type joint_angles: [float]
+        :type timeout: float
+        :param timeout: seconds to wait for move to finish [15]
+        :type threshold: float
+        :param threshold: position threshold in radians across each joint when
+         move is considered successful [0.00085]
+        :param test: optional function returning True if motion must be aborted
+        :type use_moveit: bool
+        :param use_moveit: if set to True, and movegroup interface is available, 
+         move to the joint positions using moveit planner.
         """
         self.move_to_joint_positions(
-            dict(zip(self.joint_names(), joint_angles)))
+            dict(zip(self.joint_names(), joint_angles)), timeout=timeout, threshold=threshold, test=test, use_moveit=use_moveit)
 
     def forward_kinematics(self, joint_angles=None, ori_type='quat'):
         """
