@@ -217,4 +217,4 @@ epub_exclude_files = ['search.html']
 # -- Options for intersphinx extension ---------------------------------------
 
 # Example configuration for intersphinx: refer to the Python standard library.
-intersphinx_mapping = {'https://docs.python.org/2/': None, 'https://justagist.github.io/franka_ros_interface/':None}
+intersphinx_mapping = {'https://docs.python.org/2/': None, 'https://justagist.github.io/franka_ros_interface/':None, 'https://numpy.org/doc/stable/':None}
