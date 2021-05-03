@@ -21,8 +21,8 @@ if __name__ == '__main__':
 
     initial_pose = deepcopy(r.joint_ordered_angles())
 
-    raw_input("Hit Enter to Start")
-    print "commanding"
+    input("Hit Enter to Start")
+    print("commanding")
     vals = deepcopy(initial_pose)
     count = 0
 
@@ -40,9 +40,9 @@ if __name__ == '__main__':
                 vals[j] = initial_pose[j] + delta
 
         if count%500 == 0:
-            print vals, delta
-            print "\n ----  \n"
-            print " "
+            print(vals, delta)
+            print("\n ----  \n")
+            print(" ")
 
 
         r.set_joint_positions_velocities(vals, [0.0 for _ in range(7)]) # for impedance control

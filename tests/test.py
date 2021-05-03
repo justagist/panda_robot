@@ -21,14 +21,14 @@ if __name__ == '__main__':
     rate = rospy.Rate(10)
     while not rospy.is_shutdown():
         if not r.in_safe_state():
-            print r.get_robot_status()
+            print(r.get_robot_status())
             if r.error_in_current_state():
-                print r.what_errors()
+                print(r.what_errors())
             break
-        print "-----------------"
-        print ""
+        print("-----------------")
+        print("")
         
-        print ""
+        print("")
         wrench = r.tip_state()
 
         wrench1.header.stamp = rospy.Time.now()
@@ -42,9 +42,9 @@ if __name__ == '__main__':
 
         wrench_pub.publish(wrench1)
 
-        print "-----------------"
+        print("-----------------")
 
-        print "-----------------"
-        print "-----------------"
+        print("-----------------")
+        print("-----------------")
 
         rate.sleep()

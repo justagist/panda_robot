@@ -35,8 +35,8 @@ if __name__ == '__main__':
 
     initial_pose = deepcopy(r.angles())
 
-    raw_input("Hit Enter to Start")
-    print "commanding"
+    input("Hit Enter to Start")
+    print("commanding")
     vals = deepcopy(initial_pose)
     count = 0
 
@@ -53,9 +53,9 @@ if __name__ == '__main__':
                 vals[j] = initial_pose[j] + delta
 
         if count%500 == 0:
-            print vals, delta
-            print "\n ----  \n"
-            print " "
+            print(vals, delta)
+            print("\n ----  \n")
+            print(" ")
 
 
         ## ===== IMPORTANT: ONLY USE ONE CONTROL METHOD AT A TIME IN A LOOP! COMMENT OUT ONE OF THE TWO LINES BELOW ALWAYS!

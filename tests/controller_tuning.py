@@ -31,14 +31,14 @@ if __name__ == '__main__':
 
     r.move_to_neutral()
 
-    raw_input("Hit Enter to Start")
+    input("Hit Enter to Start")
     joints = r.angles()
 
     limits = r.joint_limits()
 
     lower_lim = limits[0]['lower']/4
     upper_lim = limits[0]['upper']/4
-    print "commanding"
+    print("commanding")
 
     speed = 10
 

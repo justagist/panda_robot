@@ -31,7 +31,7 @@ if __name__ == '__main__':
     def sendto(values):
         r.move_to_joint_positions(convert_to_dict(values))
 
-        print "err" , np.asarray(values) - np.asarray(r.joint_ordered_angles())
+        print("err" , np.asarray(values) - np.asarray(r.joint_ordered_angles()))
 
     cm = r.get_controller_manager()
 

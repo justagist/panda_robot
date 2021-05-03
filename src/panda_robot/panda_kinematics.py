@@ -30,7 +30,7 @@ import PyKDL
 import rospy
 from copy import deepcopy
 
-from utils.kdl_parser import kdl_tree_from_urdf_model
+from .utils.kdl_parser import kdl_tree_from_urdf_model
 from urdf_parser_py.urdf import URDF
 
 def kdl_to_mat(data):
@@ -111,15 +111,15 @@ class PandaKinematics(object):
         for j in self._franka.joints:
             if j.type != 'fixed':
                 nf_joints += 1
-        print "URDF non-fixed joints: %d;" % nf_joints
-        print "URDF total joints: %d" % len(self._franka.joints)
-        print "URDF links: %d" % len(self._franka.links), [link.name for link in self._franka.links]
-        print "KDL joints: %d" % self._kdl_tree.getNrOfJoints()
-        print "KDL segments: %d" % self._kdl_tree.getNrOfSegments()
+        print("URDF non-fixed joints: %d;" % nf_joints)
+        print("URDF total joints: %d" % len(self._franka.joints))
+        print("URDF links: %d" % len(self._franka.links), [link.name for link in self._franka.links])
+        print("KDL joints: %d" % self._kdl_tree.getNrOfJoints())
+        print("KDL segments: %d" % self._kdl_tree.getNrOfSegments())
 
     def print_kdl_chain(self):
-        for idx in xrange(self._arm_chain.getNrOfSegments()):
-            print '* ' + self._arm_chain.getSegment(idx).getName()
+        for idx in range(self._arm_chain.getNrOfSegments()):
+            print('* ' + self._arm_chain.getSegment(idx).getName())
 
     def joints_to_kdl(self, type_, values=None):
         kdl_array = PyKDL.JntArray(self._num_jnts)
@@ -232,18 +232,18 @@ if __name__ == '__main__':
         # combine the names and joint angles to a dictionary, that only is accepted by kdl
         # jacobian = np.array(kin.jacobian(argument))
 
-        print "-----------------"
-        print ""
+        print("-----------------")
+        print("")
         # print jacobian
-        print kin.forward_position_kinematics() # ee positions from kdl
+        print(kin.forward_position_kinematics()) # ee positions from kdl
         # print kin.forward_velocity_kinematics()
-        print ""
+        print("")
 
-        print r._cartesian_pose # ee positions from robot directly
+        print(r._cartesian_pose) # ee positions from robot directly
         # print r._cartesian_velocity
-        print "-----------------"
-        print "-----------------"
-        print "-----------------"
+        print("-----------------")
+        print("-----------------")
+        print("-----------------")
 
         # break
         rate.sleep()

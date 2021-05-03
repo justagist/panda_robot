@@ -41,8 +41,8 @@ import argparse
 import quaternion
 import numpy as np
 import franka_interface
-from utils.math_utils import compute_omg
-from panda_kinematics import PandaKinematics
+from .utils.math_utils import compute_omg
+from .panda_kinematics import PandaKinematics
 
 
 def time_in_seconds():

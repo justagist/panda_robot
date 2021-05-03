@@ -1,4 +1,4 @@
-# Panda Robot (ROS / Python 2) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3747459.svg)](https://doi.org/10.5281/zenodo.3747459)
+# Panda Robot (ROS / Python) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3747459.svg)](https://doi.org/10.5281/zenodo.3747459)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/104807d6e9d74377ac40c827d9d261e3)](https://www.codacy.com/manual/justagist/panda_robot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=justagist/panda_robot&amp;utm_campaign=Badge_Grade) [![franka_ros_interface_version](https://img.shields.io/badge/franka_ros_interface-v0.7.1-yellow.svg)](https://github.com/justagist/franka_ros_interface)
 
@@ -37,6 +37,8 @@ The package provides an extensive and unified [API](https://justagist.github.io/
  catkin build
  source devel/setup.bash
 ```
+
+*Note: This package is written to be compatible with both Python 2 and 3, so make sure you have the Python `future` module installed (`pip install future`).*
 
 ## Usage
 

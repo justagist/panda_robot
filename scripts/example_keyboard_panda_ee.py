@@ -31,6 +31,7 @@ import rospy
 import numpy as np
 from panda_robot import PandaArm
 from franka_dataflow.getch import getch
+from future.utils import viewitems  # for python2&3 efficient compatibility
 
 pos_increment = 0.01
 ori_increment = 0.001
@@ -47,14 +48,14 @@ def map_keyboard():
     # joints = limb.joint_names()
 
     def set_ee_target(action, value):
-    	pos, ori = limb.ee_pose()
+        pos, ori = limb.ee_pose()
 
-    	if action == 'position':
-    		pos += value
-		status, j_des = limb.inverse_kinematics(pos, ori)
-		# print j_des
-		if status:
-			limb.exec_position_cmd(j_des)
+        if action == 'position':
+            pos += value
+        status, j_des = limb.inverse_kinematics(pos, ori)
+        # print j_des
+        if status:
+            limb.exec_position_cmd(j_des)
 
     def set_g(action):
         if has_gripper:
@@ -65,7 +66,7 @@ def map_keyboard():
             elif action == "calibrate":
                 limb.get_gripper().calibrate()
     def reset_robot(args):
-    	limb.untuck()
+        limb.untuck()
 
     bindings = {
         '5': (set_ee_target, ['position', np.asarray([pos_increment, 0, 0])], "x increase"),
@@ -104,7 +105,7 @@ def map_keyboard():
                 print("key bindings: ")
                 print("  Esc: Quit")
                 print("  ?: Help")
-                for key, val in sorted(bindings.items(),
+                for key, val in sorted(viewitems(bindings),
                                        key=lambda x: x[1][2]):
                     print("  %s: %s" % (key, val[2]))
 
