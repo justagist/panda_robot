@@ -1,6 +1,7 @@
-# Panda Robot (ROS / Python) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3747459.svg)](https://doi.org/10.5281/zenodo.3747459)
+# Panda Robot [![ROS Version](https://img.shields.io/badge/ROS-Melodic,%20Noetic-brightgreen.svg?logo=ros)](https://ros.org/) [![Python 2.7+, 3.6+](https://img.shields.io/badge/python-2.7+,%203.6+-blue.svg?logo=python)](https://www.python.org/downloads/release/python-360/)
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/104807d6e9d74377ac40c827d9d261e3)](https://www.codacy.com/manual/justagist/panda_robot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=justagist/panda_robot&amp;utm_campaign=Badge_Grade) [![franka_ros_interface_version](https://img.shields.io/badge/franka_ros_interface-v0.7.1-yellow.svg)](https://github.com/justagist/franka_ros_interface)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/104807d6e9d74377ac40c827d9d261e3)](https://www.codacy.com/manual/justagist/panda_robot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=justagist/panda_robot&amp;utm_campaign=Badge_Grade)
+[![franka_ros_interface_version](https://img.shields.io/badge/franka_ros_interface-v0.7.1-yellow.svg)](https://github.com/justagist/franka_ros_interface)
 
 A Python interface package built over the [*Franka ROS Interface*](https://github.com/justagist/franka_ros_interface) package, combining its different classes to provide a unified interface for controlling and handling the Franka Emika Panda robot. Also works directly with [*Panda Simulator*](https://github.com/justagist/panda_simulator).
 
@@ -19,15 +20,22 @@ The package provides an extensive and unified [API](https://justagist.github.io/
 
 **DOCUMENTATION**: <https://justagist.github.io/panda_robot/>
 
-  ![vid](assets/panda_robot_demo.gif)
+  ![vid](https://github.com/justagist/franka_ros_interface/blob/master/assets/panda_robot_demo.gif)
  Watch video [here](https://youtu.be/4bEVysUIvOY)
 
-  ![vid](assets/panda_simulator.gif)
+  ![vid](https://github.com/justagist/franka_ros_interface/blob/master/assets/panda_simulator.gif)
  Watch video [here](https://www.youtube.com/watch?v=NdSbXC0r7tU)
 
 ## Installation
 
-- Requires ROS Melodic (preferably the `desktop-full` version to cover all dependencies such as PyKDL and MoveIt)
+**NOTE:** This branch should work with ROS Melodic and ROS Noetic. Tested on:
+
+| ROS Version | Python Version | Franka ROS Branch                                                             |
+|-------------|----------------|-------------------------------------------------------------------------------|
+| Melodic     | 2.7+           | [melodic-devel](https://github.com/frankaemika/franka_ros/tree/melodic-devel) |
+| Noetic      | 3.6+           | [noetic-devel](https://github.com/frankaemika/franka_ros/tree/noetic-devel)   |
+
+- Requires ROS Melodic or Noetic (preferably the `desktop-full` version to cover all dependencies such as PyKDL and MoveIt)
 
 - Install [*Franka ROS Interface*](https://github.com/justagist/franka_ros_interface) package. *This package should be installed from source (v0.7.1 or master branch) following all instructions in the [Installation](https://github.com/justagist/franka_ros_interface#installation) section.*
 
@@ -42,12 +50,12 @@ The package provides an extensive and unified [API](https://justagist.github.io/
 
 ## Usage
 
-**Note: If using with a real physical Franka Emika Panda robot, the franka_ros_interface 'driver' should be running in the 'master' environment in one terminal (See [Franka ROS Interface instructions](https://github.com/justagist/franka_ros_interface#usage) for details). Then, any code which uses PandaRobot or Franka ROS Interface should be run in 'master' or 'remote' environment (as appropriate). When using with [Panda Simulator](https://github.com/justagist/panda_simulator), this package can be used directly without the need for any specific environment as long as this package, the simulator package, and Franka ROS Interface packages are in the same ROS workspace.**
+**Note: If using with a real physical Franka Emika Panda robot, the franka_ros_interface 'driver' should be running in the 'master' environment in one terminal (See [Franka ROS Interface instructions](https://github.com/justagist/franka_ros_interface#usage) for details). Then, any code which uses PandaRobot or Franka ROS Interface should be run in 'master' or 'remote' environment (as appropriate). When using with [Panda Simulator](https://github.com/justagist/panda_simulator), this package can be used directly without the need for any specific environment as long as this package, the simulator package, and Franka ROS Interface packages are in the same ROS workspace, and correctly sourced.**
 
 Example: Testing interface in terminal
 
 ```bash
->> python # start interactive python session; make sure the correct ros workspace is sourced.
+>> python # or `python3` # start interactive python session; make sure the correct ros workspace is sourced.
 >> import rospy
 >> from panda_robot import PandaArm
 >> rospy.init_node("panda_demo") # initialise ros node
@@ -66,9 +74,13 @@ Example: Testing interface in terminal
 >> r.move_to_cartesian_pose(pos,ori) # move the robot end-effector to pose specified by 'pos','ori'
 ```
 
-See script (`scripts/controller_test.py`) to see how the robot can be controlled using low-level joint controllers.
+See script (`test/test_pos_controllers.py`) to see how the robot can be controlled using low-level joint controllers.
 
-See script (`scripts/env.py`), and run it interactively (`python -i env.py`) for testing other available functionalities. Other available functionalities: https://justagist.github.io/panda_robot/
+See script (`scripts/env.py`), and run it interactively (`python -i env.py`) for testing other available functionalities.
+
+See other files in the `tests` and `demos` directories for more usage examples.
+
+Learn about all available functionalities in the [Documentation](https://justagist.github.io/panda_robot/).
 
 ### License
 
@@ -76,4 +88,4 @@ See script (`scripts/env.py`), and run it interactively (`python -i env.py`) for
 
 Copyright (c) 2019-2021, Saif Sidhik
 
-If you use this software, please cite it using [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3747413.svg)](https://doi.org/10.5281/zenodo.3747413).
+If you use this software for research, please considering citing using [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3747412.svg)](https://doi.org/10.5281/zenodo.3747412).
