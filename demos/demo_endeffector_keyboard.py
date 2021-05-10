@@ -1,11 +1,4 @@
-#!/bin/sh
-''':'
-if [ "$ROS_PYTHON_VERSION" = "3" ]; then
-  exec python3 "$0" "$@"
-else
-  exec python2 "$0" "$@"
-fi
-'''
+#!/usr/bin/env python
 
 # /***************************************************************************
 
@@ -40,7 +33,8 @@ from panda_robot import PandaArm
 from franka_dataflow.getch import getch
 from future.utils import viewitems  # for python2&3 efficient compatibility
 
-"""Panda Robot IK Example: End-effector Keyboard Control
+"""
+Panda Robot IK Example: End-effector Keyboard Control
 
 Use your dev machine's keyboard to control robot end-effector position.
 

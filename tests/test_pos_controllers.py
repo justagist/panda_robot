@@ -1,11 +1,7 @@
-#!/bin/sh
-''':'
-if [ "$ROS_PYTHON_VERSION" = "3" ]; then
-  exec python3 "$0" "$@"
-else
-  exec python2 "$0" "$@"
-fi
-'''
+import rospy
+import numpy as np
+from copy import deepcopy
+from panda_robot import PandaArm
 
 """
     Script to test PandaArm controller command interface.
@@ -21,11 +17,6 @@ fi
     Run script. Then Press Enter when prompted.
 
 """
-
-import rospy
-import numpy as np
-from copy import deepcopy
-from panda_robot import PandaArm
 
 if __name__ == '__main__':
     
