@@ -1,6 +1,8 @@
 Panda Robot
 ===========
 
+|ROS Version| |Python 2.7, 3.6+|
+
 A Python interface package built over the `Franka ROS Interface <franka_ros_interface_>`_ package for controlling and handling the Franka Emika Panda robot. Also works directly with `Panda Simulator <panda_simulator_>`_.
 
 *NOTE: This version requires Franka ROS Interface v0.7.1. For usage with older versions, use Panda Robot branch 'v0.6.0' from Github.*
@@ -17,10 +19,27 @@ The package provides an extensive and unified API for controlling and managing t
 - Works directly on simulated robot when using `Panda Simulator <panda_simulator_>`_ 
   providing direct sim-to-real and real-to-sim code transfer.
 
+.. image:: https://raw.githubusercontent.com/justagist/franka_ros_interface/master/assets/panda_robot_demo.gif
+   :target: https://youtu.be/4bEVysUIvOY
+
 Go to `Project Source Code`_.
 
 Installation
 ============
+
+This branch works with ROS Melodic and ROS Noetic.
+
+**NOTE:** Tested on:
+
+=========== ============== =================
+ROS Version Python Version Franka ROS Branch
+=========== ============== =================
+Melodic     2.7+           `melodic-devel`_
+Noetic      3.6+           `noetic-devel`_
+=========== ============== =================
+
+.. _melodic-devel: https://github.com/frankaemika/franka_ros/tree/melodic-devel
+.. _noetic-devel: https://github.com/frankaemika/franka_ros/tree/noetic-devel
 
 - Install `Franka ROS Interface <https://github.com/justagist/franka_ros_interface>`_ package. *This package should be installed from source (v0.7.1-dev or master branch) following all instructions in the* `Installation <https://github.com/justagist/franka_ros_interface#installation>`_ *section.*
 
@@ -34,7 +53,7 @@ Installation
 Basic Usage
 ===========
 
-**Note: If using with a real physical Franka Emika Panda robot, the franka_ros_interface 'driver' should be running in the 'master' environment in one terminal (See** `Franka ROS Interface instructions <https://github.com/justagist/franka_ros_interface#usage>`_ **for details). Then, any code which uses PandaRobot or Franka ROS Interface should be run in 'master' or 'remote' environment (as appropriate). When using with** `Panda Simulator <https://github.com/justagist/panda_simulator>`_ **, this package can be used directly without the need for any specific environment as long as this package, the simulator package, and Franka ROS Interface packages are in the same ROS workspace.**
+**Note: If using with a real physical Franka Emika Panda robot, the franka_ros_interface 'driver' should be running in the 'master' environment in one terminal (See** `Franka ROS Interface instructions <https://github.com/justagist/franka_ros_interface#usage>`_ **for details). Then, any code which uses PandaRobot or Franka ROS Interface should be run in 'master' or 'remote' environment (as appropriate). When using with** `Panda Simulator <https://github.com/justagist/panda_simulator>`_ **, this package can be used directly without the need for any specific environment as long as this package, the simulator package, and Franka ROS Interface packages are in the same ROS workspace, and correctly sourced.**
 
 Basic usage of PandaRobot API is shown below. See `scripts`_ folder to see usage of some of the available methods, and example for real-time low-level control of the robot.
 
@@ -83,6 +102,8 @@ Go to `Project Source Code`_.
 
 Copyright (c) 2019-2021, Saif Sidhik
 
+If you use this software for research, please consider citing Franka ROS Interface using |doi|.
+
 .. _panda_simulator: https://github.com/justagist/panda_simulator
 .. _KDL library: http://wiki.ros.org/kdl
 .. _franka_panda_description: https://github.com/justagist/franka_panda_description
@@ -106,3 +127,9 @@ Copyright (c) 2019-2021, Saif Sidhik
 
 .. |License| image:: https://img.shields.io/badge/License-Apache2.0-blue.svg
    :target: https://opensource.org/licenses/Apache-2.0
+.. |ROS Version| image:: https://img.shields.io/badge/ROS-Melodic,%20Noetic-brightgreen.svg?logo=ros
+   :target: https://ros.org/
+.. |Python 2.7, 3.6+| image:: https://img.shields.io/badge/python-2.7,%203.6+-blue.svg?logo=python
+   :target: https://www.python.org/downloads/release/python-360/
+.. |doi| image:: https://zenodo.org/badge/199485892.svg
+   :target: https://zenodo.org/badge/latestdoi/199485892
