@@ -24,6 +24,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
 
   
   
@@ -43,7 +44,6 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -173,6 +173,7 @@
             
   <div class="section" id="panda-robot">
 <h1>Panda Robot<a class="headerlink" href="#panda-robot" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://ros.org/"><img alt="ROS Version" src="https://img.shields.io/badge/ROS-Melodic,%20Noetic-brightgreen.svg?logo=ros" /></a> <a class="reference external" href="https://www.python.org/downloads/release/python-360/"><img alt="Python 2.7, 3.6+" src="https://img.shields.io/badge/python-2.7,%203.6+-blue.svg?logo=python" /></a></p>
 <p>A Python interface package built over the <a class="reference external" href="https://github.com/justagist/franka_ros_interface">Franka ROS Interface</a> package for controlling and handling the Franka Emika Panda robot. Also works directly with <a class="reference external" href="https://github.com/justagist/panda_simulator">Panda Simulator</a>.</p>
 <p><em>NOTE: This version requires Franka ROS Interface v0.7.1. For usage with older versions, use Panda Robot branch ‘v0.6.0’ from Github.</em></p>
 <p>The package provides an extensive and unified API for controlling and managing the Franka Emika Robot (and gripper) using pre-defined low-level controllers (position, velocity, torque, joint impedance), MoveIt planners, and JointTrajectory action service.</p>
@@ -186,10 +187,36 @@
 <li>Works directly on simulated robot when using <a class="reference external" href="https://github.com/justagist/panda_simulator">Panda Simulator</a>
 providing direct sim-to-real and real-to-sim code transfer.</li>
 </ul>
+<a class="reference external image-reference" href="https://youtu.be/4bEVysUIvOY"><img alt="https://raw.githubusercontent.com/justagist/franka_ros_interface/master/assets/panda_robot_demo.gif" src="https://raw.githubusercontent.com/justagist/franka_ros_interface/master/assets/panda_robot_demo.gif" /></a>
 <p>Go to <a class="reference external" href="https://github.com/justagist/panda_robot">Project Source Code</a>.</p>
 </div>
 <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>This branch works with ROS Melodic and ROS Noetic.</p>
+<p><strong>NOTE:</strong> Tested on:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="33%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">ROS Version</th>
+<th class="head">Python Version</th>
+<th class="head">Franka ROS Branch</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Melodic</td>
+<td>2.7+</td>
+<td><a class="reference external" href="https://github.com/frankaemika/franka_ros/tree/melodic-devel">melodic-devel</a></td>
+</tr>
+<tr class="row-odd"><td>Noetic</td>
+<td>3.6+</td>
+<td><a class="reference external" href="https://github.com/frankaemika/franka_ros/tree/noetic-devel">noetic-devel</a></td>
+</tr>
+</tbody>
+</table>
 <ul class="simple">
 <li>Install <a class="reference external" href="https://github.com/justagist/franka_ros_interface">Franka ROS Interface</a> package. <em>This package should be installed from source (v0.7.1-dev or master branch) following all instructions in the</em> <a class="reference external" href="https://github.com/justagist/franka_ros_interface#installation">Installation</a> <em>section.</em></li>
 <li>Clone the PandaRobot package to <cite>src</cite> folder of your catkin workspace. In catkin root run:</li>
@@ -201,7 +228,7 @@ $ <span class="nb">source</span> devel/setup.bash
 </div>
 <div class="section" id="basic-usage">
 <h1>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h1>
-<p><strong>Note: If using with a real physical Franka Emika Panda robot, the franka_ros_interface ‘driver’ should be running in the ‘master’ environment in one terminal (See</strong> <a class="reference external" href="https://github.com/justagist/franka_ros_interface#usage">Franka ROS Interface instructions</a> <strong>for details). Then, any code which uses PandaRobot or Franka ROS Interface should be run in ‘master’ or ‘remote’ environment (as appropriate). When using with</strong> <a class="reference external" href="https://github.com/justagist/panda_simulator">Panda Simulator</a> <strong>, this package can be used directly without the need for any specific environment as long as this package, the simulator package, and Franka ROS Interface packages are in the same ROS workspace.</strong></p>
+<p><strong>Note: If using with a real physical Franka Emika Panda robot, the franka_ros_interface ‘driver’ should be running in the ‘master’ environment in one terminal (See</strong> <a class="reference external" href="https://github.com/justagist/franka_ros_interface#usage">Franka ROS Interface instructions</a> <strong>for details). Then, any code which uses PandaRobot or Franka ROS Interface should be run in ‘master’ or ‘remote’ environment (as appropriate). When using with</strong> <a class="reference external" href="https://github.com/justagist/panda_simulator">Panda Simulator</a> <strong>, this package can be used directly without the need for any specific environment as long as this package, the simulator package, and Franka ROS Interface packages are in the same ROS workspace, and correctly sourced.</strong></p>
 <p>Basic usage of PandaRobot API is shown below. See <a class="reference external" href="https://github.com/justagist/panda_robot/tree/master/scripts">scripts</a> folder to see usage of some of the available methods, and example for real-time low-level control of the robot.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rospy</span>
 <span class="kn">from</span> <span class="nn">panda_robot</span> <span class="kn">import</span> <span class="n">PandaArm</span>
@@ -239,6 +266,7 @@ $ <span class="nb">source</span> devel/setup.bash
 <p><strong>LICENSE:</strong></p>
 <p><a class="reference external" href="https://opensource.org/licenses/Apache-2.0"><img alt="License" src="https://img.shields.io/badge/License-Apache2.0-blue.svg" /></a></p>
 <p>Copyright (c) 2019-2021, Saif Sidhik</p>
+<p>If you use this software for research, please consider citing Franka ROS Interface using <a class="reference external" href="https://zenodo.org/badge/latestdoi/199485892"><img alt="doi" src="https://zenodo.org/badge/199485892.svg" /></a>.</p>
 </div>
 
 
@@ -272,6 +300,12 @@ $ <span class="nb">source</span> devel/setup.bash
     <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+<div class="extra-footer">
+<a href="https://saifsidhik.page">
+    <img src="https://www.saifsidhik.page/images/logo_full_banner_transparent.png"></img>
+</a>    
+</div>
+
 
 </footer>
 

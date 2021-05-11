@@ -1,0 +1,23 @@
+.wy-nav-content {
+max-width: 1000px !important;
+}
+
+footer {
+    text-align: center;
+}
+
+.extra-footer {
+	position: relative;
+  margin-bottom: 0;
+	width: 100%;
+	left: 0;
+	bottom: 0;
+	background-color: #0e0e0e;
+	color: white;
+	text-align: center;
+}
+
+.extra-footer img {
+	height: 1.8rem;
+  padding: 0.4rem;
+}
