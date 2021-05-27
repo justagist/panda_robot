@@ -1,13 +1,13 @@
-# Panda Robot [![ROS Version](https://img.shields.io/badge/ROS-Melodic,%20Noetic-brightgreen.svg?logo=ros)](https://ros.org/) [![Python 2.7+, 3.6+](https://img.shields.io/badge/python-2.7+,%203.6+-blue.svg?logo=python)](https://www.python.org/downloads/release/python-360/)
+# Panda Robot [![Python 2.7, 3.6+](https://img.shields.io/badge/python-2.7,%203.6+-blue.svg?logo=python)](https://www.python.org/downloads/release/python-360/) [![ROS Version](https://img.shields.io/badge/ROS-Melodic,%20Noetic-brightgreen.svg?logo=ros)](https://ros.org/)
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/104807d6e9d74377ac40c827d9d261e3)](https://www.codacy.com/manual/justagist/panda_robot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=justagist/panda_robot&amp;utm_campaign=Badge_Grade)
-[![franka_ros_interface_version](https://img.shields.io/badge/franka_ros_interface-v0.7.1-yellow.svg)](https://github.com/justagist/franka_ros_interface)
+[![PyPI](https://img.shields.io/pypi/v/panda-robot?color=blue)](https://pypi.org/project/panda-robot/) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/104807d6e9d74377ac40c827d9d261e3)](https://www.codacy.com/manual/justagist/panda_robot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=justagist/panda_robot&amp;utm_campaign=Badge_Grade)
+<!-- [![franka_ros_interface_version](https://img.shields.io/badge/franka_ros_interface-v0.7.1-yellow.svg)](https://github.com/justagist/franka_ros_interface) -->
 
 A Python interface package built over the [*Franka ROS Interface*](https://github.com/justagist/franka_ros_interface) package, combining its different classes to provide a unified interface for controlling and handling the Franka Emika Panda robot. Also works directly with [*Panda Simulator*](https://github.com/justagist/panda_simulator).
 
 The package provides an extensive and unified [API](https://justagist.github.io/panda_robot/) for controlling and managing the Franka Emika Robot (and gripper) using pre-defined low-level controllers (position, velocity, torque, joint impedance), MoveIt planners, and JointTrajectory action service.
 
-*NOTE: This version requires Franka ROS Interface v0.7.1. For usage with older versions, use Panda Robot branch [v0.6.0](https://github.com/justagist/panda_robot/tree/v0.6.0) from Github.*
+*NOTE: This version requires [Franka ROS Interface v0.7.1](https://github.com/justagist/franka_ros_interface) ('master'/'v0.7.1-dev' branch) to be installed. For usage with older versions, use Panda Robot branch [v0.6.0](https://github.com/justagist/panda_robot/tree/v0.6.0) from Github.*
 
 ## Features
 
@@ -30,16 +30,36 @@ The package provides an extensive and unified [API](https://justagist.github.io/
 
 **NOTE:** This branch should work with ROS Melodic and ROS Noetic. Tested on:
 
-| ROS Version | Python Version | Franka ROS Branch                                                             |
-|-------------|----------------|-------------------------------------------------------------------------------|
-| Melodic     | 2.7+           | [melodic-devel](https://github.com/frankaemika/franka_ros/tree/melodic-devel) |
-| Noetic      | 3.6+           | [noetic-devel](https://github.com/frankaemika/franka_ros/tree/noetic-devel)   |
+| ROS Version | Required Python Version |
+|-------------|-------------------------|
+| Melodic     | 2.7+                    |
+| Noetic      | 3.6+                    |
 
-- Requires ROS Melodic or Noetic (preferably the `desktop-full` version to cover all dependencies such as PyKDL and MoveIt)
+**The following dependencies have to be met before installing PandaRobot**:
 
-- Install [*Franka ROS Interface*](https://github.com/justagist/franka_ros_interface) package. *This package should be installed from source (v0.7.1 or master branch) following all instructions in the [Installation](https://github.com/justagist/franka_ros_interface#installation) section.*
+  - Requires ROS Melodic or Noetic (preferably the `desktop-full` version to cover all dependencies such as PyKDL and MoveIt)
 
-- Clone this repo to `src` folder of your catkin workspace. In catkin workspace root, run:
+  - [*Franka ROS Interface*](https://github.com/justagist/franka_ros_interface) package. *This package should be installed from source (v0.7.1 or master branch) following all instructions in the [Installation](https://github.com/justagist/franka_ros_interface#installation) section. Installing this package correctly would also resolve all the other dependencies for PandaRobot.*
+
+Once the dependencies are installed, the package can be installed either from pypi, or by building from source. Note that the installation may be successful even if the above dependencies are not met, but the package cannot be used until the dependencies are installed.
+
+### Install with pip
+
+[![PyPI](https://img.shields.io/pypi/v/panda-robot?color=blue)](https://pypi.org/project/panda-robot/)
+
+```bash
+pip install panda-robot
+```
+
+**NOTE: This will not check for the required ROS dependencies. They have to be installed as described in the previous section.**
+
+### Build from source
+
+If you want to install the package from source, you can either clone this repository and run `python setup.py install`, or build it as a catkin package in your ROS workspace. To build as catkin package:
+
+- Clone this repo to `src` folder of your catkin workspace. 
+
+- In catkin workspace root, run:
 
 ```sh
  catkin build
