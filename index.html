@@ -44,6 +44,7 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -101,7 +102,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Panda Robot</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Panda Robot  </a></li>
 <li class="toctree-l1"><a class="reference internal" href="DOC.html">Python API Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="DOC.html#pandaarm">PandaArm</a></li>
 </ul>
@@ -152,7 +153,7 @@
     
       <li><a href="#" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Panda Robot</li>
+      <li>Panda Robot  </li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -171,12 +172,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="panda-robot">
-<h1>Panda Robot<a class="headerlink" href="#panda-robot" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://ros.org/"><img alt="ROS Version" src="https://img.shields.io/badge/ROS-Melodic,%20Noetic-brightgreen.svg?logo=ros" /></a> <a class="reference external" href="https://www.python.org/downloads/release/python-360/"><img alt="Python 2.7, 3.6+" src="https://img.shields.io/badge/python-2.7,%203.6+-blue.svg?logo=python" /></a></p>
+  <div class="section" id="panda-robot-python-2-7-3-6-ros-version">
+<h1>Panda Robot <a class="reference external" href="https://www.python.org/downloads/release/python-360/"><img alt="Python 2.7, 3.6+" src="https://img.shields.io/badge/python-2.7,%203.6+-blue.svg?logo=python" /></a> <a class="reference external" href="https://ros.org/"><img alt="ROS Version" src="https://img.shields.io/badge/ROS-Melodic,%20Noetic-brightgreen.svg?logo=ros" /></a><a class="headerlink" href="#panda-robot-python-2-7-3-6-ros-version" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://pypi.org/project/panda-robot/"><img alt="PyPI" src="https://img.shields.io/pypi/v/panda-robot?color=blue" /></a> <a class="reference external" href="https://www.codacy.com/manual/justagist/panda_robot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=justagist/panda_robot&amp;utm_campaign=Badge_Grade"><img alt="Codacy Badge" src="https://api.codacy.com/project/badge/Grade/104807d6e9d74377ac40c827d9d261e3" /></a></p>
 <p>A Python interface package built over the <a class="reference external" href="https://github.com/justagist/franka_ros_interface">Franka ROS Interface</a> package for controlling and handling the Franka Emika Panda robot. Also works directly with <a class="reference external" href="https://github.com/justagist/panda_simulator">Panda Simulator</a>.</p>
-<p><em>NOTE: This version requires Franka ROS Interface v0.7.1. For usage with older versions, use Panda Robot branch ‘v0.6.0’ from Github.</em></p>
-<p>The package provides an extensive and unified API for controlling and managing the Franka Emika Robot (and gripper) using pre-defined low-level controllers (position, velocity, torque, joint impedance), MoveIt planners, and JointTrajectory action service.</p>
+<p>The package provides an extensive and unified <a class="reference external" href="https://justagist.github.io/panda_robot/DOC">API</a> for controlling and
+managing the Franka Emika Robot (and gripper) using pre-defined
+low-level controllers (position, velocity, torque, joint impedance),
+MoveIt planners, and JointTrajectory action service.</p>
+<p><em>NOTE: This version requires</em> <a class="reference external" href="https://github.com/justagist/franka_ros_interface">Franka ROS Interface
+v0.7.1</a> <em>(‘master’/‘v0.7.1-dev’ branch) to be installed. For usage
+with older versions, use Panda Robot branch</em> <a class="reference external" href="https://github.com/justagist/panda_robot/tree/v0.6.0">v0.6.0</a> <em>from Github.</em></p>
 <p><strong>Features</strong></p>
 <ul class="simple">
 <li>Provides simple-intuitive interface classes with methods to directly and easily control the robot using low-level controllers, MoveIt planners, or Trajectory action client.</li>
@@ -192,38 +198,66 @@ providing direct sim-to-real and real-to-sim code transfer.</li>
 </div>
 <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>This branch works with ROS Melodic and ROS Noetic.</p>
-<p><strong>NOTE:</strong> Tested on:</p>
+<p><strong>NOTE:</strong> This branch should work with ROS Melodic and ROS Noetic.
+Tested on:</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="26%" />
-<col width="33%" />
-<col width="40%" />
+<col width="32%" />
+<col width="68%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">ROS Version</th>
-<th class="head">Python Version</th>
-<th class="head">Franka ROS Branch</th>
+<th class="head">Required Python Version</th>
 </tr>
 </thead>
 <tbody valign="top">
 <tr class="row-even"><td>Melodic</td>
 <td>2.7+</td>
-<td><a class="reference external" href="https://github.com/frankaemika/franka_ros/tree/melodic-devel">melodic-devel</a></td>
 </tr>
 <tr class="row-odd"><td>Noetic</td>
 <td>3.6+</td>
-<td><a class="reference external" href="https://github.com/frankaemika/franka_ros/tree/noetic-devel">noetic-devel</a></td>
 </tr>
 </tbody>
 </table>
+<p><strong>The following dependencies have to be met before installing
+PandaRobot</strong>:</p>
 <ul class="simple">
-<li>Install <a class="reference external" href="https://github.com/justagist/franka_ros_interface">Franka ROS Interface</a> package. <em>This package should be installed from source (v0.7.1-dev or master branch) following all instructions in the</em> <a class="reference external" href="https://github.com/justagist/franka_ros_interface#installation">Installation</a> <em>section.</em></li>
-<li>Clone the PandaRobot package to <cite>src</cite> folder of your catkin workspace. In catkin root run:</li>
+<li>Requires ROS Melodic or Noetic (preferably the <code class="docutils literal notranslate"><span class="pre">desktop-full</span></code>
+version to cover all dependencies such as PyKDL and MoveIt)</li>
+<li><a class="reference external" href="https://github.com/justagist/franka_ros_interface">Franka ROS Interface</a> package. <em>This package should be installed
+from source (v0.7.1 or master branch) following all instructions in
+the</em><a class="reference external" href="https://github.com/justagist/franka_ros_interface#installation">Installation</a><em>section. Installing this package correctly
+would also resolve all the other dependencies for PandaRobot.</em></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ catkin build
-$ <span class="nb">source</span> devel/setup.bash
+<p>Once the dependencies are installed, the package can be installed either
+from pypi, or by building from source. Note that the installation may be
+successful even if the above dependencies are not met, but the package
+cannot be used until the dependencies are installed.</p>
+<div class="section" id="install-with-pip">
+<h2>Install with pip<a class="headerlink" href="#install-with-pip" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://pypi.org/project/panda-robot/"><img alt="PyPI" src="https://img.shields.io/pypi/v/panda-robot?color=blue" /></a></p>
+<div class="code bash highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">panda</span><span class="o">-</span><span class="n">robot</span>
 </pre></div>
+</div>
+<p><strong>NOTE: This will not check for the required ROS dependencies. They have
+to be installed as described in the previous section.</strong></p>
+</div>
+<div class="section" id="build-from-source">
+<h2>Build from source<a class="headerlink" href="#build-from-source" title="Permalink to this headline">¶</a></h2>
+<p>If you want to install the package from source, you can either clone
+this repository and run <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>, or build it as a
+catkin package in your ROS workspace. To build as catkin package:</p>
+<ul class="simple">
+<li>Clone this repo to <code class="docutils literal notranslate"><span class="pre">src</span></code> folder of your catkin workspace.</li>
+<li>In catkin workspace root, run:</li>
+</ul>
+<div class="code sh highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">catkin</span> <span class="n">build</span>
+<span class="n">source</span> <span class="n">devel</span><span class="o">/</span><span class="n">setup</span><span class="o">.</span><span class="n">bash</span>
+</pre></div>
+</div>
+<p><em>Note: This package is written to be compatible with both Python 2 and
+3, so make sure you have the Python</em> <code class="docutils literal notranslate"><span class="pre">future</span></code> <em>module installed</em>
+(<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">future</span></code>).</p>
 </div>
 </div>
 <div class="section" id="basic-usage">

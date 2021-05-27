@@ -44,6 +44,7 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -101,7 +102,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="index.html">Panda Robot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Panda Robot  </a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Python API Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pandaarm">PandaArm</a></li>
 </ul>
@@ -668,21 +669,6 @@ commands to disable advanced control modes.</p>
 </table>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="panda_robot.PandaArm.gripper">
-<code class="descname">gripper</code><a class="headerlink" href="#panda_robot.PandaArm.gripper" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Getter:</th><td class="field-body">Get the gripper instance (if connected), else None is returned. (alternative for <a class="reference internal" href="#panda_robot.PandaArm.get_gripper" title="panda_robot.PandaArm.get_gripper"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_gripper()</span></code></a>)</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://projects.saifsidhik.page/franka_ros_interface/DOC.html#franka_interface.GripperInterface" title="(in Franka ROS Interface v0.7.1)">franka_interface.GripperInterface</a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 <dl class="method">
 <dt id="panda_robot.PandaArm.gripper_state">
 <code class="descname">gripper_state</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/panda_robot/panda_robot.html#PandaArm.gripper_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#panda_robot.PandaArm.gripper_state" title="Permalink to this definition">¶</a></dt>
@@ -717,9 +703,9 @@ Collision thresholds can be set using instance of <a class="reference external" 
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Getter:</th><td class="field-body">True if gripper is initialised, else False</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if gripper is initialised, else False</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
 </tr>
 </tbody>
 </table>

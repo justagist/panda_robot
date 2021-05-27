@@ -44,6 +44,7 @@
         <script type="text/javascript" src="../../_static/underscore.js"></script>
         <script type="text/javascript" src="../../_static/doctools.js"></script>
         <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
@@ -100,7 +101,7 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../index.html">Panda Robot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Panda Robot  </a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../DOC.html">Python API Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../DOC.html#pandaarm">PandaArm</a></li>
 </ul>
@@ -169,14 +170,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for panda_robot.panda_robot</h1><div class="highlight"><pre>
-<span></span><span class="ch">#!/bin/sh</span>
-<span class="sd">&#39;&#39;&#39;:&#39;</span>
-<span class="sd">if [ &quot;$ROS_PYTHON_VERSION&quot; = &quot;3&quot; ]; then</span>
-<span class="sd">  exec python3 &quot;$0&quot; &quot;$@&quot;</span>
-<span class="sd">else</span>
-<span class="sd">  exec python2 &quot;$0&quot; &quot;$@&quot;</span>
-<span class="sd">fi</span>
-<span class="sd">&#39;&#39;&#39;</span>
+<span></span><span class="ch">#!/usr/bin/env python</span>
 
 <span class="c1"># /***************************************************************************</span>
 
@@ -424,18 +418,10 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gripper</span></div>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">gripper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :getter: Get the gripper instance (if connected), else None is returned. (alternative for :py:meth:`get_gripper`)</span>
-<span class="sd">        :type: franka_interface.GripperInterface</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gripper</span>
-
-    <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">has_gripper</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            :getter: True if gripper is initialised, else False</span>
-<span class="sd">            :type: bool</span>
+<span class="sd">            :return: True if gripper is initialised, else False</span>
+<span class="sd">            :rtype: bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gripper</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
