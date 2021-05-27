@@ -1,13 +1,18 @@
-Panda Robot
-===========
+Panda Robot |Python 2.7, 3.6+| |ROS Version|
+============================================
 
-|ROS Version| |Python 2.7, 3.6+|
+|PyPI| |Codacy Badge|
 
 A Python interface package built over the `Franka ROS Interface <franka_ros_interface_>`_ package for controlling and handling the Franka Emika Panda robot. Also works directly with `Panda Simulator <panda_simulator_>`_.
 
-*NOTE: This version requires Franka ROS Interface v0.7.1. For usage with older versions, use Panda Robot branch 'v0.6.0' from Github.*
+The package provides an extensive and unified `API <Python API Documentation_>`_ for controlling and
+managing the Franka Emika Robot (and gripper) using pre-defined
+low-level controllers (position, velocity, torque, joint impedance),
+MoveIt planners, and JointTrajectory action service.
 
-The package provides an extensive and unified API for controlling and managing the Franka Emika Robot (and gripper) using pre-defined low-level controllers (position, velocity, torque, joint impedance), MoveIt planners, and JointTrajectory action service.
+*NOTE: This version requires* `Franka ROS Interface
+v0.7.1 <franka_ros_interface_>`_ *(‘master’/‘v0.7.1-dev’ branch) to be installed. For usage
+with older versions, use Panda Robot branch* `v0.6.0`_ *from Github.*
 
 **Features**
 
@@ -24,31 +29,67 @@ The package provides an extensive and unified API for controlling and managing t
 
 Go to `Project Source Code`_.
 
+
 Installation
 ============
 
-This branch works with ROS Melodic and ROS Noetic.
+**NOTE:** This branch should work with ROS Melodic and ROS Noetic.
+Tested on:
 
-**NOTE:** Tested on:
+=========== =======================
+ROS Version Required Python Version
+=========== =======================
+Melodic     2.7+
+Noetic      3.6+
+=========== =======================
 
-=========== ============== =================
-ROS Version Python Version Franka ROS Branch
-=========== ============== =================
-Melodic     2.7+           `melodic-devel`_
-Noetic      3.6+           `noetic-devel`_
-=========== ============== =================
+**The following dependencies have to be met before installing
+PandaRobot**:
 
-.. _melodic-devel: https://github.com/frankaemika/franka_ros/tree/melodic-devel
-.. _noetic-devel: https://github.com/frankaemika/franka_ros/tree/noetic-devel
+-  Requires ROS Melodic or Noetic (preferably the ``desktop-full``
+   version to cover all dependencies such as PyKDL and MoveIt)
 
-- Install `Franka ROS Interface <https://github.com/justagist/franka_ros_interface>`_ package. *This package should be installed from source (v0.7.1-dev or master branch) following all instructions in the* `Installation <https://github.com/justagist/franka_ros_interface#installation>`_ *section.*
+-  `Franka ROS Interface <https://github.com/justagist/franka_ros_interface>`_ package. *This package should be installed
+   from source (v0.7.1 or master branch) following all instructions in
+   the*\ `Installation <https://github.com/justagist/franka_ros_interface#installation>`_\ *section. Installing this package correctly
+   would also resolve all the other dependencies for PandaRobot.*
 
-- Clone the PandaRobot package to `src` folder of your catkin workspace. In catkin root run:
+Once the dependencies are installed, the package can be installed either
+from pypi, or by building from source. Note that the installation may be
+successful even if the above dependencies are not met, but the package
+cannot be used until the dependencies are installed.
 
-.. code-block:: bash
+Install with pip
+~~~~~~~~~~~~~~~~
 
-    $ catkin build
-    $ source devel/setup.bash
+|PyPI|
+
+.. code:: bash
+
+   pip install panda-robot
+
+**NOTE: This will not check for the required ROS dependencies. They have
+to be installed as described in the previous section.**
+
+Build from source
+~~~~~~~~~~~~~~~~~
+
+If you want to install the package from source, you can either clone
+this repository and run ``python setup.py install``, or build it as a
+catkin package in your ROS workspace. To build as catkin package:
+
+-  Clone this repo to ``src`` folder of your catkin workspace.
+
+-  In catkin workspace root, run:
+
+.. code:: sh
+
+    catkin build
+    source devel/setup.bash
+
+*Note: This package is written to be compatible with both Python 2 and
+3, so make sure you have the Python* ``future`` *module installed*
+(``pip install future``).
 
 Basic Usage
 ===========
@@ -106,20 +147,16 @@ If you use this software for research, please consider citing Franka ROS Interfa
 
 .. _panda_simulator: https://github.com/justagist/panda_simulator
 .. _KDL library: http://wiki.ros.org/kdl
-.. _franka_panda_description: https://github.com/justagist/franka_panda_description
 .. _franka_ros_interface: https://github.com/justagist/franka_ros_interface
-.. _this paper: https://hal.inria.fr/hal-02265293/document
-
-.. _Python Documentation: https://justagist.github.io/franka_ros_interface
+.. _v0.6.0: https://github.com/justagist/panda_robot/tree/v0.6.0
 
 .. _FCI documentation: https://frankaemika.github.io/docs/installation_linux.html
-.. _franka_panda_description: https://github.com/justagist/franka_panda_description
 .. _Related Packages: #related-packages
 .. _Environments: #the-frankash-environments
 .. _install from source: https://frankaemika.github.io/docs/installation_linux.html#building-from-source
 .. _kdl: http://wiki.ros.org/kdl
 
-.. _Python API Documentation: https://justagist.github.io/panda_robot
+.. _Python API Documentation: https://justagist.github.io/panda_robot/DOC
 .. _Project Source Code: https://github.com/justagist/panda_robot
 
 .. _scripts: https://github.com/justagist/panda_robot/tree/master/scripts
@@ -133,3 +170,7 @@ If you use this software for research, please consider citing Franka ROS Interfa
    :target: https://www.python.org/downloads/release/python-360/
 .. |doi| image:: https://zenodo.org/badge/199485892.svg
    :target: https://zenodo.org/badge/latestdoi/199485892
+.. |PyPI| image:: https://img.shields.io/pypi/v/panda-robot?color=blue
+   :target: https://pypi.org/project/panda-robot/
+.. |Codacy Badge| image:: https://api.codacy.com/project/badge/Grade/104807d6e9d74377ac40c827d9d261e3
+   :target: https://www.codacy.com/manual/justagist/panda_robot?utm_source=github.com&utm_medium=referral&utm_content=justagist/panda_robot&utm_campaign=Badge_Grade
