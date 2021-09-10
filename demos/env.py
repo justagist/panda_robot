@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
     cm = r.get_controller_manager() # controller manager object to get controller states and switch controllers, controllers don't have to be switched manually in most cases! The interface automatically chooses the right command depending on the control command sent (r.exec_position_cmd, r.exec_velocity_cmd, r.exec_torque_cmd, r.set_joint_position_velocity)
 
-    kin = r._kinematics() # to test the kinematics (not required, can directly query kinematics using  methods in PandaArm)
+    kin = r._kinematics # to test the kinematics (not required, can directly query kinematics using  methods in PandaArm)
 
     g = r.get_gripper() # gripper object. Test using $ g.close(), $ g.open(), $ g.home_joints(), $g.move_joints(0.01), etc.
 
